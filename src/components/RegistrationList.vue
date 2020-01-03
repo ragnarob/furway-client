@@ -4,23 +4,23 @@
       <th>Action</th>
       <th>Username</th>
       <th>Ticket</th>
-      <th>Approved</th>
+      <th title="Approved">Appr.</th>
       <th>Early</th>
       <th>Late</th>
-      <th>T-shirt</th>
-      <th>Hoodie</th>
-      <th>Ts. sz.</th>
-      <th>Hd. sz.</th>
-      <th>Submitted</th>
-      <th>Payment deadl.</th>
-      <th>Received inside spot</th>
-      <th>Received outside spot</th>
-      <th>Main days inside paid</th>
-      <th>Main days outside paid</th>
-      <th>Early arr. paid</th>
-      <th>Late dep. paid</th>
-      <th>T-shirt paid</th>
-      <th>Hoodie paid</th>
+      <th title="T-shirt">Ts.</th>
+      <th title="Hoodie">Hd.</th>
+      <th title="T-shirt size">Ts. sz</th>
+      <th title="Hoodie size">Hd. sz</th>
+      <th title="Submitted time">Subm.</th>
+      <th title="Payment deadline">Pay deadl.</th>
+      <th title="Received inside spot">Rec. ins.</th>
+      <th title="Received outside spot">Rec. outs.</th>
+      <th title="Main days inside paid">Ins. paid</th>
+      <th title="Main days outside paid">Outs. paid</th>
+      <th title="Early arrival paid">Early paid</th>
+      <th title="Late departure paid">Late paid</th>
+      <th title="T-shirt paid">Ts. paid</th>
+      <th title="Hoodie paid">Hd. paid</th>
     </tr>
     <tr v-for="reg in allRegistrations" :key="reg.id">
       <td>
@@ -44,6 +44,7 @@
           <input type="radio" v-model="registrationBeingEdited.roomPreference" value="outsideonly" @change="warnNotPreferredMethodRoomPreference"/>Outside only
           <input type="radio" v-model="registrationBeingEdited.roomPreference" value="insidepreference" @change="warnNotPreferredMethodRoomPreference"/>Inside preference
         </span>
+        
         <p v-else>{{formatRoomPreference(reg.roomPreference)}}</p>
       </td>
 
@@ -234,7 +235,6 @@
 <script>
 import YesIcon from 'vue-material-design-icons/CheckCircle.vue'
 import NoIcon from 'vue-material-design-icons/Close.vue'
-import Vue from 'vue'
 
 export default {
   name: 'registrationList',
@@ -311,7 +311,7 @@ export default {
     formatRoomPreference (roomPreference) {
       if (roomPreference === 'insideonly') { return 'Inside only' }
       else if (roomPreference === 'outsideonly') { return 'Outside only' }
-      else { return 'Inside preference' }
+      else { return 'Inside pref' }
     }
   },
 }

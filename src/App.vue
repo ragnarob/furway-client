@@ -97,5 +97,8 @@ td, th {
   .non-editable-cell {
     opacity: 0.5;
   }
+  th:hover {
+    cursor: default;
+  }
 }
 </style>

@@ -29,11 +29,13 @@
         <br v-if="isThisUserBeingEdited(user.id)">
         <button v-if="isThisUserBeingEdited(user.id)" @click="saveUser()">Save</button>
       </td>
+
       <td>
         <p :class="{'non-editable-cell': isThisUserBeingEdited(user.id)}">
           {{user.username}}
         </p>
       </td>
+
       <td>
         <p v-if="isThisUserBeingEdited(user.id)">
           <input type="text" v-model="userBeingEdited.firstName"/>
@@ -42,6 +44,7 @@
           {{user.firstName}}
         </p>
       </td>
+
       <td>
         <p v-if="isThisUserBeingEdited(user.id)">
           <input type="text" v-model="userBeingEdited.lastName"/>
@@ -50,6 +53,7 @@
           {{user.lastName}}
         </p>
       </td>
+
       <td>
         <p v-if="isThisUserBeingEdited(user.id)">
           <input type="email" v-model="userBeingEdited.email" style="width: 150px;"/>
@@ -58,6 +62,7 @@
           {{user.email}}
         </p>
       </td>
+
       <td>
         <p v-if="isThisUserBeingEdited(user.id)">
           <input type="date" v-model="userBeingEdited.dateOfBirth"/>
@@ -66,6 +71,7 @@
           {{formatBdayTimestamp(user.dateOfBirth)}}
         </p>
       </td>
+
       <td>
         <p v-if="isThisUserBeingEdited(user.id)">
           <input type="text" v-model="userBeingEdited.phone"/>
@@ -74,24 +80,29 @@
           {{user.phone}}
         </p>
       </td>
+
       <td>
         <p v-if="isThisUserBeingEdited(user.id)" class="cell-with-radio">
           <input type="radio" v-model="userBeingEdited.isVegan" value="true"/> true
           <input type="radio" v-model="userBeingEdited.isVegan" value="false"/> false
         </p>
         <p v-else>
-          {{user.isVegan}}
+          <YesIcon v-if="user.isVegan"/>
+          <NoIcon v-else-if="user.isVegan === false"/>
         </p>
       </td>
+
       <td>
         <p v-if="isThisUserBeingEdited(user.id)" class="cell-with-radio">
           <input type="radio" v-model="userBeingEdited.isFursuiter" value="true"/> true
           <input type="radio" v-model="userBeingEdited.isFursuiter" value="false"/> false
         </p>
         <p v-else>
-          {{user.isFursuiter}}
+          <YesIcon v-if="user.isFursuiter"/>
+          <NoIcon v-else-if="user.isFursuiter === false"/>
         </p>
       </td>
+
       <td>
         <p v-if="isThisUserBeingEdited(user.id)">
           <input type="text" v-model="userBeingEdited.allergiesText"/>
@@ -100,6 +111,7 @@
           {{user.allergiesText}}
         </p>
       </td>
+
       <td>
         <p v-if="isThisUserBeingEdited(user.id)">
           <input type="text" v-model="userBeingEdited.addressLine1"/>
@@ -108,6 +120,7 @@
           {{user.addressLine1}}
         </p>
       </td>
+
       <td>
         <p v-if="isThisUserBeingEdited(user.id)">
           <input type="text" v-model="userBeingEdited.addressLine2"/>
@@ -116,6 +129,7 @@
           {{user.addressLine2}}
         </p>
       </td>
+
       <td>
         <p v-if="isThisUserBeingEdited(user.id)">
           <input type="text" v-model="userBeingEdited.addressCity"/>
@@ -124,6 +138,7 @@
           {{user.addressCity}}
         </p>
       </td>
+
       <td>
         <p v-if="isThisUserBeingEdited(user.id)">
           <input type="text" v-model="userBeingEdited.addressStateProvince"/>
@@ -132,6 +147,7 @@
           {{user.addressStateProvince}}
         </p>
       </td>
+
       <td>
         <p v-if="isThisUserBeingEdited(user.id)">
           <input type="text" v-model="userBeingEdited.addressCountry"/>
@@ -140,28 +156,33 @@
           {{user.addressCountry}}
         </p>
       </td>
+
       <td>
         <input v-if="isThisUserBeingEdited(user.id)" type="text" v-model="userBeingEdited.additionalInfo" style="width: 200px;"/>
         <p v-else>
           {{user.additionalInfo}}
         </p>
       </td>
+
       <td>
         <p v-if="isThisUserBeingEdited(user.id)" class="cell-with-radio">
           <input type="radio" v-model="userBeingEdited.isVolunteer" value="true"/> true
           <input type="radio" v-model="userBeingEdited.isVolunteer" value="false"/> false
         </p>
         <p v-else>
-          {{user.isVolunteer}}
+          <YesIcon v-if="user.isVolunteer"/>
+          <NoIcon v-else-if="user.isVolunteer === false"/>
         </p>
       </td>
+
       <td>
         <p v-if="isThisUserBeingEdited(user.id)" class="cell-with-radio">
           <input type="radio" v-model="userBeingEdited.isAdmin" value="true"/> true
           <input type="radio" v-model="userBeingEdited.isAdmin" value="false"/> false
         </p>
         <p v-else>
-          {{user.isAdmin}}
+          <YesIcon v-if="user.isAdmin"/>
+          <NoIcon v-else-if="user.isAdmin === false"/>
         </p>
       </td>
     </tr>
@@ -170,10 +191,17 @@
 
 <script>
 import userApi from '../api/user-api'
+import YesIcon from 'vue-material-design-icons/CheckCircle.vue'
+import NoIcon from 'vue-material-design-icons/Close.vue'
 
 export default {
   props: {
     allUsers: Array
+  },
+
+  components: {
+    YesIcon,
+    NoIcon,
   },
 
   data: function () {
