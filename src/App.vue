@@ -44,12 +44,24 @@ export default {
   }
 }
 
+div, p, span {
+  margin: 0;
+  padding: 0;
+}
 table {
+  width: 100%;
   border-collapse: collapse;
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 td, th {
   border: 0.5px solid #aaa;
   padding: 2px 4px;
+}
+.long-text-cell {
+  max-width: 150px;
+  word-wrap: break-word;
 }
 .flex-col {
   display: flex;
@@ -63,6 +75,19 @@ td, th {
   text-decoration: underline;
   &:hover {
     cursor: pointer;
+  }
+}
+
+.very-wide-table {
+  input[type=text] {
+    width: 100px;
+  }
+  .cell-with-radio {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-row: auto auto;
+    text-align: left;
+    padding-right: 4px;
   }
 }
 </style>

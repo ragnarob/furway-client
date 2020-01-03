@@ -5,7 +5,7 @@
     <p class="error-message" id="adminErrorMessage" v-show="errorMessage">{{errorMessage}}</p>
 
 
-    <div v-if="$store.state.isLoggedIn && $store.state.userData.isAdmin">
+    <div v-if="$store.state.isLoggedIn && $store.state.userData.isAdmin" style="max-width: 100%;">
       <p @click="toggleTimestampFormat" class="link-text">Toggle timestamp format</p>
 
       <div style="text-align: left;" id="temp-op-div">
@@ -265,20 +265,7 @@
 
       <div>
         <h2>All Users</h2> (will be hidden by default)
-        <table>
-          <tr>
-            <th>Username</th>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Email</th>
-          </tr>
-          <tr v-for="user in allUsers" :key="user.id">
-            <td>{{user.username}}</td>
-            <td>{{user.firstName}}</td>
-            <td>{{user.lastName}}</td>
-            <td>{{user.email}}</td>
-          </tr>
-        </table>
+        <UserList :allUsers="allUsers"/>
       </div>
     </div>
 
@@ -292,9 +279,13 @@
 import registrationApi from '../api/registration-api'
 import userApi from '../api/user-api'
 import { mapGetters } from 'vuex'
+import UserList from '../components/UserList.vue'
+
 
 export default {
   name: 'admin',
+
+  components: { UserList },
 
   data: function () {
     return {
@@ -370,16 +361,24 @@ export default {
 
     formatTimestamp (timestamp) {
       if (this.timestampFormat === 'short') {
-        return new Date(timestamp).toDateString().substr(4,6)
+        return this.formatShortTimestamp(timestamp)
       }
       else {
-        let tsDate = new Date(timestamp)
-        return tsDate.toDateString().substr(4,6) + ', ' + tsDate.toTimeString().substr(0,8)
+        return this.formatLongTimestamp(timestamp)
       }
     },
 
     formatShortTimestamp (timestamp) {
       return new Date(timestamp).toDateString().substr(4,6)
+    },
+
+    formatLongTimestamp (timestamp) {
+      let tsDate = new Date(timestamp)
+      return tsDate.toDateString().substr(4,6) + ', ' + tsDate.toTimeString().substr(0,8)
+    },
+
+    formatBdayTimestamp (timestamp) {
+      return new Date(timestamp).toDateString().substr(4,11)
     },
 
     scrollToErrorMessage () {
