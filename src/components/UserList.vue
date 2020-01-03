@@ -30,10 +30,7 @@
         <button v-if="isThisUserBeingEdited(user.id)" @click="saveUser()">Save</button>
       </td>
       <td>
-        <p v-if="isThisUserBeingEdited(user.id)">
-          <input type="text" v-model="userBeingEdited.username"/>
-        </p>
-        <p v-else>
+        <p :class="{'non-editable-cell': isThisUserBeingEdited(user.id)}">
           {{user.username}}
         </p>
       </td>
@@ -190,10 +187,6 @@ export default {
       return this.userBeingEdited !== null && this.userBeingEdited.id === userId
     },
 
-    formatBdayTimestamp (timestamp) {
-      return new Date(timestamp).toDateString().substr(4,11)
-    },
-
     editUser (userId) {
       this.userBeingEdited = {...this.allUsers.find(u => u.id === userId)}
       this.userBeingEdited.dateOfBirth = new Date(this.userBeingEdited.dateOfBirth).toISOString().substr(0,10)
@@ -209,6 +202,10 @@ export default {
 
     saveUser () {
       
+    },
+
+    formatBdayTimestamp (timestamp) {
+      return new Date(timestamp).toDateString().substr(4,11)
     },
   }
 }

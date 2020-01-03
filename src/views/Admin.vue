@@ -144,6 +144,17 @@
               </span> 
             </td>
           </tr>
+
+          <br>
+
+          <tr>
+            <td>Number of vegans</td>
+            <td>TODO</td>
+          </tr>
+          <tr>
+            <td>Number of fursuiters</td>
+            <td>TODO 2</td>
+          </tr>
         </table>
       </div>
 
@@ -154,6 +165,7 @@
             <th>Username</th>
             <th>First name</th>
             <th>Last name</th>
+            <th>x</th>
             <th>Room pref</th>
             <th>Submitted</th>
             <th>Action</th>
@@ -162,6 +174,7 @@
             <td>{{reg.username}}</td>
             <td>{{reg.firstName}}</td>
             <td>{{reg.lastName}}</td>
+            <td><button>Show full user info</button></td>
             <td>{{reg.roomPreference}}</td>
             <td>{{formatTimestamp(reg.timestamp)}}</td>
             <td>
@@ -242,25 +255,7 @@
 
       <div>
         <h2>All Registrations</h2> (will be hidden by default)
-        
-        <table>
-          <tr>
-            <th>Username</th>
-            <th>Approved</th>
-            <th>Room pref</th>
-            <th>Early</th>
-            <th>Late</th>
-            <th>Submitted</th>
-          </tr>
-          <tr v-for="reg in allRegistrations" :key="reg.id">
-            <td>{{reg.username}}</td>
-            <td>{{reg.isAdminApproved}}</td>
-            <td>{{reg.roomPreference}}</td>
-            <td>{{reg.earlyArrival}}</td>
-            <td>{{reg.lateDeparture}}</td>
-            <td>{{formatTimestamp(reg.timestamp)}}</td>
-          </tr>
-        </table>
+        <RegistrationList :allRegistrations="allRegistrations" :timestampFormat="timestampFormat"/>
       </div>
 
       <div>
@@ -280,12 +275,13 @@ import registrationApi from '../api/registration-api'
 import userApi from '../api/user-api'
 import { mapGetters } from 'vuex'
 import UserList from '../components/UserList.vue'
+import RegistrationList from '../components/RegistrationList.vue'
 
 
 export default {
   name: 'admin',
 
-  components: { UserList },
+  components: { UserList, RegistrationList },
 
   data: function () {
     return {

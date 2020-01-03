@@ -23,12 +23,15 @@ export default {
 </script>
 
 <style lang="scss">
+body {
+  background-color: #222;
+  color: #ccc;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
 }
 
 #nav {
@@ -85,9 +88,14 @@ td, th {
   .cell-with-radio {
     display: grid;
     grid-template-columns: auto auto;
-    grid-row: auto auto;
     text-align: left;
     padding-right: 4px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .non-editable-cell {
+    opacity: 0.5;
   }
 }
 </style>
