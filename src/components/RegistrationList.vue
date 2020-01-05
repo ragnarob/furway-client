@@ -2,6 +2,7 @@
   <table class="very-wide-table">
     <tr>
       <th>Action</th>
+      <th>Id</th>
       <th>Username</th>
       <th>Ticket</th>
       <th title="Approved">Appr.</th>
@@ -22,7 +23,7 @@
       <th title="T-shirt paid">Ts. paid</th>
       <th title="Hoodie paid">Hd. paid</th>
     </tr>
-    <tr v-for="reg in allRegistrations" :key="reg.id">
+    <tr v-for="reg in allRegistrations" :key="reg.id" :class="{'highlighted-row-blue': reg.id === highlightedRegistrationId}">
       <td>
         <button v-if="registrationBeingEdited === null" @click="editRegistration(reg.id)">Edit</button>
         <button v-if="registrationBeingEdited === null" @click="deleteRegistration(reg.id)">Del</button>
@@ -30,6 +31,12 @@
         <button v-if="isThisRegistrationBeingEdited(reg.id)" @click="cancelEditing()">Cancel</button>
         <br v-if="isThisRegistrationBeingEdited(reg.id)">
         <button v-if="isThisRegistrationBeingEdited(reg.id)" @click="saveRegistration()">Save</button>
+      </td>
+
+      <td>
+        <p :class="{'non-editable-cell': isThisRegistrationBeingEdited(reg.id), 'registration-id-cell': true}">
+          {{reg.id}}
+        </p>
       </td>
 
       <td>
@@ -242,6 +249,7 @@ export default {
   props: {
     allRegistrations: Array,
     timestampFormat: String,
+    highlightedRegistrationId: Number,
   },
 
   components: {
@@ -314,5 +322,17 @@ export default {
       else { return 'Inside pref' }
     }
   },
+
+  watch: {
+    highlightedRegistrationId: function (newVal, oldVal) {
+      if (newVal === null) { return }
+      let registrationElements = document.getElementsByClassName('registration-id-cell')
+      for (var element of registrationElements) {
+        if (element.textContent.trim() == newVal) {
+          element.scrollIntoView(true)
+        }
+      }
+    },
+  }
 }
 </script>

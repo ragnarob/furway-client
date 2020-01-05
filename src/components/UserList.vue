@@ -20,7 +20,7 @@
       <th>Volunteer</th>
       <th>Admin</th>
     </tr>
-    <tr v-for="user in allUsers" :key="user.id">
+    <tr v-for="user in allUsers" :key="user.id" :class="{'highlighted-row': user.username === highlightedUserName}">
       <td>
         <button v-if="userBeingEdited === null" @click="editUser(user.id)">Edit</button>
         <button v-if="userBeingEdited === null" @click="deleteUser(user.id)">Del</button>
@@ -31,7 +31,7 @@
       </td>
 
       <td>
-        <p :class="{'non-editable-cell': isThisUserBeingEdited(user.id)}">
+        <p :class="{'non-editable-cell': isThisUserBeingEdited(user.id), 'username-cell': true}">
           {{user.username}}
         </p>
       </td>
@@ -103,7 +103,7 @@
         </p>
       </td>
 
-      <td>
+      <td long-text-cell>
         <p v-if="isThisUserBeingEdited(user.id)">
           <input type="text" v-model="userBeingEdited.allergiesText"/>
         </p>
@@ -157,11 +157,11 @@
         </p>
       </td>
 
-      <td>
-        <input v-if="isThisUserBeingEdited(user.id)" type="text" v-model="userBeingEdited.additionalInfo" style="width: 200px;"/>
-        <p v-else>
+      <td class="long-text-cell">
+        <input v-if="isThisUserBeingEdited(user.id)" type="text" v-model="userBeingEdited.additionalInfo"/>
+        <div v-else style="max-width: 100%;">
           {{user.additionalInfo}}
-        </p>
+        </div>
       </td>
 
       <td>
@@ -196,7 +196,8 @@ import NoIcon from 'vue-material-design-icons/Close.vue'
 
 export default {
   props: {
-    allUsers: Array
+    allUsers: Array,
+    highlightedUserName: String,
   },
 
   components: {
@@ -234,6 +235,18 @@ export default {
 
     formatBdayTimestamp (timestamp) {
       return new Date(timestamp).toDateString().substr(4,11)
+    },
+  },
+
+  watch: {
+    highlightedUserName: function (newVal, oldVal) {
+      if (newVal === null) { return }
+      let usernameElements = document.getElementsByClassName('username-cell')
+      for (var element of usernameElements) {
+        if (element.textContent.trim() === newVal) {
+          element.scrollIntoView(true)
+        }
+      }
     },
   }
 }

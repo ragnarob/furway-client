@@ -24,8 +24,8 @@ export default {
 
 <style lang="scss">
 body {
-  background-color: #222;
-  color: #ccc;
+  // background-color: #222;
+  color: #333;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -57,15 +57,33 @@ table {
   display: block;
   overflow-x: auto;
   white-space: nowrap;
+  font-size: 14px;
+  button {
+    margin: 2px 4px;
+  }
 }
 td, th {
-  border: 0.5px solid #aaa;
+  border: 1px solid #e2e2e2;
   padding: 2px 4px;
 }
-.long-text-cell {
-  max-width: 150px;
-  word-wrap: break-word;
+th {
+  padding: 8px 10px;
+  background-color: #e2e2e2;
+  font-weight: normal;
+  &:hover {
+    cursor: default;
+  }
 }
+tr:hover {
+  background-color: rgba(0,0,0,0.07);
+}
+.long-text-cell {
+  max-width: 160px;
+  white-space: pre-wrap;
+}
+
+
+
 .flex-col {
   display: flex;
   flex-direction: column;
@@ -97,8 +115,35 @@ td, th {
   .non-editable-cell {
     opacity: 0.5;
   }
-  th:hover {
-    cursor: default;
+}
+.highlighted-row {
+  background-color: rgba(167, 255, 167, 0.411) !important;
+  &:hover {
+    background-color: rgba(129, 233, 129, 0.425) !important;
+  }
+}
+.highlighted-row-blue {
+  background-color: rgba(167, 208, 255, 0.411) !important;
+  &:hover {
+    background-color: rgba(134, 187, 248, 0.411) !important;
+  }
+}
+button {
+  font-size: 14px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: #fff;
+  font-weight: 300;
+  color: black;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    &.button-disabled {
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    }
   }
 }
 </style>

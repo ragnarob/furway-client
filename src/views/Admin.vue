@@ -165,21 +165,20 @@
             <th>Username</th>
             <th>First name</th>
             <th>Last name</th>
-            <th>x</th>
             <th>Room pref</th>
             <th>Submitted</th>
             <th>Action</th>
           </tr>
-          <tr v-for="reg in pendingRegistrations" :key="reg.id">
+          <tr v-for="reg in pendingRegistrations" :key="reg.id" :class="{'highlighted-row-blue': reg.username === highlightedUserName}">
             <td>{{reg.username}}</td>
             <td>{{reg.firstName}}</td>
             <td>{{reg.lastName}}</td>
-            <td><button>Show full user info</button></td>
             <td>{{reg.roomPreference}}</td>
             <td>{{formatTimestamp(reg.timestamp)}}</td>
             <td>
               <button @click="approveRegistration(reg)">Approve</button>
               <button @click="rejectRegistration(reg)">Reject</button>
+              <button @click="highlightUser(reg.username)">Show full user</button>
             </td>
           </tr>
         </table>
@@ -199,7 +198,7 @@
             <th>Money</th>
             <th>Action</th>
           </tr>
-          <tr v-for="reg in givenRegistrations" :key="reg.id">
+          <tr v-for="reg in givenRegistrations" :key="reg.id" :class="{'highlighted-row': reg.id === highlightedRegistrationId}">
             <td>{{reg.username}}</td>
             <td>{{reg.firstName}}</td>
             <td>{{reg.lastName}}</td>
@@ -224,7 +223,7 @@
 
             <td>
               <button @click="removeSpotFromRegistration(reg)">Remove spot</button>
-              <button @click="enterManualEditing(reg)">Edit fields</button>
+              <button @click="highlightRegistration(reg)">Show full reg</button>
             </td>
           </tr>
         </table>
@@ -255,12 +254,12 @@
 
       <div>
         <h2>All Registrations</h2> (will be hidden by default)
-        <RegistrationList :allRegistrations="allRegistrations" :timestampFormat="timestampFormat"/>
+        <RegistrationList :allRegistrations="allRegistrations" :timestampFormat="timestampFormat" :highlightedRegistrationId="highlightedRegistrationId"/>
       </div>
 
       <div>
         <h2>All Users</h2> (will be hidden by default)
-        <UserList :allUsers="allUsers"/>
+        <UserList :allUsers="allUsers" :highlightedUserName="highlightedUserName"/>
       </div>
     </div>
 
@@ -291,6 +290,8 @@ export default {
       allUsers: [],
       waitingLists: {inside: [], outside: []},
       timestampFormat: 'short',
+      highlightedRegistrationId: null,
+      highlightedUserName: null,
     }
   },
 
@@ -347,8 +348,12 @@ export default {
       }
     },
 
-    enterManualEditing (reg) {
-      window.alert('Denne blir funksjonell når mer skikkelig UI kommer, ellers hadde det blitt mye wasted koding.')
+    highlightRegistration (reg) {
+      this.highlightedRegistrationId = reg.id
+    },
+
+    highlightUser (username) {
+      this.highlightedUserName = username
     },
 
     toggleTimestampFormat () {
