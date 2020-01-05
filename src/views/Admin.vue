@@ -23,139 +23,13 @@
       </div>
       
       <div>
-        <h2>Numbers & dates</h2>
-        <table id="numbersTable">
-          <tr>
-            <td>Users</td>
-            <td>{{allUsers.length}} users, {{usersWithRegistration}} with reg</td>
-          </tr>
-          <tr>
-            <td>Registrations</td>
-            <td>{{allRegistrations.length}}</td>
-          </tr>
-          <tr>
-            <td>Approved registrations</td>
-            <td>{{numberOfApprovedRegistrations}}</td>
-          </tr>
-          <tr>
-            <td>Registrations with spot</td>
-            <td>{{numberOfRegistrationsGiven}}</td>
-          </tr>
-          <tr>
-            <td>Inside spots</td>
-            <td>{{numberOfInsideRegistrationsGiven}}/{{conInfo.numberOfInsideSpots}} spots, {{waitingLists.inside.length}} waiting</td>
-          </tr>
-          <tr>
-            <td>Outside spots</td>
-            <td>{{numberOfOutsideRegistrationsGiven}}/{{conInfo.numberOfOutsideSpots}} spots, {{waitingLists.outside.length}} waiting</td>
-          </tr>
+        <h2 class="header-with-show-hide">
+          Numbers & dates
+          <ShowIcon v-if="!showAdminStats" @click="showAdminStats = true" class="show-hide-icon"/>
+          <HideIcon v-if="showAdminStats" @click="showAdminStats = false" class="show-hide-icon"/>
+        </h2>
 
-          <br> 
-
-          <tr>
-            <td>Fully paid registrations</td>
-            <td>{{numberOfFullyPaidRegistrations}} / {{numberOfRegistrationsGiven}}</td>
-          </tr>
-          <tr>
-            <td>Main days paid, add-ons unpaid regs</td>
-            <td>{{numberOfOnlyAddonsUnpaidRegistrations}} / {{numberOfRegistrationsGiven}}</td>
-          </tr>
-          <tr>
-            <td>Fully unpaid registrations</td>
-            <td>{{numberOfRegistrationsGiven - numberOfMainDaysPaidRegistrations}} / {{numberOfRegistrationsGiven}}</td>
-          </tr>
-
-          <br>
-
-          <tr>
-            <td>Registration opening date</td>
-            <td>{{formatShortTimestamp(conInfo.registrationOpenDate)}} (volunteers: {{formatShortTimestamp(conInfo.volunteerRegistrationOpenDate)}})</td>
-          </tr>
-          <tr>
-            <td>Registration close date</td>
-            <td>{{formatShortTimestamp(conInfo.registrationCloseDate)}}</td>
-          </tr>
-          <tr>
-            <td>Soft Main payment deadline</td>
-            <td>{{formatShortTimestamp(conInfo.originalPaymentDeadline)}}</td>
-          </tr>
-          <tr>
-            <td>Final main payment deadline</td>
-            <td>{{formatShortTimestamp(conInfo.finalRegPaymentDeadline)}}</td>
-          </tr>
-          <tr>
-            <td>Merch, early & late payment deadline</td>
-            <td>{{formatShortTimestamp(conInfo.addonPaymentDeadline)}}</td>
-          </tr>
-
-          <br>
-
-          <tr>
-            <td>Main days price</td>
-            <td>{{conInfo.mainDaysPriceNok}}</td>
-          </tr>
-          <tr>
-            <td>Early/late price</td>
-            <td>{{conInfo.earlyArrivalPriceNok}}/{{conInfo.lateDeparturePriceNok}}</td>
-          </tr>
-          <tr v-if="conInfo.isSellingHoodies">
-            <td>Hoodie price</td>
-            <td>{{conInfo.hoodiePriceNok}}</td>
-          </tr>
-          <tr v-if="conInfo.isSellingTshirts">
-            <td>T-shirt price</td>
-            <td>{{conInfo.tshirtPriceNok}}</td>
-          </tr>
-
-          <br>
-
-          <tr v-if="conInfo.isSellingHoodies">
-            <td>Hoodies, total</td>
-            <td>
-              <span v-for="(count, size) in numberOfMerch.hoodies.total" :key="size" style="margin-right: 6px;">
-                {{size}}: {{count}}
-              </span> 
-            </td>
-          </tr>
-
-          <tr v-if="conInfo.isSellingHoodies">
-            <td>Hoodies, paid</td>
-            <td>
-              <span v-for="(count, size) in numberOfMerch.hoodies.paid" :key="size" style="margin-right: 6px;">
-                {{size}}: {{count}}
-              </span> 
-            </td>
-          </tr>
-
-          <tr v-if="conInfo.isSellingTshirts">
-            <td>T-shirts, total</td>
-            <td>
-              <span v-for="(count, size) in numberOfMerch.tshirts.total" :key="size" style="margin-right: 6px;">
-                {{size}}: {{count}}
-              </span> 
-            </td>
-          </tr>
-
-          <tr v-if="conInfo.isSellingTshirts">
-            <td>T-shirts, paid</td>
-            <td>
-              <span v-for="(count, size) in numberOfMerch.tshirts.paid" :key="size" style="margin-right: 6px;">
-                {{size}}: {{count}}
-              </span> 
-            </td>
-          </tr>
-
-          <br>
-
-          <tr>
-            <td>Number of vegans</td>
-            <td>TODO</td>
-          </tr>
-          <tr>
-            <td>Number of fursuiters</td>
-            <td>TODO 2</td>
-          </tr>
-        </table>
+        <AdminStats :isOpen="showAdminStats" :allUsers="allUsers" :allRegistrations="allRegistrations" :waitingLists="waitingLists" :usernamesWithReceivedRooms="usernamesWithReceivedRooms"/>
       </div>
 
       <div>
@@ -185,7 +59,7 @@
       </div>
 
       <div>
-        <h2>
+        <h2 class="header-with-show-hide">
           Registrations with given spots
           <ShowIcon v-if="!showRegistrationsWithSpots" @click="showRegistrationsWithSpots = true" class="show-hide-icon"/>
           <HideIcon v-if="showRegistrationsWithSpots" @click="showRegistrationsWithSpots = false" class="show-hide-icon"/>
@@ -234,7 +108,7 @@
       </div>
 
       <div>
-        <h2>
+        <h2 class="header-with-show-hide">
           Waiting lists
           <ShowIcon v-if="!showWaitingLists" @click="showWaitingLists = true" class="show-hide-icon"/>
           <HideIcon v-if="showWaitingLists" @click="showWaitingLists = false" class="show-hide-icon"/>
@@ -244,7 +118,7 @@
       </div>
 
       <div>
-        <h2>
+        <h2 class="header-with-show-hide">
           All Registrations
           <ShowIcon v-if="!isAllRegistrationsOpen" @click="isAllRegistrationsOpen = true" class="show-hide-icon"/>
           <HideIcon v-if="isAllRegistrationsOpen" @click="isAllRegistrationsOpen = false" class="show-hide-icon"/>
@@ -253,7 +127,7 @@
       </div>
 
       <div>
-        <h2>
+        <h2 class="header-with-show-hide">
           All Users
           <ShowIcon v-if="!isAllUsersOpen" @click="isAllUsersOpen = true" class="show-hide-icon"/>
           <HideIcon v-if="isAllUsersOpen" @click="isAllUsersOpen = false" class="show-hide-icon"/>
@@ -271,10 +145,10 @@
 <script>
 import registrationApi from '../api/registration-api'
 import userApi from '../api/user-api'
-import { mapGetters } from 'vuex'
 import UserList from '../components/UserList.vue'
 import RegistrationList from '../components/RegistrationList.vue'
 import WaitingLists from '../components/WaitingLists.vue'
+import AdminStats from '../components/AdminStats.vue'
 import ShowIcon from 'vue-material-design-icons/Eye.vue'
 import HideIcon from 'vue-material-design-icons/EyeOff.vue'
 
@@ -282,7 +156,7 @@ import HideIcon from 'vue-material-design-icons/EyeOff.vue'
 export default {
   name: 'admin',
 
-  components: { UserList, RegistrationList, WaitingLists, ShowIcon, HideIcon },
+  components: { UserList, RegistrationList, WaitingLists, AdminStats, ShowIcon, HideIcon },
 
   data: function () {
     return {
@@ -298,6 +172,7 @@ export default {
       isAllUsersOpen: false,
       showRegistrationsWithSpots: false,
       showWaitingLists: false,
+      showAdminStats: true,
       usernamesWithReceivedRooms: [],
     }
   },
@@ -416,95 +291,14 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['myRegistration', 'conInfo']),
-
     givenRegistrations () {
       return this.allRegistrations.filter(reg => reg.receivedInsideSpot || reg.receivedOutsideSpot)
-    },
-    
-    numberOfInsideRegistrationsGiven () {
-      return this.allRegistrations.filter(reg => reg.receivedInsideSpot === true).length
-    },
-
-    numberOfOutsideRegistrationsGiven () {
-      return this.allRegistrations.filter(reg => reg.receivedOutsideSpot === true).length
-    },
-
-    numberOfRegistrationsGiven () {
-      return this.numberOfInsideRegistrationsGiven + this.numberOfOutsideRegistrationsGiven
-    },
-
-    numberOfApprovedRegistrations () {
-      return this.allRegistrations.filter(reg => reg.isAdminApproved === true).length
-    },
-
-    usersWithRegistration () {
-      return this.allUsers.filter(user => user.registrationId !== null).length
-    },
-
-    numberOfMainDaysPaidRegistrations () {
-      return this.allRegistrations.filter(reg => reg.isMainDaysPaid === true).length
-    },
-
-    numberOfFullyPaidRegistrations () {
-      return this.allRegistrations.filter(reg => reg.isMainDaysPaid === true && reg.isAddonsPaid === true).length
-    },
-
-    numberOfOnlyAddonsUnpaidRegistrations () {
-      return this.allRegistrations.filter(reg => reg.isMainDaysPaid === true && reg.isAddonsPaid === false).length
-    },
-
-    numberOfMerch () {
-      let paidHoodieCounts = {}
-      let totalHoodieCounts = {}
-      let paidTshirtCounts = {}
-      let totalTshirtCounts = {}
-
-      for (var reg of this.allRegistrations) {
-        if (reg.buyHoodie === true) {
-          let size = reg.hoodieSize
-          totalHoodieCounts[size] = ++totalHoodieCounts[size] || 1
-          if (reg.isHoodiePaid) {
-            paidHoodieCounts[size] = ++paidHoodieCounts[size] || 1
-          }
-        }
-
-        if (reg.buyTshirt === true) {
-          let size = reg.tshirtSize
-          totalTshirtCounts[size] = ++totalTshirtCounts[size] || 1
-          if (reg.isTshirtPaid) {
-            paidTshirtCounts[size] = ++paidTshirtCounts[size] || 1
-          }
-        }
-      }
-
-      return {
-        hoodies: {
-          total: totalHoodieCounts,
-          paid: paidHoodieCounts
-        },
-        tshirts: {
-          total: totalTshirtCounts,
-          paid: paidTshirtCounts
-        }
-      }
     },
   }
 }
 </script>
 
 <style lang="scss" scoped>
-#numbersTable {
-  border: none;
-  td {
-    text-align: left;
-    border: none;
-  }
-  td:first-child {
-    text-align: right;
-    padding-right: 8px;
-  }
-}
 #temp-op-div {
   button {
     padding: 6px 4px;
@@ -513,5 +307,8 @@ export default {
 }
 .show-hide-span {
   font-size: 14px;
+}
+.header-with-show-hide {
+  padding-left: 16px;
 }
 </style>

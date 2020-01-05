@@ -67,7 +67,7 @@ h1, h2 {
   margin-bottom: 4px;
 }
 table {
-  margin: auto;
+  margin: 0 auto;
   width: fit-content;
   border-collapse: collapse;
   display: block;
