@@ -1,8 +1,14 @@
 <template>
   <div style="width: 100%;" v-show="isOpen">
 
-    <div style="margin-bottom: 2px;">
-      <input type="checkbox" v-model="shouldFilterList" st> Only show users with received spots
+    <div style="margin-bottom: 8px; justify-content: center;" class="flex-row">
+      <div style="display: flex; align-items: center;">
+        <input type="checkbox" v-model="shouldFilterList"> Only show users with received spots
+      </div>
+
+      <div style="margin-left: 40px;">
+        <button @click="generateUserTextDocument">Export users with received spots to file</button>
+      </div>
     </div>
 
     <table class="very-wide-table">
@@ -227,10 +233,7 @@ export default {
     },
 
     filteredUsers () {
-      if (!this.shouldFilterList) { return [] }
-      else {
-        return this.allUsers.filter(user => this.usernamesWithReceivedRooms.find(username => username === user.username) !== undefined)
-      }
+      return this.allUsers.filter(user => this.usernamesWithReceivedRooms.find(username => username === user.username) !== undefined)
     }
   },
 
@@ -254,6 +257,17 @@ export default {
 
     saveUser () {
       
+    },
+
+    generateUserTextDocument () {
+      let FileSaver = require('file-saver')
+      let fileText = ''
+      for (let user of this.filteredUsers) {
+        fileText += `${user.firstName} ${user.lastName}; ${user.phone}; ${this.formatBdayTimestamp(user.dateOfBirth)}; ${user.addressLine1}${user.addressLine2 ? ', '+user.addressLine2 : ''}, ${user.addressStateProvince} ${user.addressCity}, ${user.addressCountry}\n`
+      }
+
+      let blob = new Blob([fileText], {type: "text/plain;charset=utf-8"});
+      FileSaver.saveAs(blob, "Furway-deltakere.txt");
     },
 
     formatBdayTimestamp (timestamp) {

@@ -104,6 +104,10 @@ tr:hover {
   flex-direction: column;
   align-items: center;
 }
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
 .error-message {
   color: red;
 }

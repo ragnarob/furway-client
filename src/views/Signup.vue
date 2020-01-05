@@ -85,7 +85,7 @@ export default {
       addressLine1: 'Gatenavn tall',
       addressLine2: '69 C',
       addressCity: 'Trondheim',
-      addressStateprovince: '',
+      addressStateprovince: '7049',
       addressCountry: 'Norway',
     }
   },
