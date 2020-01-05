@@ -169,11 +169,11 @@
             <th>Submitted</th>
             <th>Action</th>
           </tr>
-          <tr v-for="reg in pendingRegistrations" :key="reg.id" :class="{'highlighted-row-blue': reg.username === highlightedUserName}">
+          <tr v-for="reg in pendingRegistrations" :key="reg.id" :class="{'highlighted-row': reg.username === highlightedUserName}">
             <td>{{reg.username}}</td>
             <td>{{reg.firstName}}</td>
             <td>{{reg.lastName}}</td>
-            <td>{{reg.roomPreference}}</td>
+            <td>{{formatRoomPreference(reg.roomPreference)}}</td>
             <td>{{formatTimestamp(reg.timestamp)}}</td>
             <td>
               <button @click="approveRegistration(reg)">Approve</button>
@@ -185,8 +185,12 @@
       </div>
 
       <div>
-        <h2>Given registrations</h2>
-        <table>
+        <h2>
+          Registrations with given spots
+          <ShowIcon v-if="!showRegistrationsWithSpots" @click="showRegistrationsWithSpots = true" class="show-hide-icon"/>
+          <HideIcon v-if="showRegistrationsWithSpots" @click="showRegistrationsWithSpots = false" class="show-hide-icon"/>
+        </h2>
+        <table v-show="showRegistrationsWithSpots">
           <tr>
             <th>Username</th>
             <th>First name</th>
@@ -198,11 +202,11 @@
             <th>Money</th>
             <th>Action</th>
           </tr>
-          <tr v-for="reg in givenRegistrations" :key="reg.id" :class="{'highlighted-row': reg.id === highlightedRegistrationId}">
+          <tr v-for="reg in givenRegistrations" :key="reg.id" :class="{'highlighted-row-blue': reg.id === highlightedRegistrationId}">
             <td>{{reg.username}}</td>
             <td>{{reg.firstName}}</td>
             <td>{{reg.lastName}}</td>
-            <td>{{reg.roomPreference}}</td>
+            <td>{{formatRoomPreference(reg.roomPreference)}}</td>
             <td>{{reg.receivedInsideSpot ? 'Inside' : 'Outside'}}</td>
 
             <td>
@@ -230,36 +234,31 @@
       </div>
 
       <div>
-        <h2>Waiting lists</h2>
-        <h3>Inside</h3>
-        <table>
-          <tr v-for="(reg, index) in waitingLists.inside" :key="reg.id">
-            <td>{{index}}</td>
-            <td>{{reg.username}}</td>
-            <td>{{reg.roomPreference}}</td>
-            <td>{{formatTimestamp(reg.timestamp)}}</td>
-          </tr>
-        </table>
+        <h2>
+          Waiting lists
+          <ShowIcon v-if="!showWaitingLists" @click="showWaitingLists = true" class="show-hide-icon"/>
+          <HideIcon v-if="showWaitingLists" @click="showWaitingLists = false" class="show-hide-icon"/>
+        </h2>
 
-        <h3>Outside</h3>
-        <table>
-          <tr v-for="(reg, index) in waitingLists.outside" :key="reg.id">
-            <td>{{index}}</td>
-            <td>{{reg.username}}</td>
-            <td>{{reg.roomPreference}}</td>
-            <td>{{formatTimestamp(reg.timestamp)}}</td>
-          </tr>
-        </table>
+        <WaitingLists :isOpen="showWaitingLists" :waitingLists="waitingLists" :timestampFormat="timestampFormat"/>
       </div>
 
       <div>
-        <h2>All Registrations</h2> (will be hidden by default)
-        <RegistrationList :allRegistrations="allRegistrations" :timestampFormat="timestampFormat" :highlightedRegistrationId="highlightedRegistrationId"/>
+        <h2>
+          All Registrations
+          <ShowIcon v-if="!isAllRegistrationsOpen" @click="isAllRegistrationsOpen = true" class="show-hide-icon"/>
+          <HideIcon v-if="isAllRegistrationsOpen" @click="isAllRegistrationsOpen = false" class="show-hide-icon"/>
+        </h2>
+        <RegistrationList :isOpen="isAllRegistrationsOpen" :allRegistrations="allRegistrations" :timestampFormat="timestampFormat" :highlightedRegistrationId="highlightedRegistrationId"/>
       </div>
 
       <div>
-        <h2>All Users</h2> (will be hidden by default)
-        <UserList :allUsers="allUsers" :highlightedUserName="highlightedUserName"/>
+        <h2>
+          All Users
+          <ShowIcon v-if="!isAllUsersOpen" @click="isAllUsersOpen = true" class="show-hide-icon"/>
+          <HideIcon v-if="isAllUsersOpen" @click="isAllUsersOpen = false" class="show-hide-icon"/>
+        </h2>
+        <UserList :isOpen="isAllUsersOpen" :allUsers="allUsers" :highlightedUserName="highlightedUserName" :usernamesWithReceivedRooms="usernamesWithReceivedRooms"/>
       </div>
     </div>
 
@@ -275,12 +274,15 @@ import userApi from '../api/user-api'
 import { mapGetters } from 'vuex'
 import UserList from '../components/UserList.vue'
 import RegistrationList from '../components/RegistrationList.vue'
+import WaitingLists from '../components/WaitingLists.vue'
+import ShowIcon from 'vue-material-design-icons/Eye.vue'
+import HideIcon from 'vue-material-design-icons/EyeOff.vue'
 
 
 export default {
   name: 'admin',
 
-  components: { UserList, RegistrationList },
+  components: { UserList, RegistrationList, WaitingLists, ShowIcon, HideIcon },
 
   data: function () {
     return {
@@ -292,6 +294,11 @@ export default {
       timestampFormat: 'short',
       highlightedRegistrationId: null,
       highlightedUserName: null,
+      isAllRegistrationsOpen: false,
+      isAllUsersOpen: false,
+      showRegistrationsWithSpots: false,
+      showWaitingLists: false,
+      usernamesWithReceivedRooms: [],
     }
   },
 
@@ -300,6 +307,12 @@ export default {
   },
 
   methods: {
+    formatRoomPreference (roomPreference) {
+      if (roomPreference === 'insideonly') { return 'Inside only' }
+      else if (roomPreference === 'outsideonly') { return 'Outside only' }
+      else { return 'Inside preference' }
+    },
+
     async createRegs (regType, amount) {
       await registrationApi.createOpRegs(regType, amount)
       this.loadData()
@@ -310,6 +323,14 @@ export default {
       this.pendingRegistrations = await registrationApi.getPendingRegistrations()
       this.allUsers = await userApi.getAllUsers()
       this.waitingLists = await registrationApi.getWaitingLists()
+
+      this.calculateUsersWithReceivedRooms()
+    },
+
+    calculateUsersWithReceivedRooms () {
+      this.usernamesWithReceivedRooms = this.allRegistrations
+        .filter(reg => reg.receivedInsideSpot || reg.receivedOutsideSpot)
+        .map(reg => reg.username)
     },
 
     async approveRegistration (reg) {
@@ -348,11 +369,19 @@ export default {
       }
     },
 
-    highlightRegistration (reg) {
+    async highlightRegistration (reg) {
+      if (!this.isAllRegistrationsOpen) {
+        this.isAllRegistrationsOpen = true
+        await this.sleepMillisec(80)
+      }
       this.highlightedRegistrationId = reg.id
     },
 
-    highlightUser (username) {
+    async highlightUser (username) {
+      if (!this.isAllUsersOpen) {
+        this.isAllUsersOpen = true
+        await this.sleepMillisec(80)
+      }
       this.highlightedUserName = username
     },
 
@@ -361,12 +390,7 @@ export default {
     },
 
     formatTimestamp (timestamp) {
-      if (this.timestampFormat === 'short') {
-        return this.formatShortTimestamp(timestamp)
-      }
-      else {
-        return this.formatLongTimestamp(timestamp)
-      }
+      return this.timestampFormat === 'short' ? this.formatShortTimestamp(timestamp) : this.formatLongTimestamp(timestamp)
     },
 
     formatShortTimestamp (timestamp) {
@@ -384,6 +408,10 @@ export default {
 
     scrollToErrorMessage () {
       document.getElementById('adminErrorMessage').scrollIntoView()
+    },
+
+    sleepMillisec (ms) {
+      return new Promise(resolve => setTimeout(resolve, ms))
     }
   },
 
@@ -482,5 +510,8 @@ export default {
     padding: 6px 4px;
     margin-bottom: 4px;
   }
+}
+.show-hide-span {
+  font-size: 14px;
 }
 </style>

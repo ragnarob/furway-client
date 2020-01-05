@@ -23,10 +23,21 @@ export default {
 </script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600|Raleway:300,400,600&display=swap');
+
 body {
   // background-color: #222;
   color: #333;
 }
+
+body, div, td, th, table, span, p, button {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+}
+th {
+  font-weight: 600;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -47,12 +58,17 @@ body {
   }
 }
 
-div, p, span {
+div, p, span, h1, h2, h3, h4 {
   margin: 0;
   padding: 0;
 }
+h1, h2 {
+  margin-top: 20px;
+  margin-bottom: 4px;
+}
 table {
-  width: 100%;
+  margin: auto;
+  width: fit-content;
   border-collapse: collapse;
   display: block;
   overflow-x: auto;
@@ -69,7 +85,6 @@ td, th {
 th {
   padding: 8px 10px;
   background-color: #e2e2e2;
-  font-weight: normal;
   &:hover {
     cursor: default;
   }
@@ -100,6 +115,8 @@ tr:hover {
 }
 
 .very-wide-table {
+  width: 100%;
+
   input[type=text] {
     width: 100px;
   }
@@ -128,6 +145,12 @@ tr:hover {
     background-color: rgba(134, 187, 248, 0.411) !important;
   }
 }
+.table-without-buttons {
+  td {
+    padding: 4px 8px;
+  }
+}
+
 button {
   font-size: 14px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -135,7 +158,6 @@ button {
   padding: 4px 8px;
   border-radius: 4px;
   background-color: #fff;
-  font-weight: 300;
   color: black;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   &:hover {
@@ -144,6 +166,15 @@ button {
     &.button-disabled {
       box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     }
+  }
+}
+
+.show-hide-icon {
+  padding: 0 8px;
+  border-radius: 30px;
+  &:hover {
+    cursor: pointer;
+    color: rgb(16, 172, 107);
   }
 }
 </style>

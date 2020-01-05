@@ -1,0 +1,83 @@
+<template>
+  <div v-show="isOpen">
+    <h3>Inside waiting list</h3>
+    <table class="table-without-buttons">
+      <thead>
+        <th>Position</th>
+        <th>Username</th>
+        <th>Ticket type</th>
+        <th>Registration time</th>
+        <th v-if="isInAdminPanel">Action</th>
+      </thead>
+      <tr v-for="(reg, index) in waitingLists.inside" :key="reg.id">
+        <td>{{index+1}}</td>
+        <td>{{reg.username}}</td>
+        <td>{{formatRoomPreference(reg.roomPreference)}}</td>
+        <td>{{formatTimestamp(reg.timestamp)}}</td>
+      </tr>
+    </table>
+
+    <h3>Outside waiting list</h3>
+    <table class="table-without-buttons">
+      <thead>
+        <th>Position</th>
+        <th>Username</th>
+        <th>Ticket type</th>
+        <th>Registration time</th>
+      </thead>
+      <tr v-for="(reg, index) in waitingLists.outside" :key="reg.id">
+        <td>{{index+1}}</td>
+        <td>{{reg.username}}</td>
+        <td>{{formatRoomPreference(reg.roomPreference)}}</td>
+        <td>{{formatTimestamp(reg.timestamp)}}</td>
+      </tr>
+    </table>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'waitingLists',
+
+  props: {
+    isOpen: Boolean,
+    waitingLists: Object,
+    timestampFormat: String,
+    isInAdminPanel: Boolean,
+  },
+
+  data: function () {
+    return {
+    }
+  },
+
+  methods: {
+    formatRoomPreference (roomPreference) {
+      if (roomPreference === 'insideonly') { return 'Inside only' }
+      else if (roomPreference === 'outsideonly') { return 'Outside only' }
+      else { return 'Inside preference' }
+    },
+
+    formatTimestamp (timestamp) {
+      return this.timestampFormat === 'short' ? this.formatShortTimestamp(timestamp) : this.formatLongTimestamp(timestamp)
+    },
+
+    formatShortTimestamp (timestamp) {
+      return new Date(timestamp).toDateString().substr(4,6)
+    },
+
+    formatLongTimestamp (timestamp) {
+      let tsDate = new Date(timestamp)
+      return tsDate.toDateString().substr(4,6) + ', ' + tsDate.toTimeString().substr(0,8)
+    },
+  },
+}
+</script>
+
+<style lang="scss" scoped>
+table {
+  padding: 4px 6px;
+  width: fit-content;
+  margin: auto;
+}
+</style>
