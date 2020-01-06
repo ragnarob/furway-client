@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%;" v-show="isOpen">
+  <div style="width: 100%;" v-show="isAllUsersOpen">
 
     <div style="margin-bottom: 8px; justify-content: center;" class="flex-row">
       <div style="display: flex; align-items: center;">
@@ -227,7 +227,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['allUsers', 'highlightedUsername', 'usernamesWithReceivedRooms']),
+    ...mapGetters(['allUsers', 'highlightedUsername', 'usernamesWithReceivedRooms', 'isAllUsersOpen']),
 
     userListToUse () {
       return this.shouldFilterList ? this.filteredUsers : this.allUsers

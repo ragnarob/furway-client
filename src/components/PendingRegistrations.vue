@@ -13,7 +13,7 @@
       <td>{{reg.firstName}}</td>
       <td>{{reg.lastName}}</td>
       <td>{{formatRoomPreference(reg.roomPreference)}}</td>
-      <td>{{formatTimestamp(reg.timestamp)}}</td>
+      <td>{{formatTimestamp(reg.timestamp, timestampFormat)}}</td>
       <td>
         <button @click="approveRegistration(reg)">Approve</button>
         <button @click="rejectRegistration(reg)">Reject</button>
@@ -24,6 +24,63 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { formatTimestamp, formatRoomPreference, sleepMillisec } from '../utils'
+import registrationApi from '../api/registration-api'
+
 export default {
+  name: 'pendingRegistrations',
+
+  computed: {
+    ...mapGetters(['pendingRegistrations', 'highlightedUsername', 'isAllUsersOpen', 'timestampFormat'])
+  },
+
+  data: function () {
+    return {
+      errorMessage: '',
+    }
+  },
+
+  methods: {    
+    async approveRegistration (reg) {
+      let result = await registrationApi.approveRegistration(reg.userId)
+
+      if ('error' in result) {
+        this.errorMessage = result.error
+        this.scrollToErrorMessage()
+      }
+      else {
+        this.$store.dispatch('loadData')
+      }
+    },
+    
+    async rejectRegistration (reg) {
+      let result = await registrationApi.rejectRegistration(reg.userId)
+
+      if ('error' in result) {
+        this.errorMessage = result.error
+        this.scrollToErrorMessage()
+      }
+      else {
+        this.$store.dispatch('loadData')
+      }
+    },
+
+    async highlightUser (username) {
+      if (!this.isAllUsersOpen) {
+        this.$store.commit('setIsAllUsersOpen', true)
+        await sleepMillisec(80)
+      }
+
+      this.$store.commit('setHighlightedUsername', username)
+    },
+
+    scrollToErrorMessage () {
+      // todo 
+    },
+    
+    formatTimestamp, 
+    formatRoomPreference,
+  },
 }
 </script>

@@ -37,28 +37,7 @@
       <!-- Pending registrations -->
       <div>
         <h2>Pending registrations</h2>
-        <table>
-          <tr>
-            <th>Username</th>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Room pref</th>
-            <th>Submitted</th>
-            <th>Action</th>
-          </tr>
-          <tr v-for="reg in pendingRegistrations" :key="reg.id" :class="{'highlighted-row': reg.username === highlightedUsername}">
-            <td>{{reg.username}}</td>
-            <td>{{reg.firstName}}</td>
-            <td>{{reg.lastName}}</td>
-            <td>{{formatRoomPreference(reg.roomPreference)}}</td>
-            <td>{{formatTimestamp(reg.timestamp)}}</td>
-            <td>
-              <button @click="approveRegistration(reg)">Approve</button>
-              <button @click="rejectRegistration(reg)">Reject</button>
-              <button @click="highlightUser(reg.username)">Show full user</button>
-            </td>
-          </tr>
-        </table>
+        <PendingRegistrations/>
       </div>
 
       <!-- Registrations with given spots -->
@@ -129,7 +108,7 @@
           <ShowIcon v-if="!isAllRegistrationsOpen" @click="isAllRegistrationsOpen = true" class="show-hide-icon"/>
           <HideIcon v-if="isAllRegistrationsOpen" @click="isAllRegistrationsOpen = false" class="show-hide-icon"/>
         </h2>
-        <RegistrationList :isOpen="isAllRegistrationsOpen"/>
+        <RegistrationList/>
       </div>
 
       <!-- All users -->
@@ -139,7 +118,7 @@
           <ShowIcon v-if="!isAllUsersOpen" @click="isAllUsersOpen = true" class="show-hide-icon"/>
           <HideIcon v-if="isAllUsersOpen" @click="isAllUsersOpen = false" class="show-hide-icon"/>
         </h2>
-        <UserList :isOpen="isAllUsersOpen"/>
+        <UserList/>
       </div>
     </div>
 
@@ -156,14 +135,16 @@ import UserList from '../components/UserList.vue'
 import RegistrationList from '../components/RegistrationList.vue'
 import WaitingLists from '../components/WaitingLists.vue'
 import AdminStats from '../components/AdminStats.vue'
+import PendingRegistrations from '../components/PendingRegistrations.vue'
 import ShowIcon from 'vue-material-design-icons/Eye.vue'
 import HideIcon from 'vue-material-design-icons/EyeOff.vue'
+import { mapGetters } from 'vuex'
 
 
 export default {
   name: 'admin',
 
-  components: { UserList, RegistrationList, WaitingLists, AdminStats, ShowIcon, HideIcon },
+  components: { UserList, RegistrationList, WaitingLists, AdminStats, PendingRegistrations, ShowIcon, HideIcon },
 
   data: function () {
     return {
@@ -173,10 +154,6 @@ export default {
       allUsers: [],
       waitingLists: {inside: [], outside: []},
       timestampFormat: 'short',
-      highlightedRegistrationId: null,
-      highlightedUsername: null,
-      isAllRegistrationsOpen: false,
-      isAllUsersOpen: false,
       showRegistrationsWithSpots: false,
       showWaitingLists: false,
       showAdminStats: true,
@@ -200,30 +177,6 @@ export default {
       this.$store.dispatch('loadData')
     },
 
-    async approveRegistration (reg) {
-      let result = await registrationApi.approveRegistration(reg.userId)
-
-      if ('error' in result) {
-        this.errorMessage = result.error
-        this.scrollToErrorMessage()
-      }
-      else {
-        this.$store.dispatch('loadData')
-      }
-    },
-    
-    async rejectRegistration (reg) {
-      let result = await registrationApi.rejectRegistration(reg.userId)
-
-      if ('error' in result) {
-        this.errorMessage = result.error
-        this.scrollToErrorMessage()
-      }
-      else {
-        this.$store.dispatch('loadData')
-      }
-    },
-
     async removeSpotFromRegistration (reg) {
       let result = await registrationApi.removeSpotFromRegistration(reg.userId)
 
@@ -245,17 +198,8 @@ export default {
       this.$store.commit('setHighlightedRegistrationId', reg.id)
     },
 
-    async highlightUser (username) {
-      if (!this.isAllUsersOpen) {
-        this.isAllUsersOpen = true
-        await this.sleepMillisec(80)
-      }
-
-      this.$store.commit('setHighlightedUsername', username)
-    },
-
     toggleTimestampFormat () {
-      this.timestampFormat = this.timestampFormat==='short' ? 'long' : 'short'
+      this.$store.dispatch('toggleTimestampFormat')
     },
 
     formatTimestamp (timestamp) {
@@ -278,13 +222,11 @@ export default {
     scrollToErrorMessage () {
       document.getElementById('adminErrorMessage').scrollIntoView()
     },
-
-    sleepMillisec (ms) {
-      return new Promise(resolve => setTimeout(resolve, ms))
-    }
   },
 
   computed: {
+    ...mapGetters(['isAllUsersOpen', 'isAllRegistrationsOpen']),
+
     givenRegistrations () {
       return this.allRegistrations.filter(reg => reg.receivedInsideSpot || reg.receivedOutsideSpot)
     },
