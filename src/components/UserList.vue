@@ -32,7 +32,7 @@
         <th>Volunteer</th>
         <th>Admin</th>
       </tr>
-      <tr v-for="user in userListToUse" :key="user.id" :class="{'highlighted-row': user.username === highlightedUserName}">
+      <tr v-for="user in userListToUse" :key="user.id" :class="{'highlighted-row': user.username === highlightedUsername}">
         <td>
           <button v-if="userBeingEdited === null" @click="editUser(user.id)">Edit</button>
           <button v-if="userBeingEdited === null" @click="deleteUser(user.id)">Del</button>
@@ -206,13 +206,11 @@
 import userApi from '../api/user-api'
 import YesIcon from 'vue-material-design-icons/CheckCircle.vue'
 import NoIcon from 'vue-material-design-icons/Close.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   props: {
     isOpen: Boolean,
-    allUsers: Array,
-    highlightedUserName: String,
-    usernamesWithReceivedRooms: Array,
   },
 
   components: {
@@ -224,10 +222,13 @@ export default {
     return {
       userBeingEdited: null,
       shouldFilterList: false,
+      errorMessage: null,
     }
   },
 
   computed: {
+    ...mapGetters(['allUsers', 'highlightedUsername', 'usernamesWithReceivedRooms']),
+
     userListToUse () {
       return this.shouldFilterList ? this.filteredUsers : this.allUsers
     },
@@ -255,8 +256,16 @@ export default {
       this.userBeingEdited = null
     },
 
-    saveUser () {
-      
+    async saveUser () {
+      let result = await userApi.saveEditedUser(this.userBeingEdited)
+
+      if ('error' in result) {
+        this.errorMessage = result.error
+      }
+      else {
+        this.cancelEditing()
+        this.$emit('loadData')
+      }
     },
 
     generateUserTextDocument () {
@@ -276,7 +285,7 @@ export default {
   },
 
   watch: {
-    highlightedUserName: function (newVal, oldVal) {
+    highlightedUsername: function (newVal, oldVal) {
       if (newVal === null) { return }
       let usernameElements = document.getElementsByClassName('username-cell')
       for (var element of usernameElements) {

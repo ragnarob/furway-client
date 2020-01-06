@@ -248,15 +248,13 @@
 <script>
 import YesIcon from 'vue-material-design-icons/CheckCircle.vue'
 import NoIcon from 'vue-material-design-icons/Close.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'registrationList',
 
   props: {
     isOpen: Boolean,
-    allRegistrations: Array,
-    timestampFormat: String,
-    highlightedRegistrationId: Number,
   },
 
   components: {
@@ -273,6 +271,8 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['allRegistrations', 'timestampFormat', 'highlightedRegistrationId']),
+
     filteredRegistrations () {
       if (this.shouldFilterList) {
         return this.allRegistrations.filter(reg => reg.receivedInsideSpot === true || reg.receivedOutsideSpot === true)

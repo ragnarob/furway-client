@@ -5,9 +5,15 @@ import userApi from '../api/user-api'
 import registrationApi from '../api/registration-api';
 import miscApi from '../api/misc-api';
 
+import admin from './admin'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  modules: {
+    admin,
+  },
+
   state: {
     conInfo: {},
     isLoggedIn: false,
@@ -49,7 +55,6 @@ export default new Vuex.Store({
 
     async refreshUserData (context) {
       let response = await userApi.refreshUserData()
-      console.log(response)
       context.commit('setUserData', response)
 
       context.dispatch('getMyRegistration')

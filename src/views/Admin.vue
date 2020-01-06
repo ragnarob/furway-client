@@ -8,6 +8,7 @@
     <div v-if="$store.state.isLoggedIn && $store.state.userData.isAdmin" style="max-width: 100%;">
       <p @click="toggleTimestampFormat" class="link-text">Toggle timestamp format</p>
 
+      <!-- Jukseknapper-div -->
       <div style="text-align: left;" id="temp-op-div">
         <button @click="createRegs('insideonly', 1)">Lag 1 bruker og inside-only regs</button>
         <button @click="createRegs('insideonly', 2)">Lag 2 brukere og inside-only regs</button>
@@ -22,6 +23,7 @@
         <button @click="createRegs('outsideonly', 10)">Lag 10 brukere og outside-only regs</button>
       </div>
       
+      <!-- Numbers & dates -->
       <div>
         <h2 class="header-with-show-hide">
           Numbers & dates
@@ -29,9 +31,10 @@
           <HideIcon v-if="showAdminStats" @click="showAdminStats = false" class="show-hide-icon"/>
         </h2>
 
-        <AdminStats :isOpen="showAdminStats" :allUsers="allUsers" :allRegistrations="allRegistrations" :waitingLists="waitingLists" :usernamesWithReceivedRooms="usernamesWithReceivedRooms"/>
+        <AdminStats :isOpen="showAdminStats"/>
       </div>
 
+      <!-- Pending registrations -->
       <div>
         <h2>Pending registrations</h2>
         <table>
@@ -43,7 +46,7 @@
             <th>Submitted</th>
             <th>Action</th>
           </tr>
-          <tr v-for="reg in pendingRegistrations" :key="reg.id" :class="{'highlighted-row': reg.username === highlightedUserName}">
+          <tr v-for="reg in pendingRegistrations" :key="reg.id" :class="{'highlighted-row': reg.username === highlightedUsername}">
             <td>{{reg.username}}</td>
             <td>{{reg.firstName}}</td>
             <td>{{reg.lastName}}</td>
@@ -58,6 +61,7 @@
         </table>
       </div>
 
+      <!-- Registrations with given spots -->
       <div>
         <h2 class="header-with-show-hide">
           Registrations with given spots
@@ -107,6 +111,7 @@
         </table>
       </div>
 
+      <!-- Waiting lists -->
       <div>
         <h2 class="header-with-show-hide">
           Waiting lists
@@ -114,25 +119,27 @@
           <HideIcon v-if="showWaitingLists" @click="showWaitingLists = false" class="show-hide-icon"/>
         </h2>
 
-        <WaitingLists :isOpen="showWaitingLists" :waitingLists="waitingLists" :timestampFormat="timestampFormat"/>
+        <WaitingLists :isOpen="showWaitingLists" :isInAdminPanel="true"/>
       </div>
 
+      <!-- All registrations -->
       <div>
         <h2 class="header-with-show-hide">
           All Registrations
           <ShowIcon v-if="!isAllRegistrationsOpen" @click="isAllRegistrationsOpen = true" class="show-hide-icon"/>
           <HideIcon v-if="isAllRegistrationsOpen" @click="isAllRegistrationsOpen = false" class="show-hide-icon"/>
         </h2>
-        <RegistrationList :isOpen="isAllRegistrationsOpen" :allRegistrations="allRegistrations" :timestampFormat="timestampFormat" :highlightedRegistrationId="highlightedRegistrationId"/>
+        <RegistrationList :isOpen="isAllRegistrationsOpen"/>
       </div>
 
+      <!-- All users -->
       <div>
         <h2 class="header-with-show-hide">
           All Users
           <ShowIcon v-if="!isAllUsersOpen" @click="isAllUsersOpen = true" class="show-hide-icon"/>
           <HideIcon v-if="isAllUsersOpen" @click="isAllUsersOpen = false" class="show-hide-icon"/>
         </h2>
-        <UserList :isOpen="isAllUsersOpen" :allUsers="allUsers" :highlightedUserName="highlightedUserName" :usernamesWithReceivedRooms="usernamesWithReceivedRooms"/>
+        <UserList :isOpen="isAllUsersOpen"/>
       </div>
     </div>
 
@@ -167,7 +174,7 @@ export default {
       waitingLists: {inside: [], outside: []},
       timestampFormat: 'short',
       highlightedRegistrationId: null,
-      highlightedUserName: null,
+      highlightedUsername: null,
       isAllRegistrationsOpen: false,
       isAllUsersOpen: false,
       showRegistrationsWithSpots: false,
@@ -178,7 +185,7 @@ export default {
   },
 
   async mounted () {
-    this.loadData()
+    this.$store.dispatch('loadData')
   },
 
   methods: {
@@ -190,22 +197,7 @@ export default {
 
     async createRegs (regType, amount) {
       await registrationApi.createOpRegs(regType, amount)
-      this.loadData()
-    },
-
-    async loadData () {
-      this.allRegistrations = await registrationApi.getAllRegistrations()
-      this.pendingRegistrations = await registrationApi.getPendingRegistrations()
-      this.allUsers = await userApi.getAllUsers()
-      this.waitingLists = await registrationApi.getWaitingLists()
-
-      this.calculateUsersWithReceivedRooms()
-    },
-
-    calculateUsersWithReceivedRooms () {
-      this.usernamesWithReceivedRooms = this.allRegistrations
-        .filter(reg => reg.receivedInsideSpot || reg.receivedOutsideSpot)
-        .map(reg => reg.username)
+      this.$store.dispatch('loadData')
     },
 
     async approveRegistration (reg) {
@@ -216,7 +208,7 @@ export default {
         this.scrollToErrorMessage()
       }
       else {
-        this.loadData()
+        this.$store.dispatch('loadData')
       }
     },
     
@@ -228,7 +220,7 @@ export default {
         this.scrollToErrorMessage()
       }
       else {
-        this.loadData()
+        this.$store.dispatch('loadData')
       }
     },
 
@@ -239,8 +231,8 @@ export default {
         this.errorMessage = result.error
         this.scrollToErrorMessage()
       }
-      else {
-        this.loadData()
+      else { 
+        this.$store.dispatch('loadData')
       }
     },
 
@@ -249,7 +241,8 @@ export default {
         this.isAllRegistrationsOpen = true
         await this.sleepMillisec(80)
       }
-      this.highlightedRegistrationId = reg.id
+
+      this.$store.commit('setHighlightedRegistrationId', reg.id)
     },
 
     async highlightUser (username) {
@@ -257,7 +250,8 @@ export default {
         this.isAllUsersOpen = true
         await this.sleepMillisec(80)
       }
-      this.highlightedUserName = username
+
+      this.$store.commit('setHighlightedUsername', username)
     },
 
     toggleTimestampFormat () {

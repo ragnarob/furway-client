@@ -155,10 +155,6 @@ export default {
 
   props: {
     isOpen: Boolean,
-    allUsers: Array,
-    allRegistrations: Array,
-    waitingLists: Object,
-    usernamesWithReceivedRooms: Array,
   },
 
   methods: {
@@ -181,7 +177,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['conInfo']),
+    ...mapGetters(['conInfo', 'allUsers', 'allRegistrations', 'waitingLists', 'usernamesWithReceivedRooms']),
     
     numberOfInsideRegistrationsGiven () {
       return this.allRegistrations.filter(reg => reg.receivedInsideSpot === true).length

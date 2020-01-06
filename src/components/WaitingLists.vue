@@ -36,19 +36,24 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'waitingLists',
+  
 
   props: {
     isOpen: Boolean,
-    waitingLists: Object,
-    timestampFormat: String,
     isInAdminPanel: Boolean,
   },
 
   data: function () {
     return {
     }
+  },
+
+  computed: {
+    ...mapGetters(['waitingLists', 'timestampFormat'])
   },
 
   methods: {

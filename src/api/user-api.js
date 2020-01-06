@@ -29,5 +29,11 @@ export default {
 
   async logout () {
     Axios.post(`${apiBase}/logout`)
+  },
+
+  async saveEditedUser (userId, userDataObject) {
+    let response = await Axios.post(`${apiBase}/api/users/${userId}`, userInfoObject)
+
+    return response.data
   }
 }
