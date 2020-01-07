@@ -43,6 +43,14 @@ export default {
       commit('setWaitingLists', waitingLists)
     },
 
+    toggleIsAllUsersOpen ({state, commit}) {
+      commit('setIsAllUsersOpen', !state.isAllUsersOpen)
+    },
+
+    toggleIsAllRegistrationsOpen ({state, commit}) {
+      commit('setIsAllRegistrationsOpen', !state.isAllRegistrationsOpen)
+    },
+
     toggleTimestampFormat ({state, commit}) {
       commit('setTimestampFormat', state.timestampFormat === 'long' ? 'short' : 'long')
     },
@@ -57,6 +65,7 @@ export default {
     usernamesWithReceivedRooms: state => state.allRegistrations
       .filter(reg => reg.receivedInsideSpot || reg.receivedOutsideSpot)
       .map(reg => reg.username),
+    registrationsWithSpots: state => state.allRegistrations.filter(reg => reg.receivedInsideSpot || reg.receivedOutsideSpot),
 
     isAllUsersOpen: state => state.isAllUsersOpen,
     highlightedUsername: state => state.highlightedUsername,

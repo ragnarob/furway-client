@@ -7,7 +7,6 @@
         <th>Username</th>
         <th>Ticket type</th>
         <th>Registration time</th>
-        <th v-if="isInAdminPanel">Action</th>
       </thead>
       <tr v-for="(reg, index) in waitingLists.inside" :key="reg.id">
         <td>{{index+1}}</td>

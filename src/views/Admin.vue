@@ -44,50 +44,10 @@
       <div>
         <h2 class="header-with-show-hide">
           Registrations with given spots
-          <ShowIcon v-if="!showRegistrationsWithSpots" @click="showRegistrationsWithSpots = true" class="show-hide-icon"/>
-          <HideIcon v-if="showRegistrationsWithSpots" @click="showRegistrationsWithSpots = false" class="show-hide-icon"/>
+          <ShowIcon v-if="!isRegistrationsWithSpotsOpen" @click="isRegistrationsWithSpotsOpen = true" class="show-hide-icon"/>
+          <HideIcon v-if="isRegistrationsWithSpotsOpen" @click="isRegistrationsWithSpotsOpen = false" class="show-hide-icon"/>
         </h2>
-        <table v-show="showRegistrationsWithSpots">
-          <tr>
-            <th>Username</th>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Room pref</th>
-            <th>Given room</th>
-            <th>Early/late</th>
-            <th>Merch</th>
-            <th>Money</th>
-            <th>Action</th>
-          </tr>
-          <tr v-for="reg in givenRegistrations" :key="reg.id" :class="{'highlighted-row-blue': reg.id === highlightedRegistrationId}">
-            <td>{{reg.username}}</td>
-            <td>{{reg.firstName}}</td>
-            <td>{{reg.lastName}}</td>
-            <td>{{formatRoomPreference(reg.roomPreference)}}</td>
-            <td>{{reg.receivedInsideSpot ? 'Inside' : 'Outside'}}</td>
-
-            <td>
-              <span class="flex-col">
-                <span v-if="reg.earlyArrival">Early ({{reg.isEarlyArrivalPaid ? 'paid' : 'unpaid'}})</span>
-                <span v-if="reg.lateDeparture">Late ({{reg.isLateDeparturePaid ? 'paid' : 'unpaid'}})</span>
-              </span>
-            </td>
-
-            <td>
-              <span class="flex-col">
-                <span v-if="reg.buyHoodie">Hoodie, {{reg.hoodieSize}} ({{reg.isHoodiePaid ? 'paid' : 'unpaid'}})</span>
-                <span v-if="reg.buyTshirt">T-shirt, {{reg.tshirtSize}} ({{reg.isTshirtPaid ? 'paid' : 'unpaid'}})</span>
-              </span>
-            </td>
-
-            <td>{{reg.paidAmount}} paid, {{reg.unpaidAmount}} unpaid</td>
-
-            <td>
-              <button @click="removeSpotFromRegistration(reg)">Remove spot</button>
-              <button @click="highlightRegistration(reg)">Show full reg</button>
-            </td>
-          </tr>
-        </table>
+        <RegistrationsWithSpots :isOpen="isRegistrationsWithSpotsOpen"/>
       </div>
 
       <!-- Waiting lists -->
@@ -105,8 +65,8 @@
       <div>
         <h2 class="header-with-show-hide">
           All Registrations
-          <ShowIcon v-if="!isAllRegistrationsOpen" @click="isAllRegistrationsOpen = true" class="show-hide-icon"/>
-          <HideIcon v-if="isAllRegistrationsOpen" @click="isAllRegistrationsOpen = false" class="show-hide-icon"/>
+          <ShowIcon v-if="!isAllRegistrationsOpen" @click="toggleIsAllRegistrationsOpen" class="show-hide-icon"/>
+          <HideIcon v-if="isAllRegistrationsOpen" @click="toggleIsAllRegistrationsOpen" class="show-hide-icon"/>
         </h2>
         <RegistrationList/>
       </div>
@@ -115,8 +75,8 @@
       <div>
         <h2 class="header-with-show-hide">
           All Users
-          <ShowIcon v-if="!isAllUsersOpen" @click="isAllUsersOpen = true" class="show-hide-icon"/>
-          <HideIcon v-if="isAllUsersOpen" @click="isAllUsersOpen = false" class="show-hide-icon"/>
+          <ShowIcon v-if="!isAllUsersOpen" @click="toggleIsAllUsersOpen" class="show-hide-icon"/>
+          <HideIcon v-if="isAllUsersOpen" @click="toggleIsAllUsersOpen" class="show-hide-icon"/>
         </h2>
         <UserList/>
       </div>
@@ -136,6 +96,7 @@ import RegistrationList from '../components/RegistrationList.vue'
 import WaitingLists from '../components/WaitingLists.vue'
 import AdminStats from '../components/AdminStats.vue'
 import PendingRegistrations from '../components/PendingRegistrations.vue'
+import RegistrationsWithSpots from '../components/RegistrationsWithSpots.vue'
 import ShowIcon from 'vue-material-design-icons/Eye.vue'
 import HideIcon from 'vue-material-design-icons/EyeOff.vue'
 import { mapGetters } from 'vuex'
@@ -144,7 +105,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'admin',
 
-  components: { UserList, RegistrationList, WaitingLists, AdminStats, PendingRegistrations, ShowIcon, HideIcon },
+  components: { UserList, RegistrationList, WaitingLists, AdminStats, PendingRegistrations, RegistrationsWithSpots, ShowIcon, HideIcon },
 
   data: function () {
     return {
@@ -154,10 +115,9 @@ export default {
       allUsers: [],
       waitingLists: {inside: [], outside: []},
       timestampFormat: 'short',
-      showRegistrationsWithSpots: false,
       showWaitingLists: false,
       showAdminStats: true,
-      usernamesWithReceivedRooms: [],
+      isRegistrationsWithSpotsOpen: false,
     }
   },
 
@@ -166,6 +126,9 @@ export default {
   },
 
   methods: {
+    toggleIsAllUsersOpen () { this.$store.dispatch('toggleIsAllUsersOpen') },
+    toggleIsAllRegistrationsOpen () { this.$store.dispatch('toggleIsAllRegistrationsOpen') },
+
     formatRoomPreference (roomPreference) {
       if (roomPreference === 'insideonly') { return 'Inside only' }
       else if (roomPreference === 'outsideonly') { return 'Outside only' }
@@ -177,59 +140,13 @@ export default {
       this.$store.dispatch('loadData')
     },
 
-    async removeSpotFromRegistration (reg) {
-      let result = await registrationApi.removeSpotFromRegistration(reg.userId)
-
-      if ('error' in result) {
-        this.errorMessage = result.error
-        this.scrollToErrorMessage()
-      }
-      else { 
-        this.$store.dispatch('loadData')
-      }
-    },
-
-    async highlightRegistration (reg) {
-      if (!this.isAllRegistrationsOpen) {
-        this.isAllRegistrationsOpen = true
-        await this.sleepMillisec(80)
-      }
-
-      this.$store.commit('setHighlightedRegistrationId', reg.id)
-    },
-
     toggleTimestampFormat () {
       this.$store.dispatch('toggleTimestampFormat')
-    },
-
-    formatTimestamp (timestamp) {
-      return this.timestampFormat === 'short' ? this.formatShortTimestamp(timestamp) : this.formatLongTimestamp(timestamp)
-    },
-
-    formatShortTimestamp (timestamp) {
-      return new Date(timestamp).toDateString().substr(4,6)
-    },
-
-    formatLongTimestamp (timestamp) {
-      let tsDate = new Date(timestamp)
-      return tsDate.toDateString().substr(4,6) + ', ' + tsDate.toTimeString().substr(0,8)
-    },
-
-    formatBdayTimestamp (timestamp) {
-      return new Date(timestamp).toDateString().substr(4,11)
-    },
-
-    scrollToErrorMessage () {
-      document.getElementById('adminErrorMessage').scrollIntoView()
     },
   },
 
   computed: {
     ...mapGetters(['isAllUsersOpen', 'isAllRegistrationsOpen']),
-
-    givenRegistrations () {
-      return this.allRegistrations.filter(reg => reg.receivedInsideSpot || reg.receivedOutsideSpot)
-    },
   }
 }
 </script>

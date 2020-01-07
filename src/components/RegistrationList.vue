@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%;" v-show="isOpen">
+  <div style="width: 100%;" v-show="isAllRegistrationsOpen">
 
     <div style="margin-bottom: 2px;">
       <input type="checkbox" v-model="shouldFilterList" st> Only show registrations with given spots
@@ -249,6 +249,7 @@
 import YesIcon from 'vue-material-design-icons/CheckCircle.vue'
 import NoIcon from 'vue-material-design-icons/Close.vue'
 import { mapGetters } from 'vuex'
+import { formatTimestamp, formatRoomPreference } from '../utils'
 
 export default {
   name: 'registrationList',
@@ -271,7 +272,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['allRegistrations', 'timestampFormat', 'highlightedRegistrationId']),
+    ...mapGetters(['allRegistrations', 'timestampFormat', 'highlightedRegistrationId', 'isAllRegistrationsOpen']),
 
     filteredRegistrations () {
       if (this.shouldFilterList) {
@@ -317,29 +318,8 @@ export default {
       this.registrationBeingEdited.paymentDeadline = null
     },
 
-    formatTimestamp (timestamp) {
-      if (this.timestampFormat === 'short') {
-        return this.formatShortTimestamp(timestamp)
-      }
-      else {
-        return this.formatLongTimestamp(timestamp)
-      }
-    },
-
-    formatShortTimestamp (timestamp) {
-      return new Date(timestamp).toDateString().substr(4,6)
-    },
-
-    formatLongTimestamp (timestamp) {
-      let tsDate = new Date(timestamp)
-      return tsDate.toDateString().substr(4,6) + ', ' + tsDate.toTimeString().substr(0,8)
-    },
-
-    formatRoomPreference (roomPreference) {
-      if (roomPreference === 'insideonly') { return 'Inside only' }
-      else if (roomPreference === 'outsideonly') { return 'Outside only' }
-      else { return 'Inside pref' }
-    }
+    formatTimestamp,
+    formatRoomPreference,
   },
 
   watch: {
