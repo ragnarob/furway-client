@@ -35,6 +35,7 @@ export default new Vuex.Store({
       let response = await miscApi.getConInfo()
 
       if ('error' in response) { return }
+
       context.commit('setConInfo', response)
     },
 

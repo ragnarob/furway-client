@@ -210,4 +210,24 @@ button {
 .success-message {
   background-color: rgb(50, 172, 45);
 }
+
+.icon-button {
+  span {
+    margin: 3px 0 5px 0;
+  }
+  border-radius: 30px;
+  font-size: 20px;
+  &:hover {
+    cursor: pointer;
+    background: rgba(0,0,0,0.1);
+  }
+}
+.icon-button-small {
+  margin-left: 8px;
+  margin-right: 0px;
+  font-size: 14px;
+  span {
+    margin: 1px -2px 3px -2px;
+  }
+}
 </style>

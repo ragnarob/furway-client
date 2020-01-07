@@ -8,4 +8,10 @@ export default {
 
     return response.data
   },
+
+  async updateConInfo (newConInfo) {
+    let response = await Axios.post(`${apiBase}/con-info`, {conIfno: newConInfo})
+
+    return response.data
+  }
 }

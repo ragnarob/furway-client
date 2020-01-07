@@ -2,9 +2,6 @@
   <div class="flex-col">
     <h1>Admin</h1>
 
-    <p class="error-message" id="adminErrorMessage" v-show="errorMessage">{{errorMessage}}</p>
-
-
     <div v-if="$store.state.isLoggedIn && $store.state.userData.isAdmin" style="max-width: 100%;">
       <p @click="toggleTimestampFormat" class="link-text">Toggle timestamp format</p>
 
@@ -80,6 +77,16 @@
         </h2>
         <UserList/>
       </div>
+
+      <!-- Con info -->
+      <div>
+        <h2 class="header-with-show-hide">
+          Con info manager
+          <ShowIcon v-if="!isConInfoManagerOpen" @click="isConInfoManagerOpen = true" class="show-hide-icon"/>
+          <HideIcon v-if="isConInfoManagerOpen" @click="isConInfoManagerOpen = false" class="show-hide-icon"/>
+        </h2>
+        <ConInfoManager :isOpen="isConInfoManagerOpen"/>
+      </div>
     </div>
 
     <div v-else>
@@ -91,33 +98,32 @@
 <script>
 import registrationApi from '../api/registration-api'
 import userApi from '../api/user-api'
+
 import UserList from '../components/UserList.vue'
 import RegistrationList from '../components/RegistrationList.vue'
 import WaitingLists from '../components/WaitingLists.vue'
 import AdminStats from '../components/AdminStats.vue'
 import PendingRegistrations from '../components/PendingRegistrations.vue'
 import RegistrationsWithSpots from '../components/RegistrationsWithSpots.vue'
+import ConInfoManager from '../components/ConInfoManager'
+
 import ShowIcon from 'vue-material-design-icons/Eye.vue'
 import HideIcon from 'vue-material-design-icons/EyeOff.vue'
+
 import { mapGetters } from 'vuex'
 
 
 export default {
   name: 'admin',
 
-  components: { UserList, RegistrationList, WaitingLists, AdminStats, PendingRegistrations, RegistrationsWithSpots, ShowIcon, HideIcon },
+  components: { UserList, RegistrationList, WaitingLists, AdminStats, PendingRegistrations, RegistrationsWithSpots, ConInfoManager, ShowIcon, HideIcon },
 
   data: function () {
     return {
-      errorMessage: '',
-      allRegistrations: [],
-      pendingRegistrations: [],
-      allUsers: [],
-      waitingLists: {inside: [], outside: []},
-      timestampFormat: 'short',
       showWaitingLists: false,
       showAdminStats: true,
       isRegistrationsWithSpotsOpen: false,
+      isConInfoManagerOpen: false,
     }
   },
 
