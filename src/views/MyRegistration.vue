@@ -1,7 +1,8 @@
 <template>
   <div class="flex-col">
     <h1>My Registration</h1>
-{{this.myRegistration}}
+
+    <!-- NOT APPROVED REGISTRATION -->
     <div v-if="registrationStatus == 'unapproved'" class="flex-col">
       <div style="border: 1px solid black; padding: 5px;">
         Your registration is not approved yet. You can only change ticket type, and doing so will not put you further back in the queue.
@@ -19,7 +20,38 @@
       <p style="color: red" v-show="errorMessage">Error: {{errorMessage}}</p>
     </div>
 
+    <!-- APPROVED REGISTRATION -->
     <div v-else-if="registrationStatus == 'approved'" class="flex-col">
+      <h3>Status</h3>
+      <div style="border: 1px solid black; padding: 5px;">
+        <p v-if="!myRegistration.receivedInsideSpot && !myRegistration.receivedOutsideSpot">
+          Your registration is approved, but you have not received a spot yet.
+          <span v-if="myRegistration.roomPreference === 'insideonly' || 'insidepreference'">
+            Your waiting list position for an <i>inside</i> room: {{myRegistration.waitingListPositions.inside}}
+          </span>
+          <br>
+          <span v-if="myRegistration.roomPreference === 'insideonly' || 'insidepreference'">
+            Your waiting list position for an <i>outside</i> room: {{myRegistration.waitingListPositions.outside}}
+          </span>
+        </p>
+
+        <p v-else-if="myRegistration.receivedOutsideSpot && myRegistration.roomPreference === 'insidepreference'">
+          Your registration is approved, and you have received a spot outside! <br/>
+          You are in the waiting list for a room inside, position number {{myRegistration.waitingListPositions.inside}}
+        </p>
+
+        <p v-else-if="myRegistration.receivedInsideSpot && myRegistration.roomPreference === 'insidepreference'">
+          Your registration is approved, and you have received a spot inside! <br/>
+          You will not receive a spot outside, because your ticket type is Inside Preference.
+        </p>
+
+        <p v-else>
+          Your registration is approved, and you have received a spot {{myRegistration.receivedInsideSpot ? 'inside' : 'outside'}}!
+        </p>
+      </div>
+
+      <ResponseMessage :message="responseMessage" :isError="isErrorMessage" @closeMessage="closeResponseMessage" v-if="responseMessage"/>
+
       <h3>Ticket type</h3>
       <p>Note: Bla bla endre fra x til y medfører bakerst i køen, med mindre det er fra inside-preference til en av de andre.</p>
       <span><input type="radio" v-model="newRegistration.roomPreference" value="insideonly"/> Inside only</span>
@@ -59,7 +91,62 @@
         Update registration
       </button>
 
-      <p style="color: red" v-show="errorMessage">Error: {{errorMessage}}</p>
+      <!-- PAYMENT -->
+      <h3>Payments</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Is paid</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tr>
+          <td>Main days paid</td>
+          <td>{{formatBoolean(myRegistration.isMainDaysInsidePaid)}}</td>
+          <td>{{conInfo.mainDaysPriceNok}}</td>
+        </tr>
+
+        <tr v-if="myRegistration.earlyArrival">
+          <td>Early arrival paid</td>
+          <td>{{formatBoolean(myRegistration.isEarlyArrivalPaid)}}</td>
+          <td>{{conInfo.earlyArrivalPriceNok}}</td>
+        </tr>
+
+        <tr v-if="myRegistration.lateDeparture">
+          <td>Late departure paid</td>
+          <td>{{formatBoolean(myRegistration.isLateDeparturePaid)}}</td>
+          <td>{{conInfo.lateDeparturePriceNok}}</td>
+        </tr>
+
+        <tr v-if="myRegistration.buyTshirt">
+          <td>T-shirt paid</td>
+          <td>{{formatBoolean(myRegistration.isTshirtPaid)}}</td>
+          <td>{{conInfo.tshirtPriceNok}}</td>
+        </tr>
+
+        <tr v-if="myRegistration.buyHoodie">
+          <td>Hoodie paid</td>
+          <td>{{formatBoolean(myRegistration.isHoodiePaid)}}</td>
+          <td>{{conInfo.hoodiePriceNok}}</td>
+        </tr>
+
+        <thead>
+          <tr>
+            <th colspan="3"></th>
+          </tr>
+        </thead>
+
+        <tr>
+          <td>Total paid amount</td>
+          <td colspan="2">{{myRegistration.paidAmount}}</td>
+        </tr>
+
+        <tr>
+          <td>Total amount to be paid</td>
+          <td colspan="2">{{myRegistration.unpaidAmount}}</td>
+        </tr>
+      </table>
     </div>
 
     <div v-else>
@@ -71,14 +158,21 @@
 
 <script>
 import registrationApi from '../api/registration-api'
+import ResponseMessage from '../components/ResponseMessage.vue'
 import { mapGetters } from 'vuex'
+import { formatBoolean } from '../utils'
 
 export default {
   name: 'myRegistration',
 
+  components: {
+    ResponseMessage
+  },
+
   data: function () {
     return {
-      errorMessage: '',
+      responseMessage: '',
+      isErrorMessage: true,
       newRegistration: null,
       sizes: ['S','M','L','XL','XXL'],
       isAddonsDeadlinePassed: false,
@@ -123,11 +217,13 @@ export default {
       let result = await registrationApi.updateRegistration(this.$store.state.userData.id, this.newRegistration)
 
       if (result.success) {
-        this.errorMessage = 'Update successful'
+        this.responseMessage = 'Update successful'
+        this.isErrorMessage = false
         this.getRegistration()
       }
       else {
-        this.errorMessage = result.error
+        this.responseMessage = result.error
+        this.isErrorMessage = true
       }
     },
 
@@ -136,9 +232,15 @@ export default {
       this.newRegistration = {...this.myRegistration}
     },
 
+    closeResponseMessage () {
+      this.responseMessage = ''
+    },
+
     async calculateDeadlines () {
       this.isAddonsDeadlinePassed = new Date() > new Date(this.conInfo.addonPaymentDeadline)
-    }
+    },
+
+    formatBoolean,
   },
 
   async mounted () {
@@ -150,3 +252,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+h3 {
+  margin-top: 20px;
+}
+</style>

@@ -7,7 +7,7 @@
       <router-link to="/my-profile">MyProfile</router-link> |
       <router-link to="/login">Login</router-link> |
       <router-link to="/signup">Create user</router-link> |
-      <router-link to="/register">Register</router-link> |
+      <router-link to="/register">Registration</router-link> |
       <router-link to="/my-registration">My Registration</router-link>
     </div>
   </div>
@@ -180,5 +180,34 @@ button {
     cursor: pointer;
     color: rgb(16, 172, 107);
   }
+}
+
+.error-message, .success-message {
+  display: flex; 
+  flex-direction: row;
+  padding: 12px 20px;
+  color: white;
+  margin: 10px auto;
+
+  p, span {
+    font-weight: 600;
+  }
+  
+  span {
+    margin-bottom: 3px;
+    margin-left: 8px;
+    margin-right: -4px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.error-message {
+  background-color: rgb(228, 94, 94);
+}
+.success-message {
+  background-color: rgb(50, 172, 45);
 }
 </style>

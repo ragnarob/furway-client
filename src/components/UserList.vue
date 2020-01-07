@@ -206,6 +206,7 @@
 import userApi from '../api/user-api'
 import YesIcon from 'vue-material-design-icons/CheckCircle.vue'
 import NoIcon from 'vue-material-design-icons/Close.vue'
+import ResponseMessage from './ResponseMessage.vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -214,6 +215,7 @@ export default {
   },
 
   components: {
+    ResponseMessage,
     YesIcon,
     NoIcon,
   },

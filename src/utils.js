@@ -18,6 +18,10 @@ const utils = module.exports = {
     else { return 'Inside preference' }
   },
 
+  formatBoolean (someBoolean) {
+    return someBoolean ? 'Yes' : 'No'
+  },
+
   sleepMillisec (ms) {
     return new Promise(resolve => setTimeout(resolve, ms))
   }

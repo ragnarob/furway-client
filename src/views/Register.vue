@@ -1,12 +1,12 @@
 <template>
   <div class="flex-col">
-    <h1>Register</h1>
+    <h1>Registration</h1>
 
     <p v-if="!$store.state.isLoggedIn">
-      Not logged in 
+      You must <router-link :to="'/login'">log in</router-link> or <router-link :to="'/signup'">create a user</router-link> to register for Furway.
     </p>
     <p v-else-if="$store.state.userData.registrationId != null">
-      You already have a registration
+      You already have a registration, see <router-link :to="'/my-registration'">my registration</router-link>.
     </p>
 
     <div v-else>
