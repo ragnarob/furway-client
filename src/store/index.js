@@ -80,5 +80,7 @@ export default new Vuex.Store({
   getters: {
     myRegistration: (state) => state.myRegistration,
     conInfo: (state) => state.conInfo,
+    isLoggedIn: state => state.isLoggedIn,
+    userData: state => state.userData,
   }
 })

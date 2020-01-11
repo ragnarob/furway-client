@@ -1,5 +1,6 @@
 <template>
-  <div :class="{'error-message': isError, 'success-message': !isError}">
+  <div :class="{'error-message': messageType==='error', 'success-message': messageType==='success', 'info-message': messageType==='info'}" 
+       v-show="message && message.length > 0">
     <p>{{message}}</p>
     <CloseIcon @click="closeMessage"/>
   </div>
@@ -15,7 +16,7 @@ export default {
 
   props: {
     message: String,
-    isError: Boolean,
+    messageType: String,
   },
 
   data: function () {

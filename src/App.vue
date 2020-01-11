@@ -1,20 +1,25 @@
 <template>
   <div id="app">
+    <Navigation/>
+    <NavigationHamburger/>
     <router-view/>
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/admin">Admin</router-link> |
-      <router-link to="/my-profile">MyProfile</router-link> |
-      <router-link to="/login">Login</router-link> |
-      <router-link to="/signup">Create user</router-link> |
-      <router-link to="/register">Registration</router-link> |
-      <router-link to="/my-registration">My Registration</router-link>
-    </div>
   </div>
 </template>
 
 <script>
+import Navigation from './components/Navigation.vue'
+import NavigationHamburger from './components/NavigationHamburger.vue'
+
 export default {
+  components: {
+    Navigation, NavigationHamburger,
+  },
+
+  data: function () {
+    return {
+    }
+  },
+
   mounted () {
     this.$store.dispatch('loadConInfo')
     this.$store.dispatch('refreshUserData')
@@ -30,7 +35,7 @@ body {
   color: #333;
 }
 
-body, div, td, th, table, span, p, button {
+body, div, td, th, table, span, p, button, textarea {
   font-family: 'Raleway', sans-serif;
   font-weight: 400;
 }
@@ -43,14 +48,19 @@ th {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  padding-bottom: 20px;
+  @media screen and (min-width: 849px) {
+    padding-top: 36px;
+  }
 }
 
-#nav {
-  padding: 30px;
-
+#nav, #navHamburgerInner {
   a {
     font-weight: bold;
     color: #2c3e50;
+    padding: 2px;
+    text-decoration: none;
+    width: 100%;
 
     &.router-link-exact-active {
       color: #42b983;
@@ -58,13 +68,21 @@ th {
   }
 }
 
-div, p, span, h1, h2, h3, h4 {
+.tiny-info {
+  font-size: 10px;
+  font-style: italic;
+}
+
+div, p, span, h1, h2, h3, h4, html, body {
   margin: 0;
   padding: 0;
 }
-h1, h2 {
+h1, h2, h3 {
   margin-top: 20px;
   margin-bottom: 4px;
+}
+.no-margin-top {
+  margin-top: 0px;
 }
 table {
   margin: 0 auto;
@@ -154,16 +172,30 @@ tr:hover {
     padding: 4px 8px;
   }
 }
+input, textarea, select {
+  padding: 3px 6px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  outline: none;
+
+  &:focus {
+    border-color: #42b983;
+  }
+
+  &.error-input {
+    border-color: rgb(218, 22, 22) !important;
+  }
+}
 
 button {
   font-size: 14px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   border: none;
   padding: 4px 8px;
   border-radius: 4px;
   background-color: #fff;
   color: black;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+
   &:hover {
     cursor: pointer;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -171,6 +203,30 @@ button {
       box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     }
   }
+}
+
+.big-button {
+  padding: 8px 14px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.theme-button {
+  background-color: #42b983;
+  color: white;
+}
+
+.disabled-button {
+  background-color: #bbb !important;
+  color: #444;
+  box-shadow: none;
+  &:hover {
+    cursor: not-allowed !important;
+  }
+}
+
+.required-input {
+  border-left-width: 8px;
 }
 
 .show-hide-icon {
@@ -204,11 +260,29 @@ button {
   }
 }
 
+.full-width-text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  max-width: 800px;
+
+  @media screen and (max-width: 849px) {
+    max-width: 90%;
+  }
+}
+
 .error-message {
   background-color: rgb(228, 94, 94);
 }
 .success-message {
   background-color: rgb(50, 172, 45);
+}
+.incorrect-field-error {
+  font-size: 12px;
+  margin-top: 2px;
+  font-style: italic;
+  color: rgb(218, 22, 22);
 }
 
 .icon-button {
