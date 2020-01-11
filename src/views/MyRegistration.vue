@@ -50,7 +50,7 @@
         </p>
       </div>
 
-      <ResponseMessage :message="responseMessage" :isError="isErrorMessage" @closeMessage="closeResponseMessage" v-if="responseMessage"/>
+      <ResponseMessage :message="responseMessage" :messageType="responseMessageType" @closeMessage="closeResponseMessage" v-if="responseMessage"/>
 
       <h3>Ticket type</h3>
       <p>Note: Bla bla endre fra x til y medfører bakerst i køen, med mindre det er fra inside-preference til en av de andre.</p>
@@ -172,7 +172,7 @@ export default {
   data: function () {
     return {
       responseMessage: '',
-      isErrorMessage: true,
+      responseMessageType: 'error',
       newRegistration: null,
       sizes: ['S','M','L','XL','XXL'],
       isAddonsDeadlinePassed: false,
@@ -218,12 +218,12 @@ export default {
 
       if (result.success) {
         this.responseMessage = 'Update successful'
-        this.isErrorMessage = false
+        this.responseMessageType = 'success'
         this.getRegistration()
       }
       else {
         this.responseMessage = result.error
-        this.isErrorMessage = true
+        this.responseMessageType = 'error'
       }
     },
 

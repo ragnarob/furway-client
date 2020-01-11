@@ -1,23 +1,37 @@
 <template>
-  <div>
+  <div class="flex-col">
     <h1>Login</h1>
 
+    <ResponseMessage :message="responseMessage" :messageType="responseMessageType" @closeMessage="closeResponseMessage"/>
+
+    <label style="margin-top: 10px;">Username or email</label>
     <input type="text" v-model="usernameOrEmail"/>
-    <input type="text" v-model="password"/>
-    <button @click="login">Log in</button>
-    <p style="color: red" v-show="loginErrorMessage">Error: {{loginErrorMessage}}</p>
+    <br/>
+
+    <label>Password</label>
+    <input type="password" v-model="password"/>
+    <br/>
+
+    <button @click="login" class="big-button theme-button">Log in</button>
   </div>
 </template>
 
 <script>
+import ResponseMessage from '../components/ResponseMessage.vue'
+
 export default {
   name: 'login',
+
+  components: {
+    ResponseMessage
+  },
 
   data: function () {
     return {
       usernameOrEmail: '',
       password: '',
-      loginErrorMessage: '',
+      responseMessage: '',
+      responseMessageType: 'error',
     }
   },
 
@@ -27,13 +41,20 @@ export default {
         {usernameOrEmail: this.usernameOrEmail, password: this.password})
 
       if (loginResult.success) {
+        this.responseMessage = 'Success'
+        this.responseMessageType = 'success'
         this.loginErrorMessage = 'logged in'
         this.$router.push('my-profile')
       }
       else {
-        this.loginErrorMessage = loginResult.error
+        this.responseMessage = loginResult.error
+        this.responseMessageType = 'error'
       }
-    }
+    },
+
+    closeResponseMessage () {
+      this.responseMessage = ''
+    },
   }
 }
 </script>
