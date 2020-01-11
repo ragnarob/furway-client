@@ -9,13 +9,32 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
 export default {
   name: 'home',
+
+  data: function () {
+    return {
+      originalNavTopLineBackground: ''
+    }
+  },
+
+  mounted () {
+    let navTopLine = document.getElementById('navTopLine')
+    this.originalNavTopLineBackground = navTopLine.style.background
+    navTopLine.style.background = 'transparent'
+
+    document.getElementById('furwayHeader').style.visibility = 'hidden'
+  },
+
+  beforeDestroy () {
+    document.getElementById('navTopLine').style.background = this.originalNavTopLineBackground
+
+    document.getElementById('furwayHeader').style.visibility = 'visible'
+  },
 }
 </script>
 
@@ -57,6 +76,9 @@ export default {
     p {
       font-size: 18px;
     }
-  }  
+  }
+}
+#navTopLine {
+  background: red !important;
 }
 </style>

@@ -16,8 +16,6 @@
       <button @click="updateRegistration" v-show="canSave">
         Update registration
       </button>
-
-      <p style="color: red" v-show="errorMessage">Error: {{errorMessage}}</p>
     </div>
 
     <!-- APPROVED REGISTRATION -->

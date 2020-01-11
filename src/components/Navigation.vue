@@ -77,5 +77,8 @@ html:not([data-scroll='0']) {
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     background: rgba(255,255,255,1) !important;
   }
+  #navHamburger {
+    background: rgba(255,255,255,1) !important;
+  }
 }
 </style>

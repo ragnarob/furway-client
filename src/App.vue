@@ -49,9 +49,9 @@ th {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   padding-bottom: 20px;
-  @media screen and (min-width: 849px) {
-    padding-top: 36px;
-  }
+  // @media screen and (min-width: 849px) {
+    padding-top: 44px;
+  // }
 }
 
 #nav, #navHamburgerInner {
@@ -80,6 +80,21 @@ div, p, span, h1, h2, h3, h4, html, body {
 h1, h2, h3 {
   margin-top: 20px;
   margin-bottom: 4px;
+}
+@media screen and (max-width: 850px) {
+  p {
+    font-size: 16px;
+    font-weight: 300;
+  }
+  h1 {
+    font-size: 30px;
+  }
+  h2 {
+    font-size: 24px;
+  }
+  h3 {
+    font-size: 18px;
+  }
 }
 .no-margin-top {
   margin-top: 0px;
@@ -203,6 +218,10 @@ button {
       box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     }
   }
+}
+
+.small-box-shadow {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
 .big-button {
