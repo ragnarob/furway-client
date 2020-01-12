@@ -58,7 +58,7 @@
         Other information
       </h3>
       <p>
-        Waiting lists and attendee lists are public, with only usernames being displayed.
+        Waiting lists and attendee lists are public, with only username and country being displayed.
         <br>
         Payments will not be refunded.
       </p>

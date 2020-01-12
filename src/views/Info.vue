@@ -1,6 +1,7 @@
 <template>
   <div class="full-width-text-container left-aligned-text">
     <h1>Information about Furway</h1>
+
     <p class="first-p">
       A Norwegian furry con!
     </p>
@@ -16,9 +17,10 @@
       For Information regarding tickets, pricing and registration, please go to the <router-link :to="'/register'">registration</router-link> page. 
     </p>
 
-    <h3>Where is Furway being held and how do I get there?</h3>
+    <h3 id="location">Where is Furway being held and how do I get there?</h3>
     <p class="first-p">
-      If you’re driving there its: Åstjerntunet, 2760 Brandbu (<a href="https://goo.gl/maps/n6rgg5nfWH3dyS3E6" target="_blank">Google Maps link</a>). There is a large parking lot available within walking distance from the venue, it should fit everyone
+      If you’re driving there, the address is: Åstjerntunet, 2760 Brandbu (<a href="https://goo.gl/maps/n6rgg5nfWH3dyS3E6" target="_blank">Google Maps link</a>). There is a large parking lot available within walking distance from the venue, which should fit everyone.
+    </p>
 
     <p>
       If you’re using public transportation the nearest train station is Bleiken, you can check <a href="https://www.vy.no/en" target="_blank">Vy.no</a> to plan your route. The nearest bus station is Brandbu skysstasjon, you can check <a href="https://ruter.no/en" target="_blank">Ruter.no</a> to plan your route. We’ll arrange for pick up, see below.
@@ -32,7 +34,7 @@
       The times mentioned are important for the people in need transport from a bus/train station and back, please plan accordingly. If you’re traveling from far away and can’t choose an alternative within our driver’s schedule, let us know and we’ll sort out something for you – you’ll find a field when you register.
     </p>
 
-    <h3>Sleeping and facilities</h3>
+    <h3 id="facilities">Sleeping and facilities</h3>
     <p class="first-p">
       <i>You must be 18 or older to stay the night. People under the age of 18 may only purchase day tickets and can not spend the night at the convention.</i>
     </p>
@@ -52,11 +54,11 @@
       Åstjern has fully equipped sanitary facilities, meaning several toilets and showers inside. These are in a common area. There's also electricity, so you'll be able to charge your electrical devices.
     </p>
 
-    <h3>Food and serving</h3>
+    <h3 id="food">Food and serving</h3>
     <p class="first-p">
       Åstjern has a professional kitchen, and the Furway staff will cook and serve several meals every day. The table below shows which meals are included with the various ticket types.
     </p>
-    <table style="margin: 10px 0; align-self: flex-start;">
+    <table class="very-wide-table" style="margin: 10px 0; align-self: flex-start;">
       <tr>
         <td class="th"></td>
         <td class="th">Thursday</td>
@@ -96,9 +98,22 @@
   </div>  
 </template>
 
+<script>
+export default {
+  methods: {
+    scrollTo (elementId) {
+      document.getElementById(elementId).scrollIntoView()
+    }
+  }
+}
+</script>
+
 <style lang="scss" scoped>
 p, h4 {
-  margin-top: 16px;
+  margin-top: 26px;
+}
+h3 {
+  margin-top: 50px;
 }
 .first-p {
   margin-top: 0px;
