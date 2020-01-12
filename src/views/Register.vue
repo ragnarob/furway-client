@@ -29,7 +29,7 @@
     </div>
 
 
-    <h2 v-if="$store.state.isLoggedIn">Create registration</h2>
+    <!-- <h2 v-if="$store.state.isLoggedIn">Create registration</h2>
     <p v-if="$store.state.isLoggedIn && $store.state.userData.registrationId != null">
       You already have a registration, see <router-link :to="'/my-registration'">my registration</router-link>.
     </p>
@@ -45,7 +45,7 @@
       <button @click="submitRegistration" class="big-button theme-button" style="margin-top: 10px;">Submit registration</button>
 
       <p style="color: red" v-show="errorMessage">Error: {{errorMessage}}</p>
-    </div>
+    </div> -->
   </div>
 </template>
 

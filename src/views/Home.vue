@@ -7,14 +7,26 @@
           <p>17. - 19. July</p>
           <p>(16. - 20. July with Early & Late)</p>
         </div>
+
+        <div id="twitterLink">
+          <a href="https://twitter.com/FurwayCon">
+            <TwitterIcon/>
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import TwitterIcon from 'vue-material-design-icons/TwitterCircle.vue'
+
 export default {
   name: 'home',
+
+  components: {
+    TwitterIcon
+  },
 
   data: function () {
     return {
@@ -54,6 +66,7 @@ export default {
 }
 #mainPictureInner {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -80,5 +93,18 @@ export default {
 }
 #navTopLine {
   background: red !important;
+}
+#twitterLink {
+  position: absolute;
+  bottom: 100px;
+  font-size: 60px;
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  @media screen and (max-width: 850px) {
+    bottom: 60px;
+    font-size: 50px;
+  }
 }
 </style>

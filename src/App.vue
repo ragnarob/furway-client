@@ -33,6 +33,10 @@ export default {
 body {
   // background-color: #222;
   color: #333;
+
+  ::selection {
+    background-color: #59f8b19d;
+  }
 }
 
 body, div, td, th, table, span, p, button, textarea {

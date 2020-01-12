@@ -20,7 +20,7 @@
       <router-link to="/info">INFORMATION</router-link>
       <router-link to="/register">REGISTRATION</router-link>
 
-      <router-link to="/login" v-if="!$store.getters.isLoggedIn">
+      <!-- <router-link to="/login" v-if="!$store.getters.isLoggedIn">
         LOG IN
       </router-link>
       <router-link to="/signup" v-if="!$store.getters.isLoggedIn">
@@ -38,7 +38,7 @@
       </router-link>
       <router-link to="/admin" v-if="$store.getters.isLoggedIn && $store.getters.userData.isAdmin">
         ADMIN
-      </router-link>
+      </router-link> -->
     </div>
   </div>
 </template>
@@ -110,7 +110,7 @@ export default {
   left: 0;
   height: 48px;
   width: 100%;
-  background: #23614596;
+  background: #236145c0;
   z-index: 2;
 
   display: flex;

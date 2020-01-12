@@ -5,7 +5,7 @@
     <router-link to="/info">INFORMATION</router-link>
     <router-link to="/register">REGISTRATION</router-link>
 
-    <router-link to="/login" v-if="!$store.getters.isLoggedIn">
+    <!-- <router-link to="/login" v-if="!$store.getters.isLoggedIn">
       LOG IN
     </router-link>
     <router-link to="/signup" v-if="!$store.getters.isLoggedIn">
@@ -13,8 +13,8 @@
     </router-link>
     <router-link to="/logout" v-if="$store.getters.isLoggedIn">
       LOG OUT
-    </router-link>
-
+    </router-link> 
+    
     <router-link to="/my-profile" v-if="$store.getters.isLoggedIn">
       MY PROFILE
     </router-link>
@@ -23,7 +23,7 @@
     </router-link>
     <router-link to="/admin" v-if="$store.getters.isLoggedIn && $store.getters.userData.isAdmin">
       ADMIN
-    </router-link>
+    </router-link> -->
   </header>
 </div>
 </template>
