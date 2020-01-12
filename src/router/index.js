@@ -9,6 +9,7 @@ import MyProfile from '../views/MyProfile.vue'
 import Register from '../views/Register.vue'
 import MyRegistration from '../views/MyRegistration.vue'
 import NotFound from '../views/NotFound.vue'
+import { logRoute } from '../utils'
 
 Vue.use(VueRouter)
 
@@ -16,12 +17,18 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home
+    component: Home,
+    meta: {
+      middleware: logRoute
+    }
   },
   {
     path: '/info',
     name: 'info',
-    component: Info
+    component: Info,
+    meta: {
+      middleware: logRoute
+    }
   },
   // {
   //   path: '/signup',
@@ -41,7 +48,10 @@ const routes = [
   {
     path: '/register',
     name: 'register',
-    component: Register
+    component: Register,
+    meta: {
+      middleware: logRoute
+    }
   },
   // {
   //   path: '/my-registration',
@@ -61,7 +71,10 @@ const routes = [
   {
     path: '*',
     name: 'notFound',
-    component: NotFound
+    component: NotFound,
+    meta: {
+      middleware: logRoute
+    }
   },
 ]
 
@@ -70,5 +83,42 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+function nextFactory(context, middleware, index) {
+  const subsequentMiddleware = middleware[index]
+  // If no subsequent Middleware exists,
+  // the default `next()` callback is returned.
+  if (!subsequentMiddleware) return context.next
+
+  return (...parameters) => {
+    // Run the default Vue Router `next()` callback first.
+    context.next(...parameters)
+    // Then run the subsequent Middleware with a new
+    // `nextMiddleware()` callback.
+    const nextMiddleware = nextFactory(context, middleware, index + 1)
+    subsequentMiddleware({ ...context, next: nextMiddleware })
+  };
+}
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.middleware) {
+    const middleware = Array.isArray(to.meta.middleware)
+      ? to.meta.middleware
+      : [to.meta.middleware]
+
+    const context = {
+      from,
+      next,
+      router,
+      to,
+    }
+    const nextMiddleware = nextFactory(context, middleware, 1)
+
+    return middleware[0]({ ...context, next: nextMiddleware })
+  }
+
+  return next()
+})
+
 
 export default router

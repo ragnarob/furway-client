@@ -1,3 +1,5 @@
+const MiscApi = require('./api/misc-api.js').default
+
 const utils = module.exports = {
   formatTimestamp (timestamp, timestampFormat) {
     return timestampFormat === 'short' ? utils.formatShortTimestamp(timestamp) : utils.formatLongTimestamp(timestamp)
@@ -24,5 +26,10 @@ const utils = module.exports = {
 
   sleepMillisec (ms) {
     return new Promise(resolve => setTimeout(resolve, ms))
-  }
+  },
+
+  logRoute({ next, to }) {
+    MiscApi.logRoute(to.name)
+    return next()
+  },
 }

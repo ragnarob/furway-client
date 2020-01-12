@@ -53,9 +53,11 @@ th {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   padding-bottom: 20px;
-  // @media screen and (min-width: 849px) {
-    padding-top: 44px;
-  // }
+  padding-top: 44px;
+}
+
+a {
+  color: #42b983;
 }
 
 #nav, #navHamburgerInner {
@@ -64,6 +66,7 @@ th {
     color: #2c3e50;
     text-decoration: none;
     width: 100%;
+    color: default;
 
     &.router-link-exact-active {
       color: #42b983;
@@ -118,7 +121,7 @@ td, th {
   border: 1px solid #e2e2e2;
   padding: 2px 4px;
 }
-th {
+th, .th {
   padding: 8px 10px;
   background-color: #e2e2e2;
   &:hover {

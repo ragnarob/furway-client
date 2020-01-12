@@ -9,17 +9,15 @@
       A user system with the possibilities to do this is coming soon!
     </p>
 
-    <p v-if="!isRegistrationOpen" class="registration-countdown">
+    <p v-if="!isRegistrationOpen && $store.getters.conInfo.registrationOpenDate" class="registration-countdown">
       Registration opens in {{timeUntilRegistrationString}}
     </p>
-    <p v-else class="registration-countdown">
+    <p v-else-if="isRegistrationOpen && $store.getters.conInfo.registrationOpenDate" class="registration-countdown">
       Registration is open! Apply below.
     </p>
 
     <div class="full-width-text-container left-aligned-text">
       <h3 class="no-margin-top">Registration information</h3>
-
-
       <p>
         This year the registration system is vastly different from earlier. There are three main “stages” to completing a registration:
       </p>
@@ -39,7 +37,7 @@
       </p>
 
       <p>
-        After your registration has been submitted, admins have to manually approve it. When approved, you will receive your registration number and have access to step 3.
+        After your registration has been submitted, admins have to manually approve it. When approved, you will have access to step 3.
       </p>
 
       <h4>
@@ -54,6 +52,15 @@
       </h4>      
       <p>
         Once you have received a spot either inside or outside you may purchase add-ons such as early arrival, late departure, and merch. You may also pay. Payment will most likely be available via Vipps for Norwegian attendees, or via credit card for anyone. There will be a final payment date, and if you have not paid within this date, you will lose your spot.
+      </p>
+
+      <h3 style="margin-top: 40px;">
+        Other information
+      </h3>
+      <p>
+        Waiting lists and attendee lists are public, with only usernames being displayed.
+        <br>
+        Payments will not be refunded.
       </p>
     </div>
 

@@ -13,5 +13,9 @@ export default {
     let response = await Axios.post(`${apiBase}/con-info`, {conIfno: newConInfo})
 
     return response.data
-  }
+  },
+
+  async logRoute (route) {
+    Axios.post(`${apiBase}/log-route`, {'route': route})
+  },
 }
