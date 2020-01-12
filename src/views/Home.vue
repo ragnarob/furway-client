@@ -6,6 +6,9 @@
           <h1>Furway 2020</h1>
           <p>17. - 19. July</p>
           <p>(16. - 20. July with Early & Late)</p>
+          <p v-if="!isRegistrationOpen" class="registration-countdown">
+            Registration opens in {{timeUntilRegistrationString}}
+          </p>
         </div>
 
         <div id="twitterLink">
@@ -34,6 +37,21 @@ export default {
     }
   },
 
+  computed: {
+    isRegistrationOpen () {
+      return  new Date() > new Date(this.$store.getters.conInfo.registrationOpenDate)
+    },
+
+    timeUntilRegistrationString () {
+      if (this.isRegistrationOpen) { return 0 }
+      let remainingSeconds = (new Date(this.$store.getters.conInfo.registrationOpenDate) - new Date ())/1000
+      let remainingDays = Math.floor(remainingSeconds/(86400))
+      let remainingHours = Math.floor((remainingSeconds-remainingDays*86400)/3600)
+      let remainingMinutes = Math.ceil((remainingSeconds-remainingDays*86400-remainingHours*3600)/60)
+      return `${remainingDays} days, ${remainingHours} hours, ${remainingMinutes} minutes`
+    },
+  },
+
   mounted () {
     let navTopLine = document.getElementById('navTopLine')
     this.originalNavTopLineBackground = navTopLine.style.background
@@ -57,7 +75,12 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  background-image: url('https://i.imgur.com/rMRebuW.jpg');
+  @media screen and (max-width: 849px) {
+    background-image: url('../assets/bg-small.jpg');
+  }
+  @media screen and (min-width: 850px) {
+    background-image: url('../assets/bg-big.jpg');
+  }
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -71,7 +94,7 @@ export default {
   justify-content: center;
   text-align: center;
   color: white;
-  background: rgba(93, 103, 107, 0.5);
+  background: rgba(93, 103, 107, 0.6);
   width: 100%;
   height: 100%;
   h1 {
@@ -79,15 +102,15 @@ export default {
   }
   p {
     font-weight: 400;
-    font-size: 20px;
-    margin: 20px;
+    font-size: 23px;
+    margin: 20px auto;
   }
   @media screen and (max-width: 850px) {
     h1 {
-      font-size: 50px;
+      font-size: 52px;
     }
     p {
-      font-size: 18px;
+      font-size: 20px;
     }
   }
 }

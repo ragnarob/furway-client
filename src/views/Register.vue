@@ -16,15 +16,44 @@
       Registration is open! Apply below.
     </p>
 
-    <div class="full-width-text-container">
+    <div class="full-width-text-container left-aligned-text">
       <h3 class="no-margin-top">Registration information</h3>
+
+
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lectus mauris ultrices eros in cursus turpis. Velit sed ullamcorper morbi tincidunt ornare massa eget egestas. Consectetur lorem donec massa sapien faucibus et molestie. Tempus urna et pharetra pharetra massa massa. Consectetur libero id faucibus nisl tincidunt eget nullam non. Eu augue ut lectus arcu. Neque laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt. Arcu non sodales neque sodales ut etiam sit. Mattis enim ut tellus elementum. Porttitor leo a diam sollicitudin tempor id eu nisl nunc. Diam sit amet nisl suscipit. Eleifend donec pretium vulputate sapien. Dictum fusce ut placerat orci. Diam volutpat commodo sed egestas. Varius morbi enim nunc faucibus a. Velit ut tortor pretium viverra suspendisse potenti nullam.
+        This year the registration system is vastly different from earlier. There are three main “stages” to completing a registration:
       </p>
 
-      <h3>Registration information 223</h3>
+      <h4>
+        1: Creating a user
+      </h4>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lectus mauris ultrices eros in cursus turpis. Velit sed ullamcorper morbi tincidunt ornare massa eget egestas. Consectetur lorem donec massa sapien faucibus et molestie. Tempus urna et pharetra pharetra massa massa. Consectetur libero id faucibus nisl tincidunt eget nullam non. Eu augue ut lectus arcu. Neque laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt. Arcu non sodales neque sodales ut etiam sit. Mattis enim ut tellus elementum. Porttitor leo a diam sollicitudin tempor id eu nisl nunc. Diam sit amet nisl suscipit. Eleifend donec pretium vulputate sapien. Dictum fusce ut placerat orci. Diam volutpat commodo sed egestas. Varius morbi enim nunc faucibus a. Velit ut tortor pretium viverra suspendisse potenti nullam.
+        This can be done at any time as soon as the user system is up and running.
+      </p>
+
+      <h4>
+        2: Registering
+      </h4>
+      <p>
+        This can be done as soon as registration opens - or even sooner for volunteers. When creating a registration, you will only submit your desired ticket type - inside only, outside only, or inside preference. Inside preference means that you will get an inside spot if one is available, otherwise an outside spot if that’s available. Note that if you have this ticket type and receive an inside spot, you can not choose to take an outside spot instead.
+      </p>
+
+      <p>
+        After your registration has been submitted, admins have to manually approve it. When approved, you will receive your registration number and have access to step 3.
+      </p>
+
+      <h4>
+        2.5: Waiting list
+      </h4>
+      <p>
+        If all spots of your desired types are full (inside, outside), you will be placed in a waiting list. The waiting lists are public, and can be viewed on this page as soon as registration opens.
+      </p>
+
+      <h4>
+        3: Adding add-ons and paying
+      </h4>      
+      <p>
+        Once you have received a spot either inside or outside you may purchase add-ons such as early arrival, late departure, and merch. You may also pay. Payment will most likely be available via Vipps for Norwegian attendees, or via credit card for anyone. There will be a final payment date, and if you have not paid within this date, you will lose your spot.
       </p>
     </div>
 
@@ -99,5 +128,14 @@ export default {
   font-size: 20px;
   font-weight: 600;
   margin: 20px;
+}
+</style>
+
+<style lang="scss" scoped>
+h4 {
+  margin-top: 16px;
+}
+h3 {
+  margin-top: 0px;
 }
 </style>

@@ -4,7 +4,7 @@
 
     <div id="navTopLine">
       <div id="furwayHeader" @click="goToMain">
-        !LOGO! Furway
+        <img src="../assets/logo.png" style="height: 40px"/> Furway
       </div>
       <div id="navHamburger" @click="toggleNavMenuIsOpen" :class="{'small-box-shadow': !isNavMenuOpen}">
         <MenuIcon :size="420" v-if="!isNavMenuOpen"/> <p v-show="!isNavMenuOpen">Menu</p>
@@ -108,9 +108,9 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  height: 48px;
+  height: 54px;
   width: 100%;
-  background: #236145c0;
+  background: #236145dc;
   z-index: 2;
 
   display: flex;
@@ -127,6 +127,13 @@ export default {
     font-weight: 600;
     font-size: 18px;
     color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    img {
+      margin-right: 8px;
+    }
   }
 }
 

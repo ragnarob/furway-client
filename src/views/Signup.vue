@@ -56,7 +56,7 @@
         <input type="text" v-model="addressLine1" class="required-input">
       </div>
       <div class="flex-col">
-        <label>Address line 2</span></label>
+        <label>Address line 2</label>
         <input type="text" v-model="addressLine2">
       </div>
     </div>

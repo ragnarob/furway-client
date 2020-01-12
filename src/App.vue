@@ -84,6 +84,9 @@ h1, h2, h3 {
   margin-top: 20px;
   margin-bottom: 4px;
 }
+h3 {
+  font-size: 22px;
+}
 @media screen and (max-width: 850px) {
   p {
     font-size: 16px;
@@ -94,9 +97,6 @@ h1, h2, h3 {
   }
   h2 {
     font-size: 24px;
-  }
-  h3 {
-    font-size: 18px;
   }
 }
 .no-margin-top {
@@ -292,6 +292,10 @@ button {
   @media screen and (max-width: 849px) {
     max-width: 90%;
   }
+
+  h3 {
+    margin-top: 30px;
+  }
 }
 
 .error-message {
@@ -324,6 +328,12 @@ button {
   font-size: 14px;
   span {
     margin: 1px -2px 3px -2px;
+  }
+}
+.left-aligned-text {
+  text-align: left;
+  h3, h4, p {
+    align-self: flex-start;
   }
 }
 </style>
