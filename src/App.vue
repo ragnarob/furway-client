@@ -58,7 +58,6 @@ th {
   a {
     font-weight: bold;
     color: #2c3e50;
-    padding: 2px;
     text-decoration: none;
     width: 100%;
 

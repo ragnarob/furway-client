@@ -58,6 +58,9 @@ export default new Vuex.Store({
       let response = await userApi.refreshUserData()
       context.commit('setUserData', response)
 
+      let isLoggedIn = response && response['user'] !== null
+      context.commit('setIsLoggedIn', isLoggedIn)
+
       context.dispatch('getMyRegistration')
     },
 

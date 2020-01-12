@@ -171,7 +171,7 @@ export default {
 
   a {
     margin: 4px auto;
-    padding: 6px;
+    padding: 6px 2px;
     &:hover {
       background: rgba(0,0,0,0.05);
     }
