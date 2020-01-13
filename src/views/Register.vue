@@ -24,7 +24,7 @@
     <div class="full-width-text-container left-aligned-text">
       <h3 class="no-margin-top">Registration information</h3>
       <p>
-        This year the registration system is vastly different from earlier. There are three main “stages” to completing a registration:
+        This year the registration system is vastly different from earlier. There are three main steps to completing a registration:
       </p>
 
       <h4>

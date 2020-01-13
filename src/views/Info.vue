@@ -1,5 +1,5 @@
 <template>
-  <div class="full-width-text-container left-aligned-text">
+  <div class="full-width-text-container">
     <h1>Information about Furway</h1>
 
     <p class="first-p">
@@ -32,7 +32,7 @@
     </p>
 
     <h3>Tickets and prices</h3>
-    <table class="padded-table left-align" style="align-self: flex-start; margin: 0;">
+    <table class="padded-table left-align very-wide-table" style="align-self: flex-start; margin: 0;">
       <tr>
         <th>Ticket type</th>
         <th>Inside spot (NOK)</th>

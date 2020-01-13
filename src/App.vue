@@ -330,6 +330,18 @@ button {
   h3 {
     margin-top: 30px;
   }
+  h3, h4 {
+    align-self: flex-start;
+  }
+
+  p {
+    text-align: justify;
+  }
+  @media screen and (max-width: 850px) {
+    p {
+      text-align: left;
+    }
+  }
 }
 
 .error-message {
