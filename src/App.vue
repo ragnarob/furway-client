@@ -23,12 +23,16 @@ export default {
   mounted () {
     this.$store.dispatch('loadConInfo')
     this.$store.dispatch('refreshUserData')
+
+    console.log(`Hi there - hope you find the website satisfactory.`)
+    console.log(`New features are still being developed.`)
+    console.log(`If you find any errors, @Malann_kitty (Twitter) love to hear about them!`)
   }
 }
 </script>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600|Raleway:300,400,600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Raleway:300,400,600&display=swap');
 
 body {
   // background-color: #222;
@@ -104,7 +108,7 @@ h3 {
   }
 }
 .no-margin-top {
-  margin-top: 0px;
+  margin-top: 0px !important;
 }
 table {
   margin: 0 auto;

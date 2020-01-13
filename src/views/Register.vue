@@ -56,11 +56,11 @@
         3: Adding add-ons and paying
       </h4>      
       <p>
-        Once you have received a spot either inside or outside you may purchase add-ons such as early arrival, late departure, and merch. At this point you may also pay for your ticket. Payment will most likely be available via Vipps for Norwegian attendees, or via credit card for anyone. There will be a final payment date, and if you have not paid within this date, you will lose your spot.
+        Once you have received a spot either inside or outside you may purchase add-ons such as early arrival, late departure, and merch. At this point you must also pay for your ticket. Payment will most likely be available via Vipps for Norwegian attendees, or via credit card for anyone. There will be a final payment date, and if you have not paid within this date, you will lose your spot.
       </p>
 
       <h3 style="margin-top: 40px;">Ticket types</h3>
-      <h4>Inside only</h4>
+      <h4 class="no-margin-top">Inside only</h4>
       <p>
         If you register in time to receive a spot immediately, you will be given an inside spot. Otherwise you will be put in the waiting list for inside spots.
       </p>
@@ -85,6 +85,9 @@
         Other information
       </h3>
       <p>
+        Some time before the con starts, but after registration, you'll be able to fill in your desired room sharing partners if you have received an inside spot.
+      </p>
+      <p style="margin-top: 26px;">
         Should you decide to change your ticket type <i>after</i> it has been approved, you will be put at the back of any waiting lists, if they exist. This rule does not apply for changing from <b>inside preference</b> to either of the other types - in that case, you will keep your spot or waiting list number for the ticket type you change to.
       </p>
       <p style="margin-top: 26px;">
