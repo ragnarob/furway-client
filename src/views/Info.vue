@@ -19,7 +19,9 @@
     </label>
 
     <p style="margin-top: 10px;">
-      This year, Furway will be held at a new venue: Åstjern! It consists of one main cabin, an annex and three smaller cabins. In the yard in the middle there’s a bonfire place. The lake Åstjernet is less than a five-minute walk from the cabins. We hope to see you there and that you’ll have a wonderful time!
+      This year, Furway will be held at a new venue: Åstjern hyttetun!
+      <br>
+      Åstjern consists of one main cabin, an annex and three smaller cabins. There’s also a bonfire place, of course! The lake Åstjernet is less than a 5-minute walk from the cabins.
     </p>
     <p>
       Registration opens March 1st.
