@@ -31,14 +31,14 @@
         1: Creating a user
       </h4>
       <p>
-        This can be done at any time as soon as the user system is up and running.
+        This can be done at any time as soon as the user system is up and running. To ensure the highest probability of receiving your desired spot, this should be done before the registration opens.
       </p>
 
       <h4>
         2: Registering
       </h4>
       <p>
-        This can be done as soon as registration opens - or even sooner for volunteers. When creating a registration, you will only submit your desired ticket type - inside only, outside only, or inside preference. Inside preference means that you will get an inside spot if one is available, otherwise an outside spot if that’s available. Note that if you have this ticket type and receive an inside spot, you can not choose to take an outside spot instead.
+        This can be done as soon as registration opens - or even sooner for volunteers. When creating a registration, you will only submit your desired ticket type - inside only, outside only, or inside preference. More information regarding the three room preferences of tickets can be found below.
       </p>
 
       <p>
@@ -49,21 +49,46 @@
         2.5: Waiting list
       </h4>
       <p>
-        If all spots of your desired types are full (inside, outside), you will be placed in a waiting list. The waiting lists are public, and can be viewed on this page as soon as registration opens.
+        If all spots of your desired types are full (inside, outside), you will be placed in a waiting list. You can view your own waiting list number if you're in a list.
       </p>
 
       <h4>
         3: Adding add-ons and paying
       </h4>      
       <p>
-        Once you have received a spot either inside or outside you may purchase add-ons such as early arrival, late departure, and merch. You may also pay. Payment will most likely be available via Vipps for Norwegian attendees, or via credit card for anyone. There will be a final payment date, and if you have not paid within this date, you will lose your spot.
+        Once you have received a spot either inside or outside you may purchase add-ons such as early arrival, late departure, and merch. At this point you may also pay for your ticket. Payment will most likely be available via Vipps for Norwegian attendees, or via credit card for anyone. There will be a final payment date, and if you have not paid within this date, you will lose your spot.
+      </p>
+
+      <h3 style="margin-top: 40px;">Ticket types</h3>
+      <h4>Inside only</h4>
+      <p>
+        If you register in time to receive a spot immediately, you will be given an inside spot. Otherwise you will be put in the waiting list for inside spots.
+      </p>
+      
+      <h4>Outside only</h4>
+      <p>
+        If you register in time to receive a spot immediately, you will be given an outside spot. Otherwise you will be put in the waiting list for outside spots.
+      </p>
+      
+      <h4>Inside preference</h4>
+      <p>
+        - You will be given an inside spot as soon as one is available. If there are available spots inside immediately, you will receive an inside spot.
+      </p>
+      <p class="small-margin-top">
+        - If there are only outside spots available, you will receive an outside spot, and will be put in the waiting list for inside spots. If an inside spot becomes available, you will automatically be given this spot instead.
+      </p>
+      <p class="small-margin-top">
+        - If there are no spots available, you will be put in <b>two</b> waiting lists: both for inside spots and outside spots. If an outside spot becomes available first, you will be given this spot, and remain in the waiting list for inside spots. If at any point an inside spot becomes available, you will be given this spot.
       </p>
 
       <h3 style="margin-top: 40px;">
         Other information
       </h3>
       <p>
-        Attendee lists are public, with only username and country being displayed. Waiting lists are not public, but you can see your own waiting list number if you're in a waiting list.
+        Should you decide to change your ticket type <i>after</i> it has been approved, you will be put at the back of any waiting lists, if they exist. This rule does not apply for changing from <b>inside preference</b> to either of the other types - in that case, you will keep your spot or waiting list number for the ticket type you change to.
+      </p>
+      <p style="margin-top: 26px;">
+        Attendee lists are public, with only username and country being displayed.
         <br>
         Payments will not be refunded.
       </p>
@@ -149,5 +174,8 @@ h4 {
 }
 h3 {
   margin-top: 0px;
+}
+.small-margin-top {
+  margin-top: 14px;
 }
 </style>
