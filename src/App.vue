@@ -336,6 +336,7 @@ button {
 
   p {
     text-align: justify;
+    align-self: flex-start;
   }
   @media screen and (max-width: 850px) {
     p {
