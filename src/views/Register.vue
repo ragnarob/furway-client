@@ -9,9 +9,15 @@
       A user system with the possibilities to do this is coming soon!
     </p>
 
-    <p v-if="!isRegistrationOpen && $store.getters.conInfo.registrationOpenDate" class="registration-countdown">
-      Registration opens in {{timeUntilRegistrationString}}
-    </p>
+    <div v-if="!isRegistrationOpen" class="registration-countdown">
+      <p v-if="!isRegistrationOpen && $store.getters.conInfo.registrationOpenDate">
+        Registration opens in {{timeUntilRegistrationString}}
+      </p>
+      <p v-if="!isRegistrationOpen">
+        March 1st, 20:00 CET
+      </p>
+    </div>
+
     <p v-else-if="isRegistrationOpen && $store.getters.conInfo.registrationOpenDate" class="registration-countdown">
       Registration is open! Apply below.
     </p>
@@ -165,8 +171,10 @@ export default {
 
 <style lang="scss">
 .registration-countdown {
-  font-size: 20px;
-  font-weight: 600;
+  p:first-child {
+    font-size: 20px;
+    font-weight: 600;
+  }
   margin: 20px;
 }
 </style>

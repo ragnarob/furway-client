@@ -24,7 +24,7 @@
       Åstjern consists of one main cabin, an annex and three smaller cabins. There’s also a bonfire place, of course! The lake Åstjernet is less than a 5-minute walk from the cabins.
     </p>
     <p>
-      Registration opens March 1st, and pre-registration for volunteers opens Feb 16th. For more information regarding the registration process, see the <router-link :to="'/register'">Registration</router-link> page. Information about tickets and prices can be found below.
+      Registration opens March 1st 20:00 CET, and pre-registration for volunteers opens Feb 16th 20:00 CET. For more information regarding the registration process, see the <router-link :to="'/register'">Registration</router-link> page. Information about tickets and prices can be found below.
     </p>
 
     <p>
