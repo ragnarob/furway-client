@@ -97,6 +97,7 @@ h3 {
   }
   h1 {
     font-size: 30px;
+    text-align: center;
   }
   h2 {
     font-size: 24px;
@@ -131,12 +132,42 @@ th, .th {
 tr:hover {
   background-color: rgba(0,0,0,0.07);
 }
+.centered-td {
+  text-align: center;
+}
+.padded-table {
+  td {
+    padding: 6px 8px;
+  }
+}
 .long-text-cell {
   max-width: 160px;
   white-space: pre-wrap;
 }
 
-
+.left-align {
+  align-self: flex-start;
+  margin-left: 0px;
+}
+.in-text-image {
+  max-width: 320px;
+  @media screen and (max-width: 849px) {
+    max-width: 60%;
+  }
+  margin: 0px auto;
+}
+.in-text-image-smaller {
+  max-width: 280px;
+  @media screen and (max-width: 849px) {
+    max-width: 50%;
+  }
+  margin: 0px auto;
+}
+.artwork-credit {
+  margin-top: 2px;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
 
 .flex-col {
   display: flex;
@@ -338,5 +369,8 @@ button {
   h3, h4, p {
     align-self: flex-start;
   }
+}
+.left-pad-16 {
+  padding-left: 16px !important;
 }
 </style>

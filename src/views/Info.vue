@@ -3,12 +3,22 @@
     <h1>Information about Furway</h1>
 
     <p class="first-p">
-      A Norwegian furry con!
+      Furway is a Norwegian furry convention held outdoors. Some would say it’s a camping con, but with indoor sleeping capacity and modern toilets and showers, it’s more of a hybrid type of experience.
     </p>
     <p>
-      17. - 19. July (16. - 20. July with Early and Late)
+      Whether you love camping and hiking, or if you just want to experience just the right amount of wilderness alongside furry convention culture, Furway might be something to try out!
+
     </p>
     <p>
+      The date for Furway 2020 is July 17th to July 19th. (16th to 20th with Early and Late tickets)
+    </p>
+
+    <img src="../assets/capri2.png" class="in-text-image"/>
+    <label class="artwork-credit">
+      Artwork by <a href="https://twitter.com/ArtWah">ArtWah</a>
+    </label>
+
+    <p style="margin-top: 10px;">
       This year, Furway will be held at a new venue: Åstjern! It consists of one main cabin, an annex and three smaller cabins. In the yard in the middle there’s a bonfire place. The lake Åstjernet is less than a five-minute walk from the cabins. We hope to see you there and that you’ll have a wonderful time!
     </p>
     <p>
@@ -17,7 +27,84 @@
       For Information regarding tickets, pricing and registration, please go to the <router-link :to="'/register'">registration</router-link> page. 
     </p>
 
-    <h3 id="location">Where is Furway being held and how do I get there?</h3>
+    <p>
+      <b>In order to register for Furway, you have to create an account on the website. You can do this as soon as the user account system is up and running, which will be before the registration itself opens!</b>
+    </p>
+
+    <h3>Tickets and prices</h3>
+    <table class="padded-table left-align" style="align-self: flex-start; margin: 0;">
+      <tr>
+        <th>Ticket type</th>
+        <th>Inside spot (NOK)</th>
+        <th>Outside spot (NOK)</th>
+      </tr>
+      <tr>
+        <td>Standard ticket (3 days)</td>
+        <td class="centered-td">{{conInfo.mainDaysInsidePriceNok}}</td>
+        <td class="centered-td">{{conInfo.mainDaysOutsidePriceNok}}</td>
+      </tr>
+      <tr>
+        <td class="left-pad-16"> + Early (4 days total)</td>
+        <td class="centered-td">{{conInfo.mainDaysInsidePriceNok + conInfo.earlyArrivalPriceNok}}</td>
+        <td class="centered-td">{{conInfo.mainDaysOutsidePriceNok + conInfo.earlyArrivalPriceNok}}</td>
+      </tr>
+      <tr>
+        <td class="left-pad-16"> + Late (4 days total)</td>
+        <td class="centered-td">{{conInfo.mainDaysInsidePriceNok + conInfo.lateDeparturePriceNok}}</td>
+        <td class="centered-td">{{conInfo.mainDaysOutsidePriceNok + conInfo.lateDeparturePriceNok}}</td>
+      </tr>
+      <tr>
+        <td class="left-pad-16"> + Early & Late (5 days total)</td>
+        <td class="centered-td">{{conInfo.mainDaysInsidePriceNok + conInfo.earlyArrivalPriceNok + conInfo.lateDeparturePriceNok}}</td>
+        <td class="centered-td">{{conInfo.mainDaysOutsidePriceNok + conInfo.earlyArrivalPriceNok + conInfo.lateDeparturePriceNok}}</td>
+      </tr>
+      <tr>
+        <td>Single-day ticket</td>
+        <td colspan="2" class="centered-td">{{conInfo.singeDayTicketPriceNok}}</td>
+      </tr>
+    </table>
+
+    <h4>Standard ticket</h4>
+    <p class="first-p">
+       A three-day stay at the convention, including a place to sleep for two nights (whether inside or outside), as well as two breakfasts, two lunches and two dinners (see the section on food and servings for more on this).
+    </p>
+
+    <h4>Early ticket</h4>
+    <p class="first-p">
+      Arrival on Thursday the 16th (one day before the main days) and a place to sleep for that night, as well as one additional breakfast, lunch and dinner.
+    </p>
+
+    <h4>Late ticket</h4>
+    <p class="first-p">
+      Departure on Monday 20th (one day after the main days) and a place to sleep, as well as one additional breakfast and dinner. (Again, see the section on food and serving if this sounds confusing.)
+    </p>
+
+    <h4>Single day ticket</h4>
+    <p class="first-p">
+      Includes single-day participation in convention activities, as well as transport to and from the train/bus station by the Furway transporters. Single-day tickets do not include any food, but you’re free to bring your own.
+    </p>
+
+    <h3 id="facilities">Sleeping arrangements</h3>
+    <p class="first-p">
+      <i>You must be 18 or older to stay the night. People under the age of 18 may only purchase day tickets and can not spend the night at the convention.</i>
+    </p>
+
+    <h4>Inside</h4>
+    <p class="first-p">
+      Åstjern has 50 beds inside divided across various room sizes. It’s possible to rent bedding (duvet, pillow, sheets) for 150NOK, but it’s also possible to bring this yourself, to save money.
+    </p>
+
+    <h4>Outside</h4>
+    <p class="first-p">
+      We have capacity for 30 people sleeping outside in tents. (You may sleep in your car, but an Outside ticket is still required due to usage of the various facilities, electricity, etc.)  <b>You need to bring your own tent.</b>
+    </p>
+
+    <h4>Facilities</h4>
+    <p class="first-p">
+      Åstjern has fully equipped sanitary facilities, meaning several toilets and showers inside. These are in a common area. There's also electricity, so you'll be able to charge your electrical devices.
+    </p>
+
+    <h3>Where is Furway being held and how do I get there?</h3>
     <p class="first-p">
       If you’re driving there, the address is: Åstjerntunet, 2760 Brandbu (<a href="https://goo.gl/maps/n6rgg5nfWH3dyS3E6" target="_blank">Google Maps link</a>). There is a large parking lot available within walking distance from the venue, which should fit everyone.
     </p>
@@ -32,26 +119,6 @@
 
     <p>
       The times mentioned are important for the people in need transport from a bus/train station and back, please plan accordingly. If you’re traveling from far away and can’t choose an alternative within our driver’s schedule, let us know and we’ll sort out something for you – you’ll find a field when you register.
-    </p>
-
-    <h3 id="facilities">Sleeping and facilities</h3>
-    <p class="first-p">
-      <i>You must be 18 or older to stay the night. People under the age of 18 may only purchase day tickets and can not spend the night at the convention.</i>
-    </p>
-
-    <h4>Inside</h4>
-    <p class="first-p">
-      Åstjern has 50 beds inside divided across various room sizes. It’s possible to rent bedding (duvet, pillow, sheets) for 150NOK, but it’s also possible to bring this yourself, to save money.
-    </p>
-
-    <h4>Outside</h4>
-    <p class="first-p">
-      We have capacity for 30 people sleeping outside in tents. (You may sleep in your car, but an Outside ticket is still required due to usage of the various facilities, electricity, etc.)  You need to bring your own tent.
-    </p>
-
-    <h4>Facilities</h4>
-    <p class="first-p">
-      Åstjern has fully equipped sanitary facilities, meaning several toilets and showers inside. These are in a common area. There's also electricity, so you'll be able to charge your electrical devices.
     </p>
 
     <h3 id="food">Food and serving</h3>
@@ -95,11 +162,19 @@
     <p class="first-p">
       Furway caters to specific dietary needs. You’ll find a field for entering this information when creating your user profile.
     </p>
+
+    <p>We recommend that you do all personal shopping beforehand, as there aren’t any stores within walking distance from the venue. Our drivers will do some trips to stores to buy essentials, but we can’t guarantee that you get a slot on one of these rides.</p>
   </div>  
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
+  computed: {
+    ...mapGetters(['conInfo'])
+  },
+
   methods: {
     scrollTo (elementId) {
       document.getElementById(elementId).scrollIntoView()
@@ -109,8 +184,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-p, h4 {
+p {
   margin-top: 26px;
+}
+h4 {
+  margin-top: 20px;
 }
 h3 {
   margin-top: 50px;

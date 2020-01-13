@@ -16,6 +16,11 @@
       Registration is open! Apply below.
     </p>
 
+    <img src="../assets/capri1.png" class="in-text-image-smaller"/>
+    <label class="artwork-credit">
+      Artwork by <a href="https://orbz41.wixsite.com/catbean">Jadepusen</a>
+    </label>
+
     <div class="full-width-text-container left-aligned-text">
       <h3 class="no-margin-top">Registration information</h3>
       <p>
@@ -58,7 +63,7 @@
         Other information
       </h3>
       <p>
-        Waiting lists and attendee lists are public, with only username and country being displayed.
+        Attendee lists are public, with only username and country being displayed. Waiting lists are not public, but you can see your own waiting list number if you're in a waiting list.
         <br>
         Payments will not be refunded.
       </p>
