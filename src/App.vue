@@ -110,6 +110,10 @@ h3 {
 .no-margin-top {
   margin-top: 0px !important;
 }
+.no-margin {
+  margin: 0px !important;
+}
+
 table {
   margin: 0 auto;
   width: fit-content;
