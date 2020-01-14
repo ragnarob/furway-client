@@ -19,7 +19,8 @@ const routes = [
     name: 'home',
     component: Home,
     meta: {
-      middleware: logRoute
+      middleware: logRoute,
+      title: 'Home'
     }
   },
   {
@@ -27,7 +28,8 @@ const routes = [
     name: 'info',
     component: Info,
     meta: {
-      middleware: logRoute
+      middleware: logRoute,
+      title: 'Information'
     }
   },
   // {
@@ -50,13 +52,14 @@ const routes = [
     name: 'register',
     component: Register,
     meta: {
-      middleware: logRoute
+      middleware: logRoute,
+      title: 'Registration'
     }
   },
   // {
   //   path: '/my-registration',
   //   name: 'myRegistration',
-  //   component: MyRegistration
+  //   component: MyRegistration,
   // },
   // {
   //   path: '/admin',
@@ -73,7 +76,8 @@ const routes = [
     name: 'notFound',
     component: NotFound,
     meta: {
-      middleware: logRoute
+      middleware: logRoute,
+      title: 'Not found'
     }
   },
 ]
@@ -104,6 +108,8 @@ function nextFactory(context, middleware, index) {
 }
 
 router.beforeEach((to, from, next) => {
+  document.title = to.meta.title ? `Furway - ${to.meta.title}` : 'Furway 2020'
+
   if (to.meta.middleware) {
     const middleware = Array.isArray(to.meta.middleware)
       ? to.meta.middleware

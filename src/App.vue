@@ -336,6 +336,7 @@ button {
   }
   h3, h4 {
     align-self: flex-start;
+    text-align: left;
   }
 
   p {

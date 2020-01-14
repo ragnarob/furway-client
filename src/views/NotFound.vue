@@ -5,7 +5,7 @@
   </p>
   <br>
   <router-link :to="'/'">
-    Back to main page
+    To main page
   </router-link>
 </div>
 
