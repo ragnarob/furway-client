@@ -61,19 +61,20 @@ th {
 }
 
 a {
-  color: #42b983;
+  color: #35b886;
 }
 
 #nav, #navHamburgerInner {
-  a {
+  a, p {
     font-weight: bold;
     color: #2c3e50;
     text-decoration: none;
     width: 100%;
     color: default;
+    display: inline;
 
     &.router-link-exact-active {
-      color: #42b983;
+      color: #35b886;
     }
   }
 }
@@ -112,6 +113,9 @@ h3 {
 }
 .no-margin {
   margin: 0px !important;
+}
+.margin-top-10 {
+  margin-top: 10px;
 }
 
 table {
@@ -196,6 +200,19 @@ tr:hover {
   }
 }
 
+.wide-table-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.scrolling-table {
+  width: fit-content;
+  border-collapse: collapse;
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
 .very-wide-table {
   width: 100%;
 
@@ -235,11 +252,12 @@ tr:hover {
 input, textarea, select {
   padding: 3px 6px;
   border-radius: 3px;
-  border: 1px solid #ccc;
+  border: 1px solid #aaa;
   outline: none;
+  box-sizing: border-box;
 
   &:focus {
-    border-color: #42b983;
+    border-color: #35b886;
   }
 
   &.error-input {
@@ -276,8 +294,13 @@ button {
 }
 
 .theme-button {
-  background-color: #42b983;
+  background-color: #35b886;
   color: white;
+}
+
+.neutral-button {
+  // background-color: #d1d1d1;
+  color: #35b886;
 }
 
 .disabled-button {
@@ -290,7 +313,7 @@ button {
 }
 
 .required-input {
-  border-left-width: 8px;
+  border-left-width: 7px;
 }
 
 .show-hide-icon {

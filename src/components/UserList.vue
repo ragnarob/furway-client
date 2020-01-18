@@ -25,7 +25,7 @@
         <th>Allergies</th>
         <th>Addr. 1</th>
         <th>Addr. 2</th>
-        <th>City</th>
+        <th>Zip code and area</th>
         <th>State</th>
         <th>Country</th>
         <th>Additional info</th>
