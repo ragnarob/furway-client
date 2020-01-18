@@ -2,7 +2,7 @@
   <div :class="{'error-message': messageType==='error', 'success-message': messageType==='success', 'info-message': messageType==='info'}" 
        v-show="message && message.length > 0">
     <p>{{message}}</p>
-    <CloseIcon @click="closeMessage"/>
+    <CloseIcon @click="closeMessage" title="Close"/>
   </div>
 </template>
 

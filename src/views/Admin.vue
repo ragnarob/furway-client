@@ -168,6 +168,8 @@ export default {
   font-size: 14px;
 }
 .header-with-show-hide {
-  padding-left: 16px;
+  @media screen and (min-width: 849px) {
+    padding-left: 16px;
+  }
 }
 </style>

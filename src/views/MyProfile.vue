@@ -11,6 +11,8 @@
         <LogoutIcon/> Log out
       </button>
 
+      <ResponseMessage :message="responseMessage" :messageType="messageType" @closeMessage="closeResponseMessage" v-if="responseMessage"/>
+
       <div style="margin-top: 20px; margin-bottom: 10px;">
         <button @click="startEditing" v-show="!isEditingProfile" class="big-button neutral-button">
           <EditIcon/> Edit profile
@@ -18,7 +20,7 @@
         <button @click="cancelEditing" v-show="isEditingProfile" class="big-button neutral-button">
           <CancelIcon/> Cancel editing
         </button>
-        <button @click="confirmEditing" v-show="isEditingProfile" style="margin-left: 10px;" class="big-button theme-button">
+        <button @click="confirmEditing" v-show="isEditingProfile" style="margin-left: 10px;" :class="{'big-button': true, 'theme-button': canSave, 'disabled-button': !canSave}">
           <SaveIcon/> Save changes
         </button>
       </div>
@@ -70,7 +72,7 @@
           <tr>
             <td><p>Date of birth</p></td>
             <td>
-              <p v-if="!isEditingProfile">{{userData.dateOfBirth.toDateString().substr(4)}}</p>
+              <p v-if="!isEditingProfile">{{formatBirthday(userData.dateOfBirth)}}</p>
               <input v-else type="date" v-model="editedUser.dateOfBirth"/>
             </td>
           </tr>
@@ -160,6 +162,37 @@
           </tr>
 
           <tr>
+            <td><p>Need pickup?</p></td>
+            <td>
+              <p v-if="!isEditingProfile">
+                {{pickupTypeToString(userData.pickupType)}}
+              </p>
+              <div v-else class="flex-col left-aligned-content">
+                <div>
+                  <input type="radio" v-model="editedUser.pickupType" :value="'bus'" id="pickupTypeBus"/>
+                  <label for="pickupTypeBus">From the bus station</label>
+                </div>
+                <div>
+                  <input type="radio" v-model="editedUser.pickupType" :value="'train'" id="pickupTypeTrain"/>
+                  <label for="pickupTypeTrain">From the train station</label>
+                </div>
+                <div>
+                  <input type="radio" v-model="editedUser.pickupType" :value="null" id="pickupTypeNo"/>
+                  <label for="pickupTypeNo">No</label>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr v-if="(userData.pickupType !== null && !isEditingProfile) || (editedUser.pickupType !== null && isEditingProfile)">
+            <td><p>Pickup time</p></td>
+            <td>
+              <p v-if="!isEditingProfile">{{formatDateTime(userData.pickupTime)}}</p>
+              <input v-else type="datetime-local" v-model="editedUser.pickupTime">
+            </td>
+          </tr>
+          
+          <tr>
             <td><p>Additional info</p></td>
             <td>
               <p v-if="!isEditingProfile">{{userData.additionalInfo}}</p>
@@ -185,6 +218,7 @@
 
 <script>
 import userApi from '../api/user-api'
+import ResponseMessage from '../components/ResponseMessage.vue'
 
 import { mapGetters } from 'vuex'
 
@@ -199,24 +233,39 @@ export default {
   name: 'myProfile',
 
   components: {
+    ResponseMessage,
     YesIcon, NoIcon, EditIcon, SaveIcon, CancelIcon, LogoutIcon,
   },
 
   computed: {
     ...mapGetters(['userData']),
+
+    canSave () {
+      return Object.keys(this.editedUser).some(key => {
+        return key !== 'dateOfBirth' &&
+        this.userData[key] !== this.editedUser[key]
+      }) || this.editedUser.dateOfBirth != this.userData.dateOfBirth.toISOString().substr(0,10)
+    },
   },
 
   data: function () {
     return {
       isEditingProfile: false,
       editedUser: {},
+      responseMessage: '',
+      messageType: 'info',
     }
   },
 
   methods: {
     startEditing () {
       this.editedUser = {...this.userData}
-      this.editedUser.dateOfBirth = this.userData.dateOfBirth.toISOString().substr(0,10)
+      if (this.editedUser.dateOfBirth !== null) {
+        this.editedUser.dateOfBirth = this.userData.dateOfBirth.toLocalISOString().substring(0,10)
+      }
+      if (this.editedUser.pickupTime !== null) {
+        this.editedUser.pickupTime = this.userData.pickupTime.toLocalISOString()
+      }
       this.isEditingProfile = true
     },
 
@@ -225,14 +274,46 @@ export default {
       this.editedUser = {}
     },
 
-    confirmEditing () {
-      alert('ok sure')
+    async confirmEditing () {
+      this.messageType = 'info'
+      this.responseMessage = 'Saving, please wait...'
+      let result = await userApi.saveEditedUser(this.userData['id'], this.editedUser)
+
+      if ('error' in result) {
+        this.messageType = 'error'
+        this.responseMessage = result.error
+      }
+      else {
+        this.messageType = 'success'
+        this.responseMessage = 'Successfully updated user data'
+        this.$store.commit('setUserData', this.editedUser)
+        this.cancelEditing()
+        this.$store.dispatch('refreshUserData')
+      }
     },
 
     logout () {
       this.$router.push('/')
       this.$store.dispatch('logout')
       userApi.logout()
+    },
+
+    formatDateTime (dateTime) {
+      return dateTime===null ? '' : dateTime.toDateString() + ', ' + dateTime.toTimeString().substring(0,5)
+    },
+
+    formatBirthday (date) {
+      return date.toDateString().substr(4)
+    },
+
+    pickupTypeToString (pickupType) {
+      if (pickupType === 'bus') { return 'From bus station' }
+      else if (pickupType === 'train') { return 'From train station' }
+      else { return 'No' }
+    },
+
+    closeResponseMessage () {
+      this.responseMessage = ''
     }
   }
 }

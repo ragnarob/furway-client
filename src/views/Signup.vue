@@ -2,108 +2,150 @@
   <div class="flex-col">
     <h1>Create user</h1>
 
+    <p>Fields with a thick left border are mandatory.</p>
+
     <ResponseMessage :message="responseMessage" :messageType="responseMessageType" @closeMessage="closeResponseMessage"/>
 
-    <label>Username</label>
-    <input type="text" v-model="username" @focus="onFocusUsername(true)" @blur="onFocusUsername(false)" :class="{'required-input': true, 'error-input': showUsernameError}"/>
-    <p v-show="showUsernameError" class="incorrect-field-error">{{usernameErrorMessage}}</p>
-    <br/>
+    <div class="signup-row">
+      <label>Username</label>
+      <input type="text" v-model="username" @focus="onFocusUsername(true)" @blur="onFocusUsername(false)" :class="{'required-input': true, 'error-input': showUsernameError}"/>
+      <p v-show="showUsernameError" class="incorrect-field-error">{{usernameErrorMessage}}</p>
+    </div>
 
-    <div class="two-column-field">
-      <div class="flex-col">
-        <label>Password <span class="tiny-info">(min. length 6)</span></label>
-        <input type="password" v-model="password1" @focus="onFocusPassword(true, 1)" @blur="onFocusPassword(false, 1)" :class="{'required-input': true, 'error-input': showPasswordError}"/>
+    <div class="signup-row">
+      <div class="two-column-field">
+        <div class="flex-col">
+          <label>Password <span class="tiny-info">(min. length 6)</span></label>
+          <input type="password" v-model="password1" @focus="onFocusPassword(true, 1)" @blur="onFocusPassword(false, 1)" :class="{'required-input': true, 'error-input': showPasswordError}"/>
+        </div>
+        <div class="flex-col">
+          <label>Repeat password</label>
+          <input type="password" v-model="password2" @focus="onFocusPassword(true, 2)" @blur="onFocusPassword(false, 2)" :class="{'required-input': true, 'error-input': showPasswordError}"/>
+        </div>
       </div>
-      <div class="flex-col">
-        <label>Repeat password</label>
-        <input type="password" v-model="password2" @focus="onFocusPassword(true, 2)" @blur="onFocusPassword(false, 2)" :class="{'required-input': true, 'error-input': showPasswordError}"/>
+      <p v-show="showPasswordError" class="incorrect-field-error">{{passwordErrorMessage}}</p>
+    </div>
+
+    <div class="signup-row">
+      <label>Email</label>
+      <input type="email" v-model="email" class="required-input"/>
+    </div>
+
+    <div class="signup-row">
+      <label>Telegram username</label>
+      <input type="telegramUsername" v-model="telegramUsername"/>
+    </div>
+
+    <div class="signup-row">
+      <div class="two-column-field">
+        <div class="flex-col">
+          <label>First name</label>
+          <input type="text" v-model="firstName" class="required-input"/>
+        </div>
+        <div class="flex-col">
+          <label>Last name</label>
+          <input type="text" v-model="lastName" class="required-input"/>
+        </div>
       </div>
     </div>
-    <p v-show="showPasswordError" class="incorrect-field-error">{{passwordErrorMessage}}</p>
-    <br/>
 
-    <label>Email</label>
-    <input type="email" v-model="email" class="required-input"/>
-    <br/>
-
-    <label>Telegram username</label>
-    <input type="telegramUsername" v-model="telegramUsername"/>
-    <br/>
-
-    <div class="two-column-field">
-      <div class="flex-col">
-        <label>First name</label>
-        <input type="text" v-model="firstName" class="required-input"/>
-      </div>
-      <div class="flex-col">
-        <label>Last name</label>
-        <input type="text" v-model="lastName" class="required-input"/>
-      </div>
+    <div class="signup-row">
+      <label>Date of birth</label>
+      <input type="date" v-model="dateOfBirth" class="required-input"/>
     </div>
-    <br/>
-
-    <label>Date of birth</label>
-    <input type="date" v-model="dateOfBirth" class="required-input"/>
-    <br/>
 
     <label>Phone number</label>
     <input type="text" v-model="phone" class="required-input"/>
     <br/>
 
-    <div class="two-column-field" style="margin-bottom: 4px;">
-      <div class="flex-col">
-        <label>Address line 1</label>
-        <input type="text" v-model="addressLine1" class="required-input">
-      </div>
-      <div class="flex-col">
-        <label>Address line 2</label>
-        <input type="text" v-model="addressLine2">
-      </div>
-    </div>
-
-    <div class="two-column-field" style="margin-bottom: 4px;">
-      <div class="flex-col">
-        <label>Zip code and area</label>
-        <input type="text" v-model="addressCity" class="required-input">
-      </div>
-      <div class="flex-col">
-        <label>State/Province</label>
-        <input type="text" v-model="addressStateprovince">
+    <div class="signup-row" style="margin-bottom: 0px;">
+      <div class="two-column-field">
+        <div class="flex-col">
+          <label>Address line 1</label>
+          <input type="text" v-model="addressLine1" class="required-input">
+        </div>
+        <div class="flex-col">
+          <label>Address line 2</label>
+          <input type="text" v-model="addressLine2">
+        </div>
       </div>
     </div>
 
-    <label>Country</label>
-    <input type="text" v-model="addressCountry" class="required-input">
-    <br/>
+    <div class="signup-row" style="margin-bottom: 0px; margin-top: 6px;">
+      <div class="two-column-field">
+        <div class="flex-col">
+          <label>Zip code and area</label>
+          <input type="text" v-model="addressCity" class="required-input">
+        </div>
+        <div class="flex-col">
+          <label>State/Province</label>
+          <input type="text" v-model="addressStateprovince">
+        </div>
+      </div>
+    </div>
 
+    <div class="signup-row" style="margin-top: 6px;">
+      <label>Country</label>
+      <input type="text" v-model="addressCountry" class="required-input">
+    </div>
 
-    <label>Will you bring a fursuit?</label>
-    <span>
-      <input type="radio" v-model="isFursuiter" :value="true"/> Yes
-      <input type="radio" v-model="isFursuiter" :value="false"/> No
-    </span>
-    <br/>
+    <div class="signup-row">
+      <label>Will you bring a fursuit?</label>
+      <span>
+        <input type="radio" v-model="isFursuiter" :value="true"/> Yes
+        <input type="radio" v-model="isFursuiter" :value="false"/> No
+      </span>
+    </div>
 
-    <label>Are you vegan/vegetarian?</label>
-    <span>
-      <input type="radio" v-model="isVegan" :value="true"/> Yes
-      <input type="radio" v-model="isVegan" :value="false"/> No
-    </span>
-    <br/>
+    <div class="signup-row">
+      <label>Are you vegan/vegetarian?</label>
+      <span>
+        <input type="radio" v-model="isVegan" :value="true"/> Yes
+        <input type="radio" v-model="isVegan" :value="false"/> No
+      </span>
+    </div>
 
-    <label>Do you have any allergies?</label>
-    <input type="text" v-model="allergiesText" style="width: 200px;"/>
-    <br/>
+    <div class="signup-row">
+      <label>Do you have any allergies?</label>
+      <input type="text" v-model="allergiesText" style="width: 200px;"/>
+    </div>
 
-    <label>Additional info for con staff</label>
-    <textarea v-model="additionalInfo" rows="3" style="width: 200px;"/>
-    <br/>
+    <div class="signup-row">
+      <label>Do you need transport to the cabins?</label>
+      <div style="text-align: left;">
+        <div>
+          <input type="radio" v-model="pickupType" :value="'bus'" id="pickupBusRadio"/>
+          <label for="pickupBusRadio">Yes, from the <u>bus</u> station</label>
+        </div>
+        <div>
+          <input type="radio" v-model="pickupType" :value="'train'" id="pickupTrainRadio"/>
+          <label for="pickupTrainRadio">Yes, from the <u>train</u> station</label>
+        </div>
+        <div>
+          <input type="radio" v-model="pickupType" :value="null" id="pickupNoRadio"/>
+          <label for="pickupNoRadio">No</label>
+        </div>
+      </div>
+    </div>
 
-    <p style="max-width: 500px;">
-      <input type="checkbox" v-model="hasConsentedToTerms"/>
-      I hereby confirm that by creating a user, I accept Furway's T&C, which can be viewed below by
-      <span class="link-text" @click="termsAndConditionsIsExpanded = true">clicking here</span>
-    </p>
+    <div class="signup-row">
+      <label>When will you arrive at the {{selectedStation}} station?</label>
+      <p class="tiny-info">If you're not sure, you can leave this field blank and fill it in at a later time.</p>
+      <input type="datetime-local" v-model="pickupTime"/>
+    </div>
+
+    <div class="signup-row" v-show="pickupType !== null">
+      <label>Additional info for con staff</label>
+      <textarea v-model="additionalInfo" rows="3" style="width: 200px;"/>
+    </div>
+
+    <div class="signup-row">
+      <p style="max-width: 500px;">
+        <input type="checkbox" v-model="hasConsentedToTerms"/>
+        I hereby confirm that by creating a user, I accept Furway's T&C, which can be viewed below by
+        <span class="link-text" @click="termsAndConditionsIsExpanded = true">clicking here</span>
+      </p>
+    </div>
     <div v-show="termsAndConditionsIsExpanded" id="termsAndConditions">
       <h3>Furway's T's & C's</h3>
       <p>LOREM IPSUM OG SÅNT</p>
@@ -145,12 +187,15 @@ export default {
       isVegan: undefined,
       allergiesText: '',
       additionalInfo: '',
+      
       addressLine1: '',
       addressLine2: '',
       addressCity: '',
-      addressZipCode: '',
       addressStateprovince: '',
       addressCountry: '',
+
+      pickupType: undefined,
+      pickupTime: undefined,
 
       hasConsentedToTerms: false,
       termsAndConditionsIsExpanded: false,
@@ -167,10 +212,11 @@ export default {
 
   computed: {
     isValidInput () {
-      return ![this.firstName, this.lastName, this.phone, this.addressLine1, this.addressCity, this.addressCountry, this.addressZipCode].some(s => s==='undefined' || s.length === 0)
+      return ![this.firstName, this.lastName, this.phone, this.addressLine1, this.addressCity, this.addressCountry].some(s => s==='undefined' || s.length === 0)
         && /^[a-zA-ZÆØÅæøå][\w\d_-ÆØÅæøå]{1,19}$/.test(this.username)
         && this.password1.length >= 6 && this.password2.length >= 6
         && this.isFursuiter !== undefined && this.isVegan !== undefined
+        && this.pickupType !== undefined
         && this.dateOfBirth !== undefined
         && this.hasConsentedToTerms
     },
@@ -210,6 +256,10 @@ export default {
     showPasswordError () {
       return this.passwordErrorMessage !== undefined && this.hasShownErrorMessage['password'] === true
     },
+
+    selectedStation () {
+      return this.pickupType === 'bus' ? 'bus' : 'train'
+    }
   },
 
   methods: {
@@ -292,6 +342,14 @@ input[type="text"], input[type="password"] {
 }
 input[type="email"] {
   width: 200px;
+}
+
+.signup-row {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .two-column-field {

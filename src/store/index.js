@@ -26,8 +26,13 @@ export default new Vuex.Store({
     setConInfo: (state, conInfo) => state.conInfo = conInfo,
     setIsLoggedIn: (state, isLoggedIn) => state.isLoggedIn = isLoggedIn,
     setUserData: (state, userData) => {
-      if (userData && userData.dateOfBirth) {
-        userData['dateOfBirth'] = new Date(userData['dateOfBirth'])
+      if (userData) {
+        if (userData.dateOfBirth) {
+          userData['dateOfBirth'] = new Date(userData['dateOfBirth'])
+        }
+        if (userData.pickupTime) {
+          userData['pickupTime'] = new Date(userData['pickupTime'])
+        }
       }
       state.userData = userData 
     },

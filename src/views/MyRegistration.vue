@@ -181,7 +181,6 @@ export default {
     ...mapGetters(['myRegistration', 'conInfo']),
 
     canSave () {
-      console.log(Object.keys(this.newRegistration).filter(key => this.newRegistration[key] !== this.myRegistration[key]).map(k => [k, this.newRegistration[k], this.myRegistration[k]]))
       return Object.keys(this.newRegistration).some(key => this.newRegistration[key] !== this.myRegistration[key])
     },
 

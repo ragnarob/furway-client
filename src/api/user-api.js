@@ -15,8 +15,8 @@ export default {
     return response.data
   },
 
-  async signup (userInfoObject) {
-    let response = await Axios.post(`${apiBase}/api/users`, userInfoObject)
+  async signup (userDataObject) {
+    let response = await Axios.post(`${apiBase}/api/users`, userDataObject)
 
     return response.data
   },
@@ -32,7 +32,7 @@ export default {
   },
 
   async saveEditedUser (userId, userDataObject) {
-    let response = await Axios.post(`${apiBase}/api/users/${userId}`, userInfoObject)
+    let response = await Axios.post(`${apiBase}/api/users/${userId}`, userDataObject)
 
     return response.data
   }

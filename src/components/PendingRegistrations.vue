@@ -1,5 +1,5 @@
 <template>
-  <table>
+  <table v-if="pendingRegistrations.length > 0">
     <tr>
       <th>Username</th>
       <th>First name</th>
@@ -21,6 +21,10 @@
       </td>
     </tr>
   </table>
+
+  <p v-else>
+    No pending registrations
+  </p>
 </template>
 
 <script>

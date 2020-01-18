@@ -306,7 +306,7 @@ button {
 .disabled-button {
   background-color: #bbb !important;
   color: #444;
-  box-shadow: none;
+  box-shadow: none !important;
   &:hover {
     cursor: not-allowed !important;
   }
@@ -325,7 +325,7 @@ button {
   }
 }
 
-.error-message, .success-message {
+.error-message, .success-message, .info-message {
   display: flex; 
   flex-direction: row;
   padding: 12px 20px;
@@ -345,6 +345,13 @@ button {
       cursor: pointer;
     }
   }
+}
+
+.left-aligned-content {
+  display: flex;
+  width: fit-content;
+  margin: auto;
+  align-items: flex-start;
 }
 
 .full-width-text-container {
@@ -381,7 +388,10 @@ button {
   background-color: rgb(228, 94, 94);
 }
 .success-message {
-  background-color: rgb(50, 172, 45);
+  background-color: rgb(50, 133, 47);
+}
+.info-message {
+  background-color: rgb(45, 101, 175);
 }
 .incorrect-field-error {
   font-size: 12px;
