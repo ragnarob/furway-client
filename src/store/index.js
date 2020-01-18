@@ -25,7 +25,12 @@ export default new Vuex.Store({
   mutations: {
     setConInfo: (state, conInfo) => state.conInfo = conInfo,
     setIsLoggedIn: (state, isLoggedIn) => state.isLoggedIn = isLoggedIn,
-    setUserData: (state, userData) => state.userData = userData,
+    setUserData: (state, userData) => {
+      if (userData && userData.dateOfBirth) {
+        userData['dateOfBirth'] = new Date(userData['dateOfBirth'])
+      }
+      state.userData = userData 
+    },
     setSignupSuccess: (state, isSuccess) => state.signupSuccess = isSuccess,
     setMyRegistration: (state, registrationData) => state.myRegistration = registrationData,
   },
@@ -81,8 +86,8 @@ export default new Vuex.Store({
   },
 
   getters: {
-    myRegistration: (state) => state.myRegistration,
-    conInfo: (state) => state.conInfo,
+    myRegistration: state => state.myRegistration,
+    conInfo: state => state.conInfo,
     isLoggedIn: state => state.isLoggedIn,
     userData: state => state.userData,
   }

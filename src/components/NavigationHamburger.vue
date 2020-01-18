@@ -20,15 +20,15 @@
       <router-link to="/info">INFORMATION</router-link>
       <router-link to="/register">REGISTRATION</router-link>
 
-      <!-- <router-link to="/login" v-if="!$store.getters.isLoggedIn">
+      <router-link to="/login" v-if="!$store.getters.isLoggedIn">
         LOG IN
       </router-link>
       <router-link to="/signup" v-if="!$store.getters.isLoggedIn">
         SIGN UP
       </router-link>
-      <router-link to="/logout" v-if="$store.getters.isLoggedIn">
+      <p to="/" v-if="$store.getters.isLoggedIn" @click="logout" class="link-text">
         LOG OUT
-      </router-link>
+      </p>
 
       <router-link to="/my-profile" v-if="$store.getters.isLoggedIn">
         MY PROFILE
@@ -38,12 +38,14 @@
       </router-link>
       <router-link to="/admin" v-if="$store.getters.isLoggedIn && $store.getters.userData.isAdmin">
         ADMIN
-      </router-link> -->
+      </router-link>
     </div>
   </div>
 </template>
 
 <script>
+import userApi from '../api/user-api'
+
 import MenuIcon from 'vue-material-design-icons/Menu.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 
@@ -78,6 +80,12 @@ export default {
       if (this.$router.currentRoute.path !== '/') {
         this.$router.push('/')
       }
+    },
+    
+    logout () {
+      this.$router.push('/')
+      this.$store.dispatch('logout')
+      userApi.logout()
     }
   }
 }
@@ -176,7 +184,7 @@ export default {
   background: white;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 
-  a {
+  a, p {
     margin: 4px auto;
     padding: 6px 2px;
     &:hover {

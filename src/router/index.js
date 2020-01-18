@@ -32,21 +32,21 @@ const routes = [
       title: 'Information'
     }
   },
-  // {
-  //   path: '/signup',
-  //   name: 'signup',
-  //   component: Signup
-  // },
-  // {
-  //   path: '/login',
-  //   name: 'login',
-  //   component: Login
-  // },
-  // {
-  //   path: '/my-profile',
-  //   name: 'myProfile',
-  //   component: MyProfile
-  // },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: Signup
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
+  },
+  {
+    path: '/my-profile',
+    name: 'myProfile',
+    component: MyProfile
+  },
   {
     path: '/register',
     name: 'register',
@@ -56,21 +56,21 @@ const routes = [
       title: 'Registration'
     }
   },
-  // {
-  //   path: '/my-registration',
-  //   name: 'myRegistration',
-  //   component: MyRegistration,
-  // },
-  // {
-  //   path: '/admin',
-  //   name: 'admin',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: function () {
-  //     return import(/* webpackChunkName: "about" */ '../views/Admin.vue')
-  //   }
-  // },
+  {
+    path: '/my-registration',
+    name: 'myRegistration',
+    component: MyRegistration,
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: function () {
+      return import(/* webpackChunkName: "about" */ '../views/Admin.vue')
+    }
+  },
   {
     path: '*',
     name: 'notFound',

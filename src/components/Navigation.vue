@@ -5,16 +5,15 @@
     <router-link to="/info">INFORMATION</router-link>
     <router-link to="/register">REGISTRATION</router-link>
 
-    <!-- <router-link to="/login" v-if="!$store.getters.isLoggedIn">
+    <router-link to="/login" v-if="!$store.getters.isLoggedIn">
       LOG IN
     </router-link>
     <router-link to="/signup" v-if="!$store.getters.isLoggedIn">
       SIGN UP
     </router-link>
-    <router-link to="/logout" v-if="$store.getters.isLoggedIn">
+    <p to="/" v-if="$store.getters.isLoggedIn" @click="logout" class="link-text">
       LOG OUT
-    </router-link> 
-    
+    </p>
     <router-link to="/my-profile" v-if="$store.getters.isLoggedIn">
       MY PROFILE
     </router-link>
@@ -23,12 +22,14 @@
     </router-link>
     <router-link to="/admin" v-if="$store.getters.isLoggedIn && $store.getters.userData.isAdmin">
       ADMIN
-    </router-link> -->
+    </router-link>
   </header>
 </div>
 </template>
 
 <script>
+import userApi from '../api/user-api'
+
 export default {
   name: 'navigation',
 
@@ -38,9 +39,16 @@ export default {
 
   data: function () {
     return {
-
     }
   },
+  
+  methods: {
+    logout () {
+      this.$router.push('/')
+      this.$store.dispatch('logout')
+      userApi.logout()
+    }
+  }
 }
 </script>
 
@@ -61,7 +69,7 @@ export default {
   background: rgba(255, 255, 255, 0.5);
   border-radius: 30px;
   padding: 16px 20px;
-  a {
+  a, p {
     font-size: 14px;
     margin: auto 1px;
     padding: 8px 10px !important;

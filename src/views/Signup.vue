@@ -63,25 +63,17 @@
 
     <div class="two-column-field" style="margin-bottom: 4px;">
       <div class="flex-col">
-        <label>City</label>
+        <label>Zip code and area</label>
         <input type="text" v-model="addressCity" class="required-input">
       </div>
-      <div class="flex-col">
-        <label>Zip code</label>
-        <input type="text" v-model="addressZipCode" class="required-input">
-      </div>
-    </div>
-
-    <div class="two-column-field">
       <div class="flex-col">
         <label>State/Province</label>
         <input type="text" v-model="addressStateprovince">
       </div>
-      <div class="flex-col">
-        <label>Country</label>
-        <input type="text" v-model="addressCountry" class="required-input">
-      </div>
     </div>
+
+    <label>Country</label>
+    <input type="text" v-model="addressCountry" class="required-input">
     <br/>
 
 
@@ -92,7 +84,7 @@
     </span>
     <br/>
 
-    <label>Are you vegan?</label>
+    <label>Are you vegan/vegetarian?</label>
     <span>
       <input type="radio" v-model="isVegan" :value="true"/> Yes
       <input type="radio" v-model="isVegan" :value="false"/> No

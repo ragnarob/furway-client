@@ -183,7 +183,7 @@ export default {
   }
 }
 .floating-box-clickable {
-  color: #42b983 !important;
+  color: #35b886 !important;
   font-weight: 600 !important;
   &:hover {
     cursor: pointer;
