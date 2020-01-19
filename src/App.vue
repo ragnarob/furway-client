@@ -318,6 +318,14 @@ button {
   }
 }
 
+.danger-button {
+  background-color: #9c2020;
+  color: white;
+  &:hover {
+    background-color: #7e1313 !important;
+  }
+}
+
 .neutral-button {
   // color: #35b886;
   // background-color: #ebfff8;

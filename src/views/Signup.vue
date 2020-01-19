@@ -320,7 +320,7 @@ export default {
         this.responseMessage = 'Success!'
         this.responseMessageType = 'success'
         this.$store.commit('setUserData', response)
-        this.$router.push('user')
+        this.$router.push('my-profile')
       }
     },
 

@@ -41,5 +41,11 @@ export default {
     let response = await Axios.post(`${apiBase}/api/users/${userId}/as-admin`, userDataObject)
 
     return response.data
+  },
+
+  async deleteUser (userId) {
+    let response = await Axios.post(`${apiBase}/api/users/${userId}/delete`)
+
+    return response.data
   }
 }

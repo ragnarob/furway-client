@@ -18,6 +18,7 @@
       <tr>
         <th>Action</th>
         <th>Username</th>
+        <th title="Has a registration?">Reg</th>
         <th>First name</th>
         <th>Last name</th>
         <th>Email</th>
@@ -26,38 +27,55 @@
         <th>Vegan</th>
         <th>Fursuiter</th>
         <th>Allergies</th>
-        <th>Addr. 1</th>
-        <th>Addr. 2</th>
+        <th>Addr. line 1</th>
+        <th>Addr. line 2</th>
         <th>Zip code and area</th>
         <th>State</th>
         <th>Country</th>
         <th>Pickup</th>
         <th>Pickup time</th>
         <th>Additional info</th>
-        <th>Volunteer</th>
+        <th title="Is volunteer?">Volunt.</th>
         <th>Driver</th>
         <th>Admin</th>
       </tr>
       <tr v-for="user in userListToUse" :key="user.id" :class="{'highlighted-row': user.username === highlightedUsername}">
         <td>
-          <button v-if="userBeingEdited === null" @click="editUser(user.id)" class="icon-button icon-button-small neutral-button">
+          <!-- DEFAULT -->
+          <button v-if="userBeingEdited === null && userIdToBeDeleted === null" @click="editUser(user.id)" class="icon-button icon-button-small neutral-button">
             <EditIcon title="Edit"/>
           </button>
-          <button v-if="userBeingEdited === null" @click="deleteUser(user.id)" class="icon-button icon-button-small neutral-button">
+          <button v-if="userBeingEdited === null && userIdToBeDeleted === null" @click="setUserToBeDeleted(user.id)" class="icon-button icon-button-small neutral-button">
             <DeleteIcon title="Delete"/>
           </button>
 
+          <!-- EDIT -->
           <button v-if="isThisUserBeingEdited(user.id)" @click="cancelEditing()" class="icon-button icon-button-small neutral-button">
             <CancelIcon title="Cancel"/>
           </button>
           <button v-if="isThisUserBeingEdited(user.id)" @click="saveUser()" class="icon-button icon-button-small theme-button">
             <SaveIcon title="Save"/>
           </button>
+
+          <!-- DELETE -->
+          <button v-if="isThisUserBeingDeleted(user.id)" @click="cancelDeleting()" class="neutral-button big-button">
+            Cancel <DeleteIcon title="Delete"/>
+          </button>
+          <button v-if="isThisUserBeingDeleted(user.id)" @click="confirmDeleteUser()" class="danger-button big-button">
+            Confirm <FilledDeleteIcon title="Delete"/>
+          </button>
         </td>
 
         <td>
           <p :class="{'non-editable-cell': isThisUserBeingEdited(user.id), 'username-cell': true}">
             {{user.username}}
+          </p>
+        </td>
+
+        <td>
+          <p :class="{'non-editable-cell': isThisUserBeingEdited(user.id)}">
+            <YesIcon v-if="user.registrationId !== null"/>
+            <NoIcon v-else/>
           </p>
         </td>
 
@@ -270,6 +288,7 @@ import EditIcon from 'vue-material-design-icons/Pencil.vue'
 import SaveIcon from 'vue-material-design-icons/ContentSave.vue'
 import CancelIcon from 'vue-material-design-icons/Close.vue'
 import DeleteIcon from 'vue-material-design-icons/DeleteOutline.vue'
+import FilledDeleteIcon from 'vue-material-design-icons/Delete.vue'
 
 import ResponseMessage from './ResponseMessage.vue'
 import { mapGetters } from 'vuex'
@@ -281,7 +300,7 @@ export default {
 
   components: {
     ResponseMessage,
-    YesIcon, NoIcon, EditIcon, SaveIcon, CancelIcon, DeleteIcon
+    YesIcon, NoIcon, EditIcon, SaveIcon, CancelIcon, DeleteIcon, FilledDeleteIcon
   },
 
   data: function () {
@@ -290,6 +309,7 @@ export default {
       shouldFilterList: false,
       responseMessage: null,
       responseMessageType: 'info',
+      userIdToBeDeleted: null,
     }
   },
 
@@ -310,18 +330,41 @@ export default {
       return this.userBeingEdited !== null && this.userBeingEdited.id === userId
     },
 
+    isThisUserBeingDeleted (userId) {
+      return this.userIdToBeDeleted !== null && this.userIdToBeDeleted === userId
+    },
+
     editUser (userId) {
       this.userBeingEdited = {...this.allUsers.find(u => u.id === userId)}
       this.userBeingEdited.dateOfBirth = this.userBeingEdited.dateOfBirth ? this.userBeingEdited.dateOfBirth.toLocalISOString().substr(0,10) : null
       this.userBeingEdited.pickupTime = this.userBeingEdited.pickupTime ? this.userBeingEdited.pickupTime.toLocalISOString() : null
     },
 
-    deleteUser (userId) {
-      alert('delete user')
-    },
-
     cancelEditing () {
       this.userBeingEdited = null
+    },
+
+    setUserToBeDeleted (userId) {
+      this.userIdToBeDeleted = userId
+    },
+
+    async confirmDeleteUser () {
+      let response = await userApi.deleteUser(this.userIdToBeDeleted)
+
+      if ('error' in response) {
+        this.responseMessage = response['error']
+        this.responseMessageType = 'error'
+      }
+      else {
+        this.responseMessage = `User deleted successfully`
+        this.responseMessageType = 'success'
+        this.cancelDeleting()
+        this.$store.dispatch('loadData')
+      }
+    },
+
+    cancelDeleting () {
+      this.userIdToBeDeleted = null
     },
 
     async saveUser () {
