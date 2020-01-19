@@ -110,8 +110,8 @@
           <tr>
             <td><p>State/Province</p></td>
             <td>
-              <p v-if="!isEditingProfile">{{userData.addressStateprovince}}</p>
-              <input v-else type="text" v-model="editedUser.addressStateprovince"/>
+              <p v-if="!isEditingProfile">{{userData.addressStateProvince}}</p>
+              <input v-else type="text" v-model="editedUser.addressStateProvince"/>
             </td>
           </tr>
 
