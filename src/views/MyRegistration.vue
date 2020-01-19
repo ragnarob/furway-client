@@ -1,17 +1,28 @@
 <template>
-  <div class="flex-col">
+  <div class="flex-col limit-full-width">
     <h1>My Registration</h1>
 
     <!-- NOT APPROVED REGISTRATION -->
     <div v-if="registrationStatus == 'unapproved'" class="flex-col">
       <div style="border: 1px solid black; padding: 5px;">
-        Your registration is not approved yet. You can only change ticket type, and doing so will not put you further back in the queue.
+        Your registration is not approved yet. You can only change your ticket type, and doing so <u>will</u> put you at the back of any existing queues.
       </div>
 
       <h3>Ticket type</h3>
-      <span><input type="radio" v-model="newRegistration.roomPreference" value="insideonly"/> Inside only</span>
-      <span><input type="radio" v-model="newRegistration.roomPreference" value="insidepreference"/> Inside preference</span>
-      <span><input type="radio" v-model="newRegistration.roomPreference" value="outsideonly"/> Outside only</span>
+      <div class="flex-col left-align-content">
+        <span>
+          <input type="radio" v-model="newRegistration.roomPreference" value="insideonly" id="roomPreferenceInside"/>
+          <label for="roomPreferenceInside">Inside only</label>          
+        </span>
+        <span>
+          <input type="radio" v-model="newRegistration.roomPreference" value="insidepreference" id="roomPreferenceInsidePreference"/>
+          <label for="roomPreferenceInsidePreference">Inside preference</label>          
+        </span>
+        <span>
+          <input type="radio" v-model="newRegistration.roomPreference" value="outsideonly" id="roomPreferenceOutside"/>
+          <label for="roomPreferenceOutside">Outside only</label>          
+        </span>
+      </div>
 
       <button @click="updateRegistration" v-show="canSave">
         Update registration

@@ -24,12 +24,17 @@
 
 
     <!-- CREATING REGISTRATION -->
-    <button v-if="$store.state.isLoggedIn && !isCreatingRegistration" @click="isCreatingRegistration = true" class="big-button">
-      Create registration
-    </button>
+    <p v-if="!$store.state.isLoggedIn">
+      You must <router-link :to="'/login'">log in</router-link> or <router-link :to="'/signup'">create a user</router-link> in order to create your registration.
+    </p>
+
     <p v-if="$store.state.isLoggedIn && $store.state.userData.registrationId != null">
       You already have a registration, see <router-link :to="'/my-registration'">my registration</router-link>.
     </p>
+    
+    <button v-else-if="$store.state.isLoggedIn && !isCreatingRegistration" @click="isCreatingRegistration = true" class="big-button">
+      Create registration
+    </button>
 
     <div class="margin-bottom-20">
       <h2 v-if="isCreatingRegistration" class="no-margin-top">
