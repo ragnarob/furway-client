@@ -126,6 +126,15 @@ h3 {
 .margin-top-4 {
   margin-top: 4px;
 }
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
 
 table {
   margin: 0 auto;
@@ -162,13 +171,16 @@ tr:hover {
   }
 }
 .long-text-cell {
-  max-width: 160px;
+  max-width: 176px;
   white-space: pre-wrap;
 }
 
 .left-align {
   align-self: flex-start;
   margin-left: 0px;
+}
+.left-align-content {
+  align-items: flex-start;
 }
 .in-text-image {
   max-width: 320px;
@@ -190,15 +202,6 @@ tr:hover {
   margin-bottom: 8px;
 }
 
-.flex-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.flex-row {
-  display: flex;
-  flex-direction: row;
-}
 .error-message {
   color: red;
 }
@@ -400,6 +403,17 @@ button {
     p {
       text-align: left;
     }
+  }
+}
+
+.limit-full-width {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  max-width: 800px;
+  @media screen and (max-width: 849px) {
+    max-width: 90%;
   }
 }
 

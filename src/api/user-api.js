@@ -35,5 +35,11 @@ export default {
     let response = await Axios.post(`${apiBase}/api/users/${userId}`, userDataObject)
 
     return response.data
+  },
+
+  async saveUserAsAdmin (userId, userDataObject) {
+    let response = await Axios.post(`${apiBase}/api/users/${userId}/as-admin`, userDataObject)
+
+    return response.data
   }
 }

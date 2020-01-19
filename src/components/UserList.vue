@@ -1,6 +1,8 @@
 <template>
   <div style="width: 100%;" v-show="isAllUsersOpen">
 
+    <ResponseMessage :message="responseMessage" :messageType="responseMessageType" @closeMessage="closeResponseMessage"/>
+
     <div style="margin-bottom: 8px; justify-content: center;" class="flex-row">
       <div style="display: flex; align-items: center;">
         <input type="checkbox" v-model="shouldFilterList" id="onlyReceivedSpotsCheckbox">
@@ -33,6 +35,7 @@
         <th>Pickup time</th>
         <th>Additional info</th>
         <th>Volunteer</th>
+        <th>Driver</th>
         <th>Admin</th>
       </tr>
       <tr v-for="user in userListToUse" :key="user.id" :class="{'highlighted-row': user.username === highlightedUsername}">
@@ -105,8 +108,10 @@
 
         <td>
           <p v-if="isThisUserBeingEdited(user.id)" class="cell-with-radio">
-            <input type="radio" v-model="userBeingEdited.isVegan" value="true"/> true
-            <input type="radio" v-model="userBeingEdited.isVegan" value="false"/> false
+            <input type="radio" v-model="userBeingEdited.isVegan" :value="true" id="isVeganTrue"/>
+            <label for="isVeganTrue">Yes</label>
+            <input type="radio" v-model="userBeingEdited.isVegan" :value="false" id="isVeganFalse"/>
+            <label for="isVeganFalse">No</label>
           </p>
           <p v-else>
             <YesIcon v-if="user.isVegan"/>
@@ -116,8 +121,10 @@
 
         <td>
           <p v-if="isThisUserBeingEdited(user.id)" class="cell-with-radio">
-            <input type="radio" v-model="userBeingEdited.isFursuiter" value="true"/> true
-            <input type="radio" v-model="userBeingEdited.isFursuiter" value="false"/> false
+            <input type="radio" v-model="userBeingEdited.isFursuiter" :value="true" id="isFursuiterTrue"/>
+            <label for="isFursuiterTrue">Yes</label>
+            <input type="radio" v-model="userBeingEdited.isFursuiter" :value="false" id="isFursuiterFalse"/>
+            <label for="isFursuiterFalse">No</label>
           </p>
           <p v-else>
             <YesIcon v-if="user.isFursuiter"/>
@@ -205,7 +212,7 @@
         </td>
 
         <td class="long-text-cell">
-          <input v-if="isThisUserBeingEdited(user.id)" type="text" v-model="userBeingEdited.additionalInfo"/>
+          <textarea v-if="isThisUserBeingEdited(user.id)" type="text" v-model="userBeingEdited.additionalInfo"/>
           <div v-else style="max-width: 100%;">
             {{user.additionalInfo}}
           </div>
@@ -213,8 +220,10 @@
 
         <td>
           <p v-if="isThisUserBeingEdited(user.id)" class="cell-with-radio">
-            <input type="radio" v-model="userBeingEdited.isVolunteer" :value="true"/> true
-            <input type="radio" v-model="userBeingEdited.isVolunteer" :value="false"/> false
+            <input type="radio" v-model="userBeingEdited.isVolunteer" :value="true" id="isVolunteerTrue"/>
+            <label for="isVolunteerTrue">Yes</label>
+            <input type="radio" v-model="userBeingEdited.isVolunteer" :value="false" id="isVolunteerFalse"/>
+            <label for="isVolunteerFalse">No</label>
           </p>
           <p v-else>
             <YesIcon v-if="user.isVolunteer"/>
@@ -224,8 +233,23 @@
 
         <td>
           <p v-if="isThisUserBeingEdited(user.id)" class="cell-with-radio">
-            <input type="radio" v-model="userBeingEdited.isAdmin" value="true"/> true
-            <input type="radio" v-model="userBeingEdited.isAdmin" value="false"/> false
+            <input type="radio" v-model="userBeingEdited.isDriver" :value="true" id="isDriverTrue"/>
+            <label for="isDriverTrue">Yes</label>
+            <input type="radio" v-model="userBeingEdited.isDriver" :value="false" id="isDriverFalse"/>
+            <label for="isDriverFalse">No</label>
+          </p>
+          <p v-else>
+            <YesIcon v-if="user.isDriver"/>
+            <NoIcon v-else-if="user.isDriver === false"/>
+          </p>
+        </td>
+
+        <td>
+          <p v-if="isThisUserBeingEdited(user.id)" class="cell-with-radio">
+            <input type="radio" v-model="userBeingEdited.isAdmin" :value="true" id="isAdminTrue"/>
+            <label for="isAdminTrue">Yes</label>
+            <input type="radio" v-model="userBeingEdited.isAdmin" :value="false" id="isAdminFalse"/>
+            <label for="isAdminFalse">No</label>
           </p>
           <p v-else>
             <YesIcon v-if="user.isAdmin"/>
@@ -264,7 +288,8 @@ export default {
     return {
       userBeingEdited: null,
       shouldFilterList: false,
-      errorMessage: null,
+      responseMessage: null,
+      responseMessageType: 'info',
     }
   },
 
@@ -287,7 +312,8 @@ export default {
 
     editUser (userId) {
       this.userBeingEdited = {...this.allUsers.find(u => u.id === userId)}
-      this.userBeingEdited.dateOfBirth = new Date(this.userBeingEdited.dateOfBirth).toISOString().substr(0,10)
+      this.userBeingEdited.dateOfBirth = this.userBeingEdited.dateOfBirth ? this.userBeingEdited.dateOfBirth.toLocalISOString().substr(0,10) : null
+      this.userBeingEdited.pickupTime = this.userBeingEdited.pickupTime ? this.userBeingEdited.pickupTime.toLocalISOString() : null
     },
 
     deleteUser (userId) {
@@ -299,14 +325,20 @@ export default {
     },
 
     async saveUser () {
-      let result = await userApi.saveEditedUser(this.userBeingEdited)
+      this.responseMessage = 'Saving user...'
+      this.responseMessageType = 'info'
+
+      let result = await userApi.saveUserAsAdmin(this.userBeingEdited.id, this.userBeingEdited)
 
       if ('error' in result) {
-        this.errorMessage = result.error
+        this.responseMessage = result['error']
+        this.responseMessageType = 'error'
       }
       else {
+        this.responseMessage = `User ${this.userBeingEdited.username} successfully`
+        this.responseMessageType = 'success'
         this.cancelEditing()
-        this.$emit('loadData')
+        this.$store.dispatch('loadData')
       }
     },
 
@@ -327,6 +359,10 @@ export default {
 
     formatDateTimeWithoutYear (dateTime) {
       return dateTime===null ? '' : dateTime.toDateString().substring(0,10) + ', ' + dateTime.toTimeString().substring(0,5)
+    },
+
+    closeResponseMessage () {
+      this.responseMessage = ''
     },
   },
 

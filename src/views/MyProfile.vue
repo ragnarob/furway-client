@@ -7,13 +7,11 @@
     <span v-else>
       <h1>User page: {{$store.state.userData.username}}</h1>
 
-      <button @click="logout" class="big-button neutral-button" style="margin-top: 6px;">
-        <LogoutIcon/> Log out
-      </button>
+      <p>You can edit your user profile without your registration and waiting list positions being affected.</p>
 
       <ResponseMessage :message="responseMessage" :messageType="messageType" @closeMessage="closeResponseMessage" v-if="responseMessage"/>
 
-      <div style="margin-top: 20px; margin-bottom: 10px;">
+      <div style="margin-top: 10px; margin-bottom: 10px;">
         <button @click="startEditing" v-show="!isEditingProfile" class="big-button neutral-button">
           <EditIcon/> Edit profile
         </button>
@@ -285,7 +283,7 @@ export default {
       }
       else {
         this.messageType = 'success'
-        this.responseMessage = 'Successfully updated user data'
+        this.responseMessage = 'Successfully updated your profile'
         this.$store.commit('setUserData', this.editedUser)
         this.cancelEditing()
         this.$store.dispatch('refreshUserData')
