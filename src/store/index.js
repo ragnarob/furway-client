@@ -81,6 +81,8 @@ export default new Vuex.Store({
 
       if ('error' in response) { return }
       context.commit('setMyRegistration', response)
+
+      return response
     },
 
     logout (context) {

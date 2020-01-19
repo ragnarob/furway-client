@@ -115,16 +115,22 @@ h3 {
   margin: 0px !important;
 }
 .margin-top-10 {
-  margin-top: 10px;
+  margin-top: 10px !important;
+}
+.margin-top-20 {
+  margin-top: 20px !important;
 }
 .margin-bottom-10 {
-  margin-bottom: 10px;
+  margin-bottom: 10px !important;
 }
 .margin-bottom-20 {
-  margin-bottom: 20px;
+  margin-bottom: 20px !important;
 }
 .margin-top-4 {
-  margin-top: 4px;
+  margin-top: 4px !important;
+}
+.margin-left-10 {
+  margin-left: 10px !important;
 }
 .flex-col {
   display: flex;
@@ -202,8 +208,9 @@ tr:hover {
   margin-bottom: 8px;
 }
 
-.error-message {
-  color: red;
+.warning-text {
+  color: rgb(228, 94, 94);
+  font-weight: 400;
 }
 .link-text {
   text-decoration: underline;

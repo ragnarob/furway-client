@@ -1,6 +1,7 @@
 <template>
   <div :class="{'error-message': messageType==='error', 'success-message': messageType==='success', 'info-message': messageType==='info'}" 
-       v-show="message && message.length > 0">
+       v-show="message && message.length > 0"
+       id="responseMessageContainer">
     <p>{{message}}</p>
     <CloseIcon @click="closeMessage" title="Close"/>
   </div>
@@ -15,8 +16,8 @@ export default {
   },
 
   props: {
-    message: String,
-    messageType: String,
+    'message': String,
+    'messageType': String,
   },
 
   data: function () {
@@ -28,7 +29,7 @@ export default {
     closeMessage () {
       this.$emit('closeMessage')
     }
-  }
+  },
 }
 </script>
 

@@ -92,16 +92,20 @@
     <div class="signup-row">
       <label>Will you bring a fursuit?</label>
       <span>
-        <input type="radio" v-model="isFursuiter" :value="true"/> Yes
-        <input type="radio" v-model="isFursuiter" :value="false"/> No
+        <input type="radio" v-model="isFursuiter" :value="true" id="isFursuitertrue"/>
+        <label for="isFursuitertrue">Yes</label>
+        <input type="radio" v-model="isFursuiter" :value="false" id="isFursuiterfalse" style="margin-left: 16px;"/>
+        <label for="isFursuiterfalse">No</label>
       </span>
     </div>
 
     <div class="signup-row">
       <label>Are you vegan/vegetarian?</label>
       <span>
-        <input type="radio" v-model="isVegan" :value="true"/> Yes
-        <input type="radio" v-model="isVegan" :value="false"/> No
+        <input type="radio" v-model="isVegan" :value="true" id="isVegantrue"/>
+        <label for="isVegantrue">Yes</label>
+        <input type="radio" v-model="isVegan" :value="false" id="isVeganfalse" style="margin-left: 16px;"/>
+        <label for="isVeganfalse">No</label>
       </span>
     </div>
 
