@@ -22,6 +22,45 @@
       Registration is open! Apply below.
     </p>
 
+
+    <!-- CREATING REGISTRATION -->
+    <button v-if="$store.state.isLoggedIn && !isCreatingRegistration" @click="isCreatingRegistration = true" class="big-button">
+      Create registration
+    </button>
+    <p v-if="$store.state.isLoggedIn && $store.state.userData.registrationId != null">
+      You already have a registration, see <router-link :to="'/my-registration'">my registration</router-link>.
+    </p>
+
+    <div class="margin-bottom-20">
+      <h2 v-if="isCreatingRegistration" class="no-margin-top">
+        Create registration
+      </h2>
+      
+      <div v-if="isCreatingRegistration" id="createRegistrationWrapper">
+        <div class="margin-top-4" style="text-align: left;">
+          <p class="margin-bottom-10">Desired ticket type:</p>
+
+          <input type="radio" v-model="roomPreference" value="insideonly" id="roomPreferenceRadioInside" style="margin-bottom: 10px"/>
+          <label for="roomPreferenceRadioInside">Inside only</label>
+          <br>
+
+          <input type="radio" v-model="roomPreference" value="insidepreference" id="roomPreferenceRadioPreference" style="margin-bottom: 10px"/>
+          <label for="roomPreferenceRadioPreference">Inside preference</label> 
+          <br>
+
+          <input type="radio" v-model="roomPreference" value="outsideonly" id="roomPreferenceRadioOutside" style="margin-bottom: 10px"/>
+          <label for="roomPreferenceRadioOutside">Outside only</label>
+        </div>
+
+        <button @click="submitRegistration" :class="{'disabled-button': !roomPreference, 'big-button': true, 'theme-button': true}" style="margin-top: 10px;">Submit registration</button>
+        <button @click="cancelRegistration" class="big-button" style="margin-top: 4px;">Cancel</button>
+
+        <p style="color: red" v-show="errorMessage">Error: {{errorMessage}}</p>
+      </div>
+    </div>
+
+
+    <!-- IMAGE AND INFO -->
     <img src="../assets/capri1.png" class="in-text-image-smaller"/>
     <label class="artwork-credit">
       Artwork by <a href="https://orbz41.wixsite.com/catbean">Jadepusen</a>
@@ -102,25 +141,6 @@
         Payments will not be refunded.
       </p>
     </div>
-
-
-    <!-- <h2 v-if="$store.state.isLoggedIn">Create registration</h2>
-    <p v-if="$store.state.isLoggedIn && $store.state.userData.registrationId != null">
-      You already have a registration, see <router-link :to="'/my-registration'">my registration</router-link>.
-    </p>
-
-    <div v-if="$store.state.isLoggedIn && $store.state.userData.registrationId == null" style="text-align: left;">
-      <p>Desired ticket type:</p>
-      <div style="margin-top: 4px;">
-        <input type="radio" v-model="roomPreference" value="insideonly"/> Inside only <br/>
-        <input type="radio" v-model="roomPreference" value="insidepreference"/> Inside preference <br/> 
-        <input type="radio" v-model="roomPreference" value="outsideonly"/> Outside only <br/>
-      </div>
-
-      <button @click="submitRegistration" class="big-button theme-button" style="margin-top: 10px;">Submit registration</button>
-
-      <p style="color: red" v-show="errorMessage">Error: {{errorMessage}}</p>
-    </div> -->
   </div>
 </template>
 
@@ -134,6 +154,7 @@ export default {
     return {
       roomPreference: undefined,
       errorMessage: '',
+      isCreatingRegistration: false,
     }
   },
 
@@ -164,6 +185,11 @@ export default {
       else {
         this.errorMessage = result.error
       }
+    },
+
+    cancelRegistration () {
+      this.isCreatingRegistration = false
+      this.roomPreference = undefined
     }
   }
 }
@@ -176,6 +202,12 @@ export default {
     font-weight: 600;
   }
   margin: 20px;
+}
+#createRegistrationWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 </style>
 

@@ -117,6 +117,15 @@ h3 {
 .margin-top-10 {
   margin-top: 10px;
 }
+.margin-bottom-10 {
+  margin-bottom: 10px;
+}
+.margin-bottom-20 {
+  margin-bottom: 20px;
+}
+.margin-top-4 {
+  margin-top: 4px;
+}
 
 table {
   margin: 0 auto;
@@ -318,6 +327,7 @@ button {
   box-shadow: none !important;
   &:hover {
     cursor: not-allowed !important;
+    background-color: #bbb !important;
   }
 }
 
