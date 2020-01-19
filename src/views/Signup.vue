@@ -111,8 +111,9 @@
     </div>
 
     <div class="signup-row">
-      <label>Do you need transport to the cabins?</label>
-      <div style="text-align: left;">
+      <label>Do you need transport to the con?</label>
+      <p class="tiny-info">If yes, it is highly recommended to supply your Telegram username (above) for the drivers' convenience.</p>
+      <div style="text-align: left; margin-top: 2px;">
         <div>
           <input type="radio" v-model="pickupType" :value="'bus'" id="pickupBusRadio"/>
           <label for="pickupBusRadio">Yes, from the <u>bus</u> station</label>
@@ -128,13 +129,13 @@
       </div>
     </div>
 
-    <div class="signup-row">
+    <div class="signup-row" v-show="pickupType !== null && pickupType !== undefined">
       <label>When will you arrive at the {{selectedStation}} station?</label>
       <p class="tiny-info">If you're not sure, you can leave this field blank and fill it in at a later time.</p>
       <input type="datetime-local" v-model="pickupTime"/>
     </div>
 
-    <div class="signup-row" v-show="pickupType !== null">
+    <div class="signup-row">
       <label>Additional info for con staff</label>
       <textarea v-model="additionalInfo" rows="3" style="width: 200px;"/>
     </div>

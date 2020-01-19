@@ -3,7 +3,8 @@
 
     <div style="margin-bottom: 8px; justify-content: center;" class="flex-row">
       <div style="display: flex; align-items: center;">
-        <input type="checkbox" v-model="shouldFilterList"> Only show users with received spots
+        <input type="checkbox" v-model="shouldFilterList" id="onlyReceivedSpotsCheckbox">
+        <label for="onlyReceivedSpotsCheckbox">Only show users with received spots</label>
       </div>
 
       <div style="margin-left: 40px;">
@@ -28,18 +29,27 @@
         <th>Zip code and area</th>
         <th>State</th>
         <th>Country</th>
+        <th>Pickup</th>
+        <th>Pickup time</th>
         <th>Additional info</th>
         <th>Volunteer</th>
         <th>Admin</th>
       </tr>
       <tr v-for="user in userListToUse" :key="user.id" :class="{'highlighted-row': user.username === highlightedUsername}">
         <td>
-          <button v-if="userBeingEdited === null" @click="editUser(user.id)">Edit</button>
-          <button v-if="userBeingEdited === null" @click="deleteUser(user.id)">Del</button>
+          <button v-if="userBeingEdited === null" @click="editUser(user.id)" class="icon-button icon-button-small neutral-button">
+            <EditIcon title="Edit"/>
+          </button>
+          <button v-if="userBeingEdited === null" @click="deleteUser(user.id)" class="icon-button icon-button-small neutral-button">
+            <DeleteIcon title="Delete"/>
+          </button>
 
-          <button v-if="isThisUserBeingEdited(user.id)" @click="cancelEditing()">Cancel</button>
-          <br v-if="isThisUserBeingEdited(user.id)">
-          <button v-if="isThisUserBeingEdited(user.id)" @click="saveUser()">Save</button>
+          <button v-if="isThisUserBeingEdited(user.id)" @click="cancelEditing()" class="icon-button icon-button-small neutral-button">
+            <CancelIcon title="Cancel"/>
+          </button>
+          <button v-if="isThisUserBeingEdited(user.id)" @click="saveUser()" class="icon-button icon-button-small theme-button">
+            <SaveIcon title="Save"/>
+          </button>
         </td>
 
         <td>
@@ -169,6 +179,31 @@
           </p>
         </td>
 
+        <td>
+          <p v-if="isThisUserBeingEdited(user.id)" class="cell-with-radio">
+            <input type="radio" v-model="userBeingEdited.pickupType" :value="'bus'" id="pickupTypeBus"/>
+            <label for="pickupTypeBus">Bus</label>
+            <input type="radio" v-model="userBeingEdited.pickupType" :value="'train'" id="pickupTypeTrain"/>
+            <label for="pickupTypeTrain">Train</label>
+            <input type="radio" v-model="userBeingEdited.pickupType" :value="null" id="pickupTypeNo"/>
+            <label for="pickupTypeNo">No</label>
+          </p>
+          <p v-else-if="user.pickupType !== null">
+            {{user.pickupType}}
+          </p>
+          <NoIcon v-else />
+        </td>
+
+        <td>
+          <p v-if="isThisUserBeingEdited(user.id)">
+            <input v-if="userBeingEdited.pickupType !== null" type="datetime-local" v-model="userBeingEdited.pickupTime"/>
+            <span v-else>-</span>
+          </p>
+          <p v-else>
+            {{formatDateTimeWithoutYear(user.pickupTime)}}
+          </p>
+        </td>
+
         <td class="long-text-cell">
           <input v-if="isThisUserBeingEdited(user.id)" type="text" v-model="userBeingEdited.additionalInfo"/>
           <div v-else style="max-width: 100%;">
@@ -178,8 +213,8 @@
 
         <td>
           <p v-if="isThisUserBeingEdited(user.id)" class="cell-with-radio">
-            <input type="radio" v-model="userBeingEdited.isVolunteer" value="true"/> true
-            <input type="radio" v-model="userBeingEdited.isVolunteer" value="false"/> false
+            <input type="radio" v-model="userBeingEdited.isVolunteer" :value="true"/> true
+            <input type="radio" v-model="userBeingEdited.isVolunteer" :value="false"/> false
           </p>
           <p v-else>
             <YesIcon v-if="user.isVolunteer"/>
@@ -204,8 +239,14 @@
 
 <script>
 import userApi from '../api/user-api'
+
 import YesIcon from 'vue-material-design-icons/CheckCircle.vue'
 import NoIcon from 'vue-material-design-icons/Close.vue'
+import EditIcon from 'vue-material-design-icons/Pencil.vue'
+import SaveIcon from 'vue-material-design-icons/ContentSave.vue'
+import CancelIcon from 'vue-material-design-icons/Close.vue'
+import DeleteIcon from 'vue-material-design-icons/DeleteOutline.vue'
+
 import ResponseMessage from './ResponseMessage.vue'
 import { mapGetters } from 'vuex'
 
@@ -216,8 +257,7 @@ export default {
 
   components: {
     ResponseMessage,
-    YesIcon,
-    NoIcon,
+    YesIcon, NoIcon, EditIcon, SaveIcon, CancelIcon, DeleteIcon
   },
 
   data: function () {
@@ -284,6 +324,10 @@ export default {
     formatBdayTimestamp (timestamp) {
       return new Date(timestamp).toDateString().substr(4,11)
     },
+
+    formatDateTimeWithoutYear (dateTime) {
+      return dateTime===null ? '' : dateTime.toDateString().substring(0,10) + ', ' + dateTime.toTimeString().substring(0,5)
+    },
   },
 
   watch: {
@@ -299,4 +343,3 @@ export default {
   }
 }
 </script>
-

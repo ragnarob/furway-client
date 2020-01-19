@@ -2,7 +2,8 @@
   <div style="width: 100%;" v-show="isAllRegistrationsOpen">
 
     <div style="margin-bottom: 2px;">
-      <input type="checkbox" v-model="shouldFilterList" st> Only show registrations with given spots
+      <input type="checkbox" v-model="shouldFilterList" id="onlyShowWithGivenSpotsCheckbox">
+      <label for="onlyShowWithGivenSpotsCheckbox">Only show registrations with given spots</label>
     </div>
 
     <table class="very-wide-table">
@@ -31,12 +32,20 @@
       </tr>
       <tr v-for="reg in filteredRegistrations" :key="reg.id" :class="{'highlighted-row-blue': reg.id === highlightedRegistrationId}">
         <td>
-          <button v-if="registrationBeingEdited === null" @click="editRegistration(reg.id)">Edit</button>
-          <button v-if="registrationBeingEdited === null" @click="deleteRegistration(reg.id)">Del</button>
+          <button v-if="registrationBeingEdited === null" @click="editRegistration(reg.id)" class="icon-button icon-button-small neutral-button">
+            <EditIcon title="Edit"/>
+          </button>
+          <button v-if="registrationBeingEdited === null" @click="deleteRegistration(reg.id)" class="icon-button icon-button-small neutral-button">
+            <DeleteIcon title="Delete"/>
+          </button>
 
-          <button v-if="isThisRegistrationBeingEdited(reg.id)" @click="cancelEditing()">Cancel</button>
-          <br v-if="isThisRegistrationBeingEdited(reg.id)">
-          <button v-if="isThisRegistrationBeingEdited(reg.id)" @click="saveRegistration()">Save</button>
+
+          <button v-if="isThisRegistrationBeingEdited(reg.id)" @click="cancelEditing()" class="icon-button icon-button-small neutral-button">
+            <CancelIcon title="Cancel"/>
+          </button>
+          <button v-if="isThisRegistrationBeingEdited(reg.id)" @click="saveRegistration()" class="icon-button icon-button-small theme-button">
+            <SaveIcon title="Save"/>
+          </button>
         </td>
 
         <td>
@@ -248,6 +257,11 @@
 <script>
 import YesIcon from 'vue-material-design-icons/CheckCircle.vue'
 import NoIcon from 'vue-material-design-icons/Close.vue'
+import EditIcon from 'vue-material-design-icons/Pencil.vue'
+import SaveIcon from 'vue-material-design-icons/ContentSave.vue'
+import CancelIcon from 'vue-material-design-icons/Close.vue'
+import DeleteIcon from 'vue-material-design-icons/DeleteOutline.vue'
+
 import { mapGetters } from 'vuex'
 import { formatTimestamp, formatRoomPreference } from '../utils'
 
@@ -259,8 +273,7 @@ export default {
   },
 
   components: {
-    YesIcon,
-    NoIcon
+    YesIcon, NoIcon, EditIcon, SaveIcon, CancelIcon, DeleteIcon,
   },
 
   data: function () {

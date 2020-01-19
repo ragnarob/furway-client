@@ -80,7 +80,7 @@ a {
 }
 
 .tiny-info {
-  font-size: 10px;
+  font-size: 11px;
   font-style: italic;
 }
 
@@ -97,7 +97,7 @@ h3 {
 }
 @media screen and (max-width: 850px) {
   p {
-    font-size: 16px;
+    // font-size: 16px;
     font-weight: 300;
   }
   h1 {
@@ -265,8 +265,13 @@ input, textarea, select {
   }
 }
 
+input[type="radio"] {
+  margin: 0 3px 0 0;
+}
+
 button {
   font-size: 14px;
+  box-sizing: border-box;
   border: none;
   padding: 4px 8px;
   border-radius: 4px;
@@ -296,11 +301,15 @@ button {
 .theme-button {
   background-color: #35b886;
   color: white;
+  &:hover {
+    background-color: #2b9b70 !important;
+  }
 }
 
 .neutral-button {
-  // background-color: #d1d1d1;
-  color: #35b886;
+  // color: #35b886;
+  // background-color: #ebfff8;
+  // border: 0.5px solid #35b886;
 }
 
 .disabled-button {
@@ -404,7 +413,8 @@ button {
   span {
     margin: 3px 0 5px 0;
   }
-  border-radius: 30px;
+  padding: 4px 9px;
+  border-radius: 40px;
   font-size: 20px;
   &:hover {
     cursor: pointer;
@@ -412,7 +422,6 @@ button {
   }
 }
 .icon-button-small {
-  margin-left: 8px;
   margin-right: 0px;
   font-size: 14px;
   span {

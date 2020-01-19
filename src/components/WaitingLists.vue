@@ -1,7 +1,7 @@
 <template>
   <div v-show="isOpen">
     <h3>Inside waiting list</h3>
-    <table class="table-without-buttons">
+    <table class="table-without-buttons" v-if="waitingLists.inside.length > 0">
       <thead>
         <th>Position</th>
         <th>Username</th>
@@ -15,9 +15,10 @@
         <td>{{formatTimestamp(reg.timestamp)}}</td>
       </tr>
     </table>
+    <p v-else>No waiting inside list</p>
 
     <h3>Outside waiting list</h3>
-    <table class="table-without-buttons">
+    <table class="table-without-buttons" v-if="waitingLists.outside.length > 0">
       <thead>
         <th>Position</th>
         <th>Username</th>
@@ -31,6 +32,7 @@
         <td>{{formatTimestamp(reg.timestamp)}}</td>
       </tr>
     </table>
+    <p v-else>No waiting outside list</p>
   </div>
 </template>
 

@@ -35,7 +35,16 @@ export default {
         registrationApi.getPendingRegistrations(),
         userApi.getAllUsers(),
         registrationApi.getWaitingLists()
-      ]) 
+      ])
+
+      for (let user of allUsers) {
+        if (user.dateOfBirth) {
+          user['dateOfBirth'] = new Date(user['dateOfBirth'])
+        }
+        if (user.pickupTime) {
+          user['pickupTime'] = new Date(user['pickupTime'])
+        }
+      }
 
       commit('setAllRegistrations', allRegistrations)
       commit('setPendingRegistrations', pendingRegistrations)

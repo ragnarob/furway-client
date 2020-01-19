@@ -16,16 +16,16 @@
           <span v-if="!isEditing.conStartDate">
             {{formatShortTimestamp(conInfo.conStartDate)}}
             <button @click="editField('conStartDate')" class="icon-button icon-button-small">
-              <EditIcon/>
+              <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
             <input type="date" v-model="editedConInfo.conStartDate"/>
-            <button @click="saveField" class="icon-button">
-              <SaveIcon/>
-            </button>
             <button @click="cancelEditing" class="icon-button">
-              <CancelIcon/>
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button theme-button">
+              <SaveIcon title="Save"/>
             </button>
           </span>
         </td>
@@ -37,16 +37,16 @@
           <span v-if="!isEditing.registrationOpenDate">
             {{formatShortTimestamp(conInfo.registrationOpenDate)}}
             <button @click="editField('registrationOpenDate')" class="icon-button icon-button-small">
-              <EditIcon/>
+              <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
             <input type="date" v-model="editedConInfo.registrationOpenDate"/>
-            <button @click="saveField" class="icon-button">
-              <SaveIcon/>
-            </button>
             <button @click="cancelEditing" class="icon-button">
-              <CancelIcon/>
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button theme-button">
+              <SaveIcon title="Save"/>
             </button>
           </span>
         </td>
@@ -58,16 +58,16 @@
           <span v-if="!isEditing.volunteerRegistrationOpenDate">
             {{formatShortTimestamp(conInfo.volunteerRegistrationOpenDate)}}
             <button @click="editField('volunteerRegistrationOpenDate')" class="icon-button icon-button-small">
-              <EditIcon/>
+              <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
             <input type="date" v-model="editedConInfo.volunteerRegistrationOpenDate"/>
-            <button @click="saveField" class="icon-button">
-              <SaveIcon/>
-            </button>
             <button @click="cancelEditing" class="icon-button">
-              <CancelIcon/>
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button theme-button">
+              <SaveIcon title="Save"/>
             </button>
           </span>
         </td>
@@ -79,16 +79,16 @@
           <span v-if="!isEditing.registrationCloseDate">
             {{formatShortTimestamp(conInfo.registrationCloseDate)}}
             <button @click="editField('registrationCloseDate')" class="icon-button icon-button-small">
-              <EditIcon/>
+              <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
             <input type="date" v-model="editedConInfo.registrationCloseDate"/>
-            <button @click="saveField" class="icon-button">
-              <SaveIcon/>
-            </button>
             <button @click="cancelEditing" class="icon-button">
-              <CancelIcon/>
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button theme-button">
+              <SaveIcon title="Save"/>
             </button>
           </span>
         </td>
@@ -105,16 +105,16 @@
           <span v-if="!isEditing.originalPaymentDeadline">
             {{formatShortTimestamp(conInfo.originalPaymentDeadline)}}
             <button @click="editField('originalPaymentDeadline')" class="icon-button icon-button-small">
-              <EditIcon/>
+              <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
             <input type="date" v-model="editedConInfo.originalPaymentDeadline"/>
-            <button @click="saveField" class="icon-button">
-              <SaveIcon/>
-            </button>
             <button @click="cancelEditing" class="icon-button">
-              <CancelIcon/>
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button theme-button">
+              <SaveIcon title="Save"/>
             </button>
           </span>
         </td>
@@ -126,16 +126,16 @@
           <span v-if="!isEditing.addonPaymentDeadline">
             {{formatShortTimestamp(conInfo.addonPaymentDeadline)}}
             <button @click="editField('addonPaymentDeadline')" class="icon-button icon-button-small">
-              <EditIcon/>
+              <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
             <input type="date" v-model="editedConInfo.addonPaymentDeadline"/>
-            <button @click="saveField" class="icon-button">
-              <SaveIcon/>
-            </button>
             <button @click="cancelEditing" class="icon-button">
-              <CancelIcon/>
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button theme-button">
+              <SaveIcon title="Save"/>
             </button>
           </span>
         </td>
@@ -152,16 +152,16 @@
           <span v-if="!isEditing.finalRegPaymentDeadline">
             {{formatShortTimestamp(conInfo.finalRegPaymentDeadline)}}
             <button @click="editField('finalRegPaymentDeadline')" class="icon-button icon-button-small">
-              <EditIcon/>
+              <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
             <input type="date" v-model="editedConInfo.finalRegPaymentDeadline"/>
-            <button @click="saveField" class="icon-button">
-              <SaveIcon/>
-            </button>
             <button @click="cancelEditing" class="icon-button">
-              <CancelIcon/>
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button theme-button">
+              <SaveIcon title="Save"/>
             </button>
           </span>
         </td>
@@ -173,7 +173,7 @@
           <span v-if="!isEditing.isSellingTshirts">
             {{formatBoolean(conInfo.isSellingTshirts)}}
             <button @click="editField('isSellingTshirts')" class="icon-button icon-button-small">
-              <EditIcon/>
+              <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
@@ -181,11 +181,11 @@
               <span><input type="radio" v-model="editedConInfo.isSellingTshirts" :value="true"/> Yes</span>
               <span><input type="radio" v-model="editedConInfo.isSellingTshirts" :value="false"/> No</span>
             </div>
-            <button @click="saveField" class="icon-button" style="margin-left: 10px;">
-              <SaveIcon/>
-            </button>
             <button @click="cancelEditing" class="icon-button">
-              <CancelIcon/>
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button" style="margin-left: 10px;">
+              <SaveIcon title="Save"/>
             </button>
           </span>
         </td>
@@ -197,7 +197,7 @@
           <span v-if="!isEditing.isSellingHoodies">
             {{formatBoolean(conInfo.isSellingHoodies)}}
             <button @click="editField('isSellingHoodies')" class="icon-button icon-button-small">
-              <EditIcon/>
+              <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
@@ -205,34 +205,57 @@
               <span><input type="radio" v-model="editedConInfo.isSellingHoodies" :value="true"/> Yes</span>
               <span><input type="radio" v-model="editedConInfo.isSellingHoodies" :value="false"/> No</span>
             </div>
-            <button @click="saveField" class="icon-button" style="margin-left: 10px;">
-              <SaveIcon/>
-            </button>
             <button @click="cancelEditing" class="icon-button">
-              <CancelIcon/>
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button" style="margin-left: 10px;">
+              <SaveIcon title="Save"/>
             </button>
           </span>
         </td>
       </tr>
 
       <tr>
-        <td>Main days price, NOK</td>
+        <td>Main days inside price, NOK</td>
         <td>
-          <span v-if="!isEditing.mainDaysPriceNok">
-            {{conInfo.mainDaysPriceNok}}
-            <button @click="editField('mainDaysPriceNok')" class="icon-button icon-button-small">
-              <EditIcon/>
+          <span v-if="!isEditing.mainDaysInsidePriceNok">
+            {{conInfo.mainDaysInsidePriceNok}}
+            <button @click="editField('mainDaysInsidePriceNok')" class="icon-button icon-button-small">
+              <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
             <div class="flex-col">
-              <input type="number" v-model="editedConInfo.mainDaysPriceNok">
+              <input type="number" v-model="editedConInfo.mainDaysInsidePriceNok">
             </div>
-            <button @click="saveField" class="icon-button" style="margin-left: 10px;">
-              <SaveIcon/>
-            </button>
             <button @click="cancelEditing" class="icon-button">
-              <CancelIcon/>
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button" style="margin-left: 10px;">
+              <SaveIcon title="Save"/>
+            </button>
+          </span>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Main days outside price, NOK</td>
+        <td>
+          <span v-if="!isEditing.mainDaysOutsidePriceNok">
+            {{conInfo.mainDaysOutsidePriceNok}}
+            <button @click="editField('mainDaysOutsidePriceNok')" class="icon-button icon-button-small">
+              <EditIcon title="Edit"/>
+            </button>
+          </span>
+          <span v-else>
+            <div class="flex-col">
+              <input type="number" v-model="editedConInfo.mainDaysOutsidePriceNok">
+            </div>
+            <button @click="cancelEditing" class="icon-button">
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button" style="margin-left: 10px;">
+              <SaveIcon title="Save"/>
             </button>
           </span>
         </td>
@@ -244,18 +267,18 @@
           <span v-if="!isEditing.earlyArrivalPriceNok">
             {{conInfo.earlyArrivalPriceNok}}
             <button @click="editField('earlyArrivalPriceNok')" class="icon-button icon-button-small">
-              <EditIcon/>
+              <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
             <div class="flex-col">
               <input type="number" v-model="editedConInfo.earlyArrivalPriceNok">
             </div>
-            <button @click="saveField" class="icon-button" style="margin-left: 10px;">
-              <SaveIcon/>
-            </button>
             <button @click="cancelEditing" class="icon-button">
-              <CancelIcon/>
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button" style="margin-left: 10px;">
+              <SaveIcon title="Save"/>
             </button>
           </span>
         </td>
@@ -267,18 +290,18 @@
           <span v-if="!isEditing.lateDeparturePriceNok">
             {{conInfo.lateDeparturePriceNok}}
             <button @click="editField('lateDeparturePriceNok')" class="icon-button icon-button-small">
-              <EditIcon/>
+              <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
             <div class="flex-col">
               <input type="number" v-model="editedConInfo.lateDeparturePriceNok">
             </div>
-            <button @click="saveField" class="icon-button" style="margin-left: 10px;">
-              <SaveIcon/>
-            </button>
             <button @click="cancelEditing" class="icon-button">
-              <CancelIcon/>
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button" style="margin-left: 10px;">
+              <SaveIcon title="Save"/>
             </button>
           </span>
         </td>
@@ -295,18 +318,18 @@
           <span v-if="!isEditing.tshirtPriceNok">
             {{conInfo.tshirtPriceNok}}
             <button @click="editField('tshirtPriceNok')" class="icon-button icon-button-small">
-              <EditIcon/>
+              <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
             <div class="flex-col">
               <input type="number" v-model="editedConInfo.tshirtPriceNok">
             </div>
-            <button @click="saveField" class="icon-button" style="margin-left: 10px;">
-              <SaveIcon/>
-            </button>
             <button @click="cancelEditing" class="icon-button">
-              <CancelIcon/>
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button" style="margin-left: 10px;">
+              <SaveIcon title="Save"/>
             </button>
           </span>
         </td>
@@ -323,18 +346,18 @@
           <span v-if="!isEditing.hoodiePriceNok">
             {{conInfo.hoodiePriceNok}}
             <button @click="editField('hoodiePriceNok')" class="icon-button icon-button-small">
-              <EditIcon/>
+              <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
             <div class="flex-col">
               <input type="number" v-model="editedConInfo.hoodiePriceNok">
             </div>
-            <button @click="saveField" class="icon-button" style="margin-left: 10px;">
-              <SaveIcon/>
-            </button>
             <button @click="cancelEditing" class="icon-button">
-              <CancelIcon/>
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button" style="margin-left: 10px;">
+              <SaveIcon title="Save"/>
             </button>
           </span>
         </td>
@@ -427,6 +450,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .icon-button-small {
+    margin-left: 8px !important;
+  }
+
   table {
     td {
       text-align: left;
