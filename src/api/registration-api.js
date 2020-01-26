@@ -58,6 +58,12 @@ export default {
     return response.data
   },
 
+  async deleteRegistration (userId) {
+    let response = await Axios.post(`${apiBase}/registrations/user/${userId}/delete`)
+
+    return response.data
+  },
+
   async createOpRegs(regType, amount) {
     await Axios.post(`${apiBase}/create-batch-regs`, {regType: regType, amount: amount})
   }

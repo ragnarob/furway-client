@@ -4,8 +4,10 @@
     
     <ResponseMessage :message="responseMessage" :messageType="responseMessageType" :scrollToTop="true" @closeMessage="closeResponseMessage" v-if="responseMessage"/>
 
+    <LoadingMessage :message="'Loading registration'" v-if="isLoadingRegistration"/>
+
     <!-- NOT APPROVED REGISTRATION -->
-    <div v-if="registrationStatus == 'unapproved'" class="flex-col">
+    <div v-else-if="registrationStatus == 'unapproved'" class="flex-col">
       <div style="border: 1px solid black; padding: 5px;">
         Your registration is not approved yet. You can only change your ticket type, and doing so <u>will</u> put you at the back of any existing queues.
       </div>
@@ -26,15 +28,15 @@
         </span>
       </div>
 
-      <p v-show="canSaveRoomPreference" class="margin-top-10 margin-bottom-10 warning-text">
+      <p v-show="isEditingUnapprovedRoomPreference" class="margin-top-10 margin-bottom-10 warning-text">
         REMINDER: Updating your registration now will put you at the back of any queues!
       </p>
 
       <div>
-        <button @click="cancelEditing" v-show="canSaveRoomPreference" class="big-button neutral-button">
+        <button @click="cancelEditing" v-show="isEditingUnapprovedRoomPreference" class="big-button neutral-button">
           <CancelIcon/> Cancel
         </button>
-        <button @click="updateRegistration" v-show="canSaveRoomPreference" class="big-button danger-button margin-left-10">
+        <button @click="updateRegistration" v-show="isEditingUnapprovedRoomPreference" class="big-button danger-button margin-left-10">
           <SaveIcon/> Update ticket type
         </button>
       </div>
@@ -77,33 +79,35 @@
       </p>
       <div class="flex-col left-align-content">
         <span>
-          <input type="radio" v-model="newRegistration.roomPreference" value="insideonly" id="roomPreferenceinsideonly"/>
+          <input type="radio" v-model="newRegistration.roomPreference" value="insideonly" :disabled="!isEditingRoomPreference" id="roomPreferenceinsideonly"/>
           <label for="roomPreferenceinsideonly">Inside only</label>
         </span>
         <span class="margin-top-4">
-          <input type="radio" v-model="newRegistration.roomPreference" value="insidepreference" id="roomPreferenceinsidepreference"/>
+          <input type="radio" v-model="newRegistration.roomPreference" value="insidepreference" :disabled="!isEditingRoomPreference" id="roomPreferenceinsidepreference"/>
           <label for="roomPreferenceinsidepreference">Inside preference</label>
         </span>
         <span class="margin-top-4">
-          <input type="radio" v-model="newRegistration.roomPreference" value="outsideonly" id="roomPreferenceoutsideonly"/>
+          <input type="radio" v-model="newRegistration.roomPreference" value="outsideonly" :disabled="!isEditingRoomPreference" id="roomPreferenceoutsideonly"/>
           <label for="roomPreferenceoutsideonly">Outside only</label>
         </span>
       </div>
 
-      <p v-show="canSaveRoomPreference" class="margin-top-10 margin-bottom-10 warning-text">
+      <button @click="isEditingRoomPreference = true" v-show="!isEditingRoomPreference" class="margin-top-10">Change ticket type</button>
+
+      <p v-show="isEditingRoomPreference" class="margin-top-10 margin-bottom-10 warning-text">
         REMINDER: Updating your ticket type will make you lose your spot, and put you at the back of any waiting list!
       </p>
 
-      <div v-show="canSaveRoomPreference">
+      <div v-show="isEditingRoomPreference">
         <button @click="cancelEditing" class="big-button neutral-button">
           <CancelIcon/> Cancel
         </button>
-        <button @click="updateRegistration" class="big-button danger-button margin-left-10">
+        <button @click="updateRegistration" v-show="canSaveRoomPreference" class="big-button danger-button margin-left-10">
           <SaveIcon/> Update ticket type
         </button>
       </div>
 
-      <div v-show="!canSaveRoomPreference" class="flex-col">
+      <div v-show="!isEditingRoomPreference" class="flex-col">
         <h3>Add-ons</h3>
         <p class="margin-bottom-10">
           You can add and remove add-ons without your spot being affected. Once you pay for an add-on, you cannot remove it and it will not be refunded.
@@ -152,7 +156,7 @@
       </div>
 
       <!-- PAYMENT -->
-      <div v-show="!canSaveRoomPreference">
+      <div v-show="!isEditingRoomPreference">
         <h3>Payments</h3>
         <table>
           <thead>
@@ -209,22 +213,51 @@
           </tr>
         </table>
       </div>
+
+      <div v-show="!isEditingRoomPreference" class="flex-col">
+        <h3>Delete registration</h3>
+        <p>Not going to Furway after all? You may delete your registration, but there is no going back from this!</p>
+        <button @click="isDeletingRegistration = true" v-show="!isDeletingRegistration" class="margin-top-10">
+          <DeleteIcon/> Delete my registration
+        </button>
+        <button @click="cancelDeleting" v-show="isDeletingRegistration" class="margin-top-10 margin-bottom-10 big-button">
+          <CancelIcon/> Cancel deleting
+        </button>
+        
+        <div v-if="isDeletingRegistration">
+          <p>To confirm the permanent deletion of your registration, please enter your username and then click confirm.</p>
+
+          <div class="margin-top-10 flex-col">
+            <input type="text" v-model="deleteRegistrationUsername" style="width: 120px; margin-bottom: 4px;"/>
+            <button @click="confirmDeleteRegistration" :class="{'danger-button': true, 'big-button': true, 'disabled-button': !isDeleteUsernameEqual}">
+              <DeleteIcon/> Delete registration
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+
+  
+    <div v-else-if="registrationStatus == 'noRegistration'">
+      You don't have a registration. You can register <router-link :to="'/register'">here</router-link>.
+    </div>
+
 
     <!-- NO REGISTRATION -->
     <div v-else>
       No registration / not logged in. This route won't be available in final version unless user actually has one & is logged in.
     </div>
-
   </div>
 </template>
 
 <script>
 import registrationApi from '../api/registration-api'
 import ResponseMessage from '../components/ResponseMessage.vue'
+import LoadingMessage from '../components/LoadingMessage.vue'
 
 import SaveIcon from 'vue-material-design-icons/ContentSave.vue'
 import CancelIcon from 'vue-material-design-icons/Close.vue'
+import DeleteIcon from 'vue-material-design-icons/DeleteOutline.vue'
 
 import { mapGetters } from 'vuex'
 import { formatBoolean, sleepMillisec } from '../utils'
@@ -233,12 +266,16 @@ export default {
   name: 'myRegistration',
 
   components: {
-    ResponseMessage,
-    SaveIcon, CancelIcon,
+    ResponseMessage, LoadingMessage,
+    SaveIcon, CancelIcon, DeleteIcon
   },
 
   data: function () {
     return {
+      isLoadingRegistration: true,
+      isEditingRoomPreference: false,
+      isDeletingRegistration: false,
+      deleteRegistrationUsername: '',
       responseMessage: '',
       responseMessageType: 'error',
       newRegistration: null,
@@ -259,8 +296,11 @@ export default {
     },
 
     registrationStatus () {
-      if (!this.$store.state.isLoggedIn || !this.$store.state.userData.registrationId || !this.myRegistration || !this.newRegistration) {
-        return 'none'
+      if (!this.$store.state.isLoggedIn) {
+        return 'notLoggedIn'
+      }
+      else if (!this.$store.state.userData.registrationId || !this.myRegistration) {
+        return 'noRegistration'
       }
       else if (this.myRegistration.isAdminApproved) {
         return 'approved'
@@ -268,7 +308,15 @@ export default {
       else {
         return 'unapproved'
       }
-    }
+    },
+
+    isEditingUnapprovedRoomPreference () {
+      return this.newRegistration.roomPreference !== this.myRegistration.roomPreference
+    },
+  
+    isDeleteUsernameEqual () {
+      return this.deleteRegistrationUsername === this.$store.state.userData.username
+    },
   },
 
   methods: {
@@ -284,24 +332,51 @@ export default {
       }
     },
 
+    cancelDeleting () {
+      this.deleteRegistrationUsername = ''
+      this.isDeletingRegistration = false
+    },
+
+    async confirmDeleteRegistration () {
+      if (!this.isDeleteUsernameEqual) { return }
+
+      let result = await registrationApi.deleteRegistration(this.$store.state.userData.id)
+
+      if ('error' in result) {
+        this.responseMessage = result.error
+        this.responseMessageType = 'error'
+      }
+      else {
+        this.responseMessage = 'Successfully deleted registration'
+        this.responseMessageType = 'success'
+        this.cancelDeleting()
+        this.getRegistration()
+      }
+
+      this.scrollTop()
+    },
+
     async updateRegistration () {
       let result
-      if (this.canSaveRoomPreference === true) {
+      if (this.isEditingRoomPreference === true) {
         result = await this.updateRoomPreference(this.$store.state.userData.id, this.newRegistration.roomPreference)
       }
       else {
         result = await registrationApi.updateRegistration(this.$store.state.userData.id, this.newRegistration)
       }
 
-      if (result.success) {
-        this.responseMessage = 'Update successful'
-        this.responseMessageType = 'success'
-        this.getRegistration()
-      }
-      else {
+      if ('error' in result) {
         this.responseMessage = result.error
         this.responseMessageType = 'error'
       }
+      else {
+        this.responseMessage = 'Update successful'
+        this.responseMessageType = 'success'
+        this.cancelEditing()
+        this.getRegistration()
+      }
+
+      this.scrollTop()
     },
 
     async updateRoomPreference (userId, newRoomPreference) {
@@ -312,6 +387,8 @@ export default {
     },
 
     async getRegistration () {
+      this.isLoadingRegistration = true
+      
       if (!this.$store.getters.isLoggedIn) {
         this.setupLoginListener()
         return
@@ -320,10 +397,12 @@ export default {
       await this.$store.dispatch('getMyRegistration')
 
       this.newRegistration = {...this.myRegistration}
+      this.isLoadingRegistration = false
     },
 
     cancelEditing () {
       this.newRegistration = {...this.myRegistration}
+      this.isEditingRoomPreference = false
     },
 
     closeResponseMessage () {
@@ -340,6 +419,14 @@ export default {
           this.getRegistration()
         }
       })
+    },
+
+    scrollTop () {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
     },
 
     formatBoolean,
