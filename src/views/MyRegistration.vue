@@ -4,7 +4,7 @@
     
     <ResponseMessage :message="responseMessage" :messageType="responseMessageType" :scrollToTop="true" @closeMessage="closeResponseMessage" v-if="responseMessage"/>
 
-    <LoadingMessage :message="'Loading registration'" v-if="isLoadingRegistration"/>
+    <LoadingMessage :message="'Loading registration...'" v-if="isLoadingRegistration"/>
 
     <!-- NOT APPROVED REGISTRATION -->
     <div v-else-if="registrationStatus == 'unapproved'" class="flex-col">
@@ -397,7 +397,7 @@ export default {
       await this.$store.dispatch('getMyRegistration')
 
       this.newRegistration = {...this.myRegistration}
-      this.isLoadingRegistration = false
+      // this.isLoadingRegistration = false
     },
 
     cancelEditing () {
