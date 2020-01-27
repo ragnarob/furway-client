@@ -350,6 +350,7 @@ export default {
         this.responseMessage = 'Successfully deleted registration'
         this.responseMessageType = 'success'
         this.cancelDeleting()
+        this.$store.dispatch('refreshUserData')
         this.getRegistration()
       }
 
@@ -397,7 +398,7 @@ export default {
       await this.$store.dispatch('getMyRegistration')
 
       this.newRegistration = {...this.myRegistration}
-      // this.isLoadingRegistration = false
+      this.isLoadingRegistration = false
     },
 
     cancelEditing () {

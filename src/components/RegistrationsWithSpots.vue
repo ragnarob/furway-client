@@ -36,7 +36,7 @@
         <td>{{reg.paidAmount}} paid, {{reg.unpaidAmount}} unpaid</td>
 
         <td>
-          <button @click="removeSpotFromRegistration(reg)">Remove spot</button>
+          <button @click="deleteRegistration(reg)">Delete reg</button>
           <button @click="highlightRegistration(reg)">Show full reg</button>
         </td>
       </tr>
@@ -71,8 +71,12 @@ export default {
   },
 
   methods: {
-    async removeSpotFromRegistration (reg) {
-      let result = await registrationApi.removeSpotFromRegistration(reg.userId)
+    deleteRegistration (reg) {
+      window.alert('Are you sure? Yes no')
+    },
+
+    async confirmDeleteRegistration (reg) {
+      let result = await registrationApi.deleteRegistration(reg.userId)
 
       if ('error' in result) {
         this.errorMessage = result.error

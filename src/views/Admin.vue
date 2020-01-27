@@ -68,6 +68,16 @@
         <RegistrationList/>
       </div>
 
+      <!-- Deleted registrations -->
+      <div>
+        <h2 class="header-with-show-hide">
+          Deleted Registrations
+          <ShowIcon v-if="!isDeletedRegistrationsOpen" @click="toggleIsDeletedRegistrationsOpen" class="show-hide-icon"/>
+          <HideIcon v-if="isDeletedRegistrationsOpen" @click="toggleIsDeletedRegistrationsOpen" class="show-hide-icon"/>
+        </h2>
+        <DeletedRegistrations :isOpen="isDeletedRegistrationsOpen"/>
+      </div>
+
       <!-- All users -->
       <div>
         <h2 class="header-with-show-hide">
@@ -104,6 +114,7 @@ import RegistrationList from '../components/RegistrationList.vue'
 import WaitingLists from '../components/WaitingLists.vue'
 import AdminStats from '../components/AdminStats.vue'
 import PendingRegistrations from '../components/PendingRegistrations.vue'
+import DeletedRegistrations from '../components/DeletedRegistrations.vue'
 import RegistrationsWithSpots from '../components/RegistrationsWithSpots.vue'
 import ConInfoManager from '../components/ConInfoManager'
 
@@ -116,14 +127,15 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'admin',
 
-  components: { UserList, RegistrationList, WaitingLists, AdminStats, PendingRegistrations, RegistrationsWithSpots, ConInfoManager, ShowIcon, HideIcon },
+  components: { UserList, RegistrationList, WaitingLists, AdminStats, PendingRegistrations, DeletedRegistrations, RegistrationsWithSpots, ConInfoManager, ShowIcon, HideIcon },
 
   data: function () {
     return {
       showWaitingLists: false,
-      showAdminStats: true,
+      showAdminStats: false,
       isRegistrationsWithSpotsOpen: false,
       isConInfoManagerOpen: false,
+      isDeletedRegistrationsOpen: false,
     }
   },
 
@@ -134,6 +146,7 @@ export default {
   methods: {
     toggleIsAllUsersOpen () { this.$store.dispatch('toggleIsAllUsersOpen') },
     toggleIsAllRegistrationsOpen () { this.$store.dispatch('toggleIsAllRegistrationsOpen') },
+    toggleIsDeletedRegistrationsOpen () { this.isDeletedRegistrationsOpen = !this.isDeletedRegistrationsOpen },
 
     formatRoomPreference (roomPreference) {
       if (roomPreference === 'insideonly') { return 'Inside only' }
