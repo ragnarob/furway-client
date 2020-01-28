@@ -22,6 +22,7 @@
 
         <p style="text-align: left;"><b>Ting som gjenstår</b></p>
         <ul style="text-align: left; margin-top: 0px;">
+          <li>Implementere epost!! Og da også forgot password.</li>
           <li>Få på plass terms & conditions!</li>
           <li>Fikse redigering og sletting i "All Registrations" (admin)</li>
           <li>Gjøre det vanskeligere (bekreft-prompt) å rejecte pending reg (admin)</li>
