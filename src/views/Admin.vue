@@ -2,26 +2,27 @@
   <div class="flex-col">
     <h1>Admin</h1>
 
-    <div v-if="$store.state.isLoggedIn && $store.state.userData.isAdmin" style="max-width: 100%;">
       <p @click="toggleTimestampFormat" class="link-text">Toggle timestamp format</p>
 
       <!-- Jukseknapper-div -->
-      <div style="text-align: left;" id="temp-op-div">
-        <button @click="createRegs('insideonly', 1)">Lag 1 bruker og inside-only regs</button>
-        <button @click="createRegs('insideonly', 2)">Lag 2 brukere og inside-only regs</button>
-        <button @click="createRegs('insideonly', 10)">Lag 10 brukere og inside-only regs</button>
-        <br>
-        <button @click="createRegs('insidepreference', 1)">Lag 1 bruker og inside-preference regs</button>
-        <button @click="createRegs('insidepreference', 2)">Lag 2 brukere og inside-preference regs</button>
-        <button @click="createRegs('insidepreference', 10)">Lag 10 brukere og inside-preference regs</button>
-        <br>
-        <button @click="createRegs('outsideonly', 1)">Lag 1 bruker og outside-only regs</button>
-        <button @click="createRegs('outsideonly', 2)">Lag 2 brukere og outside-only regs</button>
-        <button @click="createRegs('outsideonly', 10)">Lag 10 brukere og outside-only regs</button>
+      <div v-if="isAdmin" class="admin-component-container">
+        <div style="text-align: left;" id="temp-op-div">
+          <button @click="createRegs('insideonly', 1)">Lag 1 bruker og inside-only regs</button>
+          <button @click="createRegs('insideonly', 2)">Lag 2 brukere og inside-only regs</button>
+          <button @click="createRegs('insideonly', 10)">Lag 10 brukere og inside-only regs</button>
+          <br>
+          <button @click="createRegs('insidepreference', 1)">Lag 1 bruker og inside-preference regs</button>
+          <button @click="createRegs('insidepreference', 2)">Lag 2 brukere og inside-preference regs</button>
+          <button @click="createRegs('insidepreference', 10)">Lag 10 brukere og inside-preference regs</button>
+          <br>
+          <button @click="createRegs('outsideonly', 1)">Lag 1 bruker og outside-only regs</button>
+          <button @click="createRegs('outsideonly', 2)">Lag 2 brukere og outside-only regs</button>
+          <button @click="createRegs('outsideonly', 10)">Lag 10 brukere og outside-only regs</button>
+        </div>
       </div>
       
       <!-- Numbers & dates -->
-      <div>
+      <div v-if="isAdmin" class="admin-component-container">
         <h2 class="header-with-show-hide">
           Numbers & dates
           <ShowIcon v-if="!showAdminStats" @click="showAdminStats = true" class="show-hide-icon"/>
@@ -32,13 +33,13 @@
       </div>
 
       <!-- Pending registrations -->
-      <div>
+      <div v-if="isAdmin" class="admin-component-container">
         <h2>Pending registrations</h2>
         <PendingRegistrations/>
       </div>
 
       <!-- Registrations with given spots -->
-      <div>
+      <div v-if="isAdmin" class="admin-component-container">
         <h2 class="header-with-show-hide">
           Registrations with given spots
           <ShowIcon v-if="!isRegistrationsWithSpotsOpen" @click="isRegistrationsWithSpotsOpen = true" class="show-hide-icon"/>
@@ -48,7 +49,7 @@
       </div>
 
       <!-- Waiting lists -->
-      <div>
+      <div v-if="isAdmin" class="admin-component-container">
         <h2 class="header-with-show-hide">
           Waiting lists
           <ShowIcon v-if="!showWaitingLists" @click="showWaitingLists = true" class="show-hide-icon"/>
@@ -59,7 +60,7 @@
       </div>
 
       <!-- All registrations -->
-      <div>
+      <div v-if="isAdmin" class="admin-component-container">
         <h2 class="header-with-show-hide">
           All Registrations
           <ShowIcon v-if="!isAllRegistrationsOpen" @click="toggleIsAllRegistrationsOpen" class="show-hide-icon"/>
@@ -69,7 +70,7 @@
       </div>
 
       <!-- Deleted registrations -->
-      <div>
+      <div v-if="isAdmin" class="admin-component-container">
         <h2 class="header-with-show-hide">
           Deleted Registrations
           <ShowIcon v-if="!isDeletedRegistrationsOpen" @click="toggleIsDeletedRegistrationsOpen" class="show-hide-icon"/>
@@ -79,7 +80,7 @@
       </div>
 
       <!-- All users -->
-      <div>
+      <div v-if="isAdmin" class="admin-component-container">
         <h2 class="header-with-show-hide">
           All Users
           <ShowIcon v-if="!isAllUsersOpen" @click="toggleIsAllUsersOpen" class="show-hide-icon"/>
@@ -89,7 +90,7 @@
       </div>
 
       <!-- Con info -->
-      <div>
+      <div v-if="isAdmin" class="admin-component-container">
         <h2 class="header-with-show-hide">
           Con info manager
           <ShowIcon v-if="!isConInfoManagerOpen" @click="isConInfoManagerOpen = true" class="show-hide-icon"/>
@@ -97,7 +98,6 @@
         </h2>
         <ConInfoManager :isOpen="isConInfoManagerOpen"/>
       </div>
-    </div>
 
     <div v-if="$store.state.isLoggedIn && $store.state.userData.isDriver" style="max-width: 100%;">
         <h2 class="header-with-show-hide" v-if="$store.state.userData.isAdmin">
@@ -198,11 +198,15 @@ export default {
         ? this.isDrivingListOpenAdmin 
         : true
     },
+
+    isAdmin () {
+      return this.$store.state.isLoggedIn && this.$store.state.userData.isAdmin
+    }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #temp-op-div {
   button {
     padding: 6px 4px;
@@ -216,5 +220,8 @@ export default {
   @media screen and (min-width: 849px) {
     padding-left: 16px;
   }
+}
+.admin-component-container {
+  max-width: 100%;
 }
 </style>

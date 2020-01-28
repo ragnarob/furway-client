@@ -23,6 +23,7 @@
         <th>Last name</th>
         <th>Email</th>
         <th>Date of birth</th>
+        <th title="Telegram username">Telegram</th>
         <th>Phone</th>
         <th>Vegan</th>
         <th>Fursuiter</th>
@@ -112,6 +113,15 @@
           </p>
           <p v-else>
             {{formatBdayTimestamp(user.dateOfBirth)}}
+          </p>
+        </td>
+
+        <td>
+          <p v-if="isThisUserBeingEdited(user.id)">
+            <input type="text" v-model="userBeingEdited.telegramUsername"/>
+          </p>
+          <p v-else>
+            {{user.telegramUsername}}
           </p>
         </td>
 

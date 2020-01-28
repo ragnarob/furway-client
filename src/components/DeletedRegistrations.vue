@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%;" v-show="isOpen">
+  <div class="wide-table-wrapper" v-show="isOpen">
     <table class="very-wide-table">
       <tr>
         <th>Id</th>

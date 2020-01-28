@@ -335,7 +335,5 @@ export default {
       }
     }
   }
-  td, p {
-  }
 }
 </style>
