@@ -27,23 +27,23 @@
           <td>{{numberOfOutsideRegistrationsGiven}}/{{conInfo.numberOfOutsideSpots}} spots<br>{{waitingLists.outside.length}} waiting</td>
         </tr>
 
-        </table><table>
+        <!-- </table><table> -->
 
         <tr>
           <td>Fully paid registrations</td>
           <td>{{numberOfFullyPaidRegistrations}} / {{numberOfRegistrationsGiven}}</td>
         </tr>
         <tr>
-          <td>Main days paid, add-ons unpaid regs</td>
+          <td>Partially paid regs</td>
           <td>{{numberOfOnlyAddonsUnpaidRegistrations}} / {{numberOfRegistrationsGiven}}</td>
         </tr>
         <tr>
           <td>Fully unpaid registrations</td>
           <td>{{numberOfRegistrationsGiven - numberOfMainDaysPaidRegistrations}} / {{numberOfRegistrationsGiven}}</td>
         </tr>
-      </table>
 
-      <table>
+        <!-- </table><table> -->
+
         <tr>
           <td>Vegans with received spots</td>
           <td>{{numberOfVegans}}</td>
@@ -52,53 +52,7 @@
           <td>Fursuiters with received spots</td>
           <td>{{numberOfFursuiters}}</td>
         </tr>
-      </table>
-    </div>
 
-    <div>
-      <table>
-        <tr>
-          <td>Registration opening date</td>
-          <td>{{formatShortTimestamp(conInfo.registrationOpenDate)}}<br>Volunteers: {{formatShortTimestamp(conInfo.volunteerRegistrationOpenDate)}}</td>
-        </tr>
-        <tr>
-          <td>Registration close date</td>
-          <td>{{formatShortTimestamp(conInfo.registrationCloseDate)}}</td>
-        </tr>
-        <tr>
-          <td>Soft Main payment deadline</td>
-          <td>{{formatShortTimestamp(conInfo.originalPaymentDeadline)}}</td>
-        </tr>
-        <tr>
-          <td>Final main payment deadline</td>
-          <td>{{formatShortTimestamp(conInfo.finalRegPaymentDeadline)}}</td>
-        </tr>
-        <tr>
-          <td>Add-ons payment deadline</td>
-          <td>{{formatShortTimestamp(conInfo.addonPaymentDeadline)}}</td>
-        </tr>
-
-        </table><table>
-
-        <tr>
-          <td>Main days price</td>
-          <td>{{conInfo.mainDaysPriceNok}}</td>
-        </tr>
-        <tr>
-          <td>Early/late price</td>
-          <td>{{conInfo.earlyArrivalPriceNok}}/{{conInfo.lateDeparturePriceNok}}</td>
-        </tr>
-        <tr v-if="conInfo.isSellingHoodies">
-          <td>Hoodie price</td>
-          <td>{{conInfo.hoodiePriceNok}}</td>
-        </tr>
-        <tr v-if="conInfo.isSellingTshirts">
-          <td>T-shirt price</td>
-          <td>{{conInfo.tshirtPriceNok}}</td>
-        </tr>
-      </table>
-
-      <table>
         <tr v-if="conInfo.isSellingHoodies">
           <td>Hoodies, total</td>
           <td>
@@ -271,23 +225,14 @@ export default {
       &:hover {
         cursor: default;
       }
+      &:first-child {
+        text-align: right;
+        padding-right: 10px;
+      }
     }
     tr:hover {
       background: none;
     }
-  }
-
-  div:first-child {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    width: 50%;
-    padding-right: 10px;
-  }
-
-  div:nth-child(2) {
-    width: 50%;
-    padding-left: 10px;
   }
 }
 </style>

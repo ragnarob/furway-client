@@ -7,18 +7,39 @@
       <!-- Jukseknapper-div -->
       <div v-if="isAdmin" class="admin-component-container">
         <div style="text-align: left;" id="temp-op-div">
-          <button @click="createRegs('insideonly', 1)">Lag 1 bruker og inside-only regs</button>
-          <button @click="createRegs('insideonly', 2)">Lag 2 brukere og inside-only regs</button>
-          <button @click="createRegs('insideonly', 10)">Lag 10 brukere og inside-only regs</button>
+          <button class="danger-button" @click="createRegs('insideonly', 1)">Lag 1 bruker og inside-only regs</button>
+          <button class="danger-button" @click="createRegs('insideonly', 2)">Lag 2 brukere og inside-only regs</button>
+          <button class="danger-button" @click="createRegs('insideonly', 10)">Lag 10 brukere og inside-only regs</button>
           <br>
-          <button @click="createRegs('insidepreference', 1)">Lag 1 bruker og inside-preference regs</button>
-          <button @click="createRegs('insidepreference', 2)">Lag 2 brukere og inside-preference regs</button>
-          <button @click="createRegs('insidepreference', 10)">Lag 10 brukere og inside-preference regs</button>
+          <button class="danger-button" @click="createRegs('insidepreference', 1)">Lag 1 bruker og inside-preference regs</button>
+          <button class="danger-button" @click="createRegs('insidepreference', 2)">Lag 2 brukere og inside-preference regs</button>
+          <button class="danger-button" @click="createRegs('insidepreference', 10)">Lag 10 brukere og inside-preference regs</button>
           <br>
-          <button @click="createRegs('outsideonly', 1)">Lag 1 bruker og outside-only regs</button>
-          <button @click="createRegs('outsideonly', 2)">Lag 2 brukere og outside-only regs</button>
-          <button @click="createRegs('outsideonly', 10)">Lag 10 brukere og outside-only regs</button>
+          <button class="danger-button" @click="createRegs('outsideonly', 1)">Lag 1 bruker og outside-only regs</button>
+          <button class="danger-button" @click="createRegs('outsideonly', 2)">Lag 2 brukere og outside-only regs</button>
+          <button class="danger-button" @click="createRegs('outsideonly', 10)">Lag 10 brukere og outside-only regs</button>
         </div>
+
+        <p style="text-align: left;"><b>Ting som gjenstår</b></p>
+        <ul style="text-align: left; margin-top: 0px;">
+          <li>Få på plass terms & conditions!</li>
+          <li>Fikse redigering og sletting i "All Registrations" (admin)</li>
+          <li>Gjøre det vanskeligere (bekreft-prompt) å rejecte pending reg (admin)</li>
+          <li>Reworke betaling, gå bort fra liste over hva som er betalt, til heller bare beløp betalt og beløp som gjenstår</li>
+          <li>Implementere at endring i reg faktisk resetter timestamp. Nå skjer det ikke.</li>
+          <li>Vise timestamp i "My Registration"</li>
+          <li>Donation, men det kommer når jeg implementerer betaling</li>
+          <li>Legge til mulighet for egendefinerte add-ons (som f.eks. charms), med pris og max antall</li>
+          <li>Gi en faktisk reg-id, kun til registrations som har fått plass</li>
+          <li>Vise brukers posisjon i ventelisten når det er relevant</li>
+          <li>Fikse titles på alle ikoner</li>
+          <li>Få alt i admin-panelet til å respektere timestamp format</li>
+        </ul>
+        <p style="text-align: left;"><b>Ferdig</b></p>
+        <ul style="text-align: left; margin-top: 0px;">
+          <li>Hente-info i brukerprofil</li>
+          <li>Driving list, egen brukerrolle isDriver, egen admin-panel-visning for ikke-admins som er drivers</li>
+        </ul>
       </div>
       
       <!-- Numbers & dates -->

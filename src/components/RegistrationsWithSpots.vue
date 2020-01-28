@@ -36,7 +36,6 @@
         <td>{{reg.paidAmount}} paid, {{reg.unpaidAmount}} unpaid</td>
 
         <td>
-          <button @click="deleteRegistration(reg)">Delete reg</button>
           <button @click="highlightRegistration(reg)">Show full reg</button>
         </td>
       </tr>
@@ -71,22 +70,6 @@ export default {
   },
 
   methods: {
-    deleteRegistration (reg) {
-      window.alert('Are you sure? Yes no')
-    },
-
-    async confirmDeleteRegistration (reg) {
-      let result = await registrationApi.deleteRegistration(reg.userId)
-
-      if ('error' in result) {
-        this.errorMessage = result.error
-        this.scrollToErrorMessage()
-      }
-      else { 
-        this.$store.dispatch('loadAllAdminData')
-      }
-    },
-
     async highlightRegistration (reg) {
       if (!this.isAllRegistrationsOpen) {
         this.$store.commit('setIsAllRegistrationsOpen', true)
