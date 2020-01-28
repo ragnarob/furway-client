@@ -20,7 +20,7 @@
     <router-link to="/my-registration" v-if="$store.getters.isLoggedIn">
       MY REGISTRATION
     </router-link>
-    <router-link to="/admin" v-if="$store.getters.isLoggedIn && $store.getters.userData.isAdmin">
+    <router-link to="/admin" v-if="$store.getters.isLoggedIn && ($store.getters.userData.isAdmin || $store.getters.userData.isDriver)">
       ADMIN
     </router-link>
   </header>

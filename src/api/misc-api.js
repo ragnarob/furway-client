@@ -3,6 +3,12 @@ import Axios from 'axios'
 let apiBase = '/api'
 
 export default {
+  async getDriverInfo () {
+    let response = await Axios.get(`${apiBase}/driver-info`)
+
+    return response.data
+  },
+
   async getConInfo () {
     let response = await Axios.get(`${apiBase}/con-info`)
 

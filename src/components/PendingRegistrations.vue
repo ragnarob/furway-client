@@ -1,5 +1,5 @@
 <template>
-  <table v-if="pendingRegistrations.length > 0">
+  <table v-if="pendingRegistrations.length > 0" class="very-wide-table">
     <tr>
       <th>Username</th>
       <th>First name</th>
@@ -54,7 +54,7 @@ export default {
         this.scrollToErrorMessage()
       }
       else {
-        this.$store.dispatch('loadData')
+        this.$store.dispatch('loadAllAdminData')
       }
     },
     
@@ -66,7 +66,7 @@ export default {
         this.scrollToErrorMessage()
       }
       else {
-        this.$store.dispatch('loadData')
+        this.$store.dispatch('loadAllAdminData')
       }
     },
 

@@ -83,7 +83,7 @@ export default {
         this.scrollToErrorMessage()
       }
       else { 
-        this.$store.dispatch('loadData')
+        this.$store.dispatch('loadAllAdminData')
       }
     },
 

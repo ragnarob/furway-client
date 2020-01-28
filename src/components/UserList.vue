@@ -359,7 +359,7 @@ export default {
         this.responseMessage = `User deleted successfully`
         this.responseMessageType = 'success'
         this.cancelDeleting()
-        this.$store.dispatch('loadData')
+        this.$store.dispatch('loadAllAdminData')
       }
     },
 
@@ -381,7 +381,7 @@ export default {
         this.responseMessage = `User ${this.userBeingEdited.username} successfully`
         this.responseMessageType = 'success'
         this.cancelEditing()
-        this.$store.dispatch('loadData')
+        this.$store.dispatch('loadAllAdminData')
       }
     },
 

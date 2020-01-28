@@ -99,8 +99,20 @@
       </div>
     </div>
 
-    <div v-else>
-      Not logged in eller ikke admin. Denne siden blir ikke vist engang i ferdig implementasjon, bare redirect til index.
+    <div v-if="$store.state.isLoggedIn && $store.state.userData.isDriver" style="max-width: 100%;">
+        <h2 class="header-with-show-hide" v-if="$store.state.userData.isAdmin">
+          Driving list
+          <ShowIcon v-if="!isDrivingListOpenAdmin" @click="toggleIsDrivingListOpenAdmin" class="show-hide-icon"/>
+          <HideIcon v-if="isDrivingListOpenAdmin" @click="toggleIsDrivingListOpenAdmin" class="show-hide-icon"/>
+        </h2>
+        <h2 v-else>
+          Driving list
+        </h2>
+        <DrivingList :isOpen="isDrivingListOpen"/>
+    </div>
+
+    <div v-if="!$store.state.isLoggedIn || !($store.state.userData.isDriver || $store.state.userData.isAdmin)">
+      Not logged in eller ikke admin/driver. Denne siden blir ikke vist engang i ferdig implementasjon, bare redirect til index.
     </div>
   </div>
 </template>
@@ -117,6 +129,7 @@ import PendingRegistrations from '../components/PendingRegistrations.vue'
 import DeletedRegistrations from '../components/DeletedRegistrations.vue'
 import RegistrationsWithSpots from '../components/RegistrationsWithSpots.vue'
 import ConInfoManager from '../components/ConInfoManager'
+import DrivingList from '../components/DrivingList.vue'
 
 import ShowIcon from 'vue-material-design-icons/Eye.vue'
 import HideIcon from 'vue-material-design-icons/EyeOff.vue'
@@ -127,7 +140,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'admin',
 
-  components: { UserList, RegistrationList, WaitingLists, AdminStats, PendingRegistrations, DeletedRegistrations, RegistrationsWithSpots, ConInfoManager, ShowIcon, HideIcon },
+  components: { UserList, RegistrationList, WaitingLists, AdminStats, PendingRegistrations, DeletedRegistrations, RegistrationsWithSpots, ConInfoManager, DrivingList, ShowIcon, HideIcon },
 
   data: function () {
     return {
@@ -136,17 +149,30 @@ export default {
       isRegistrationsWithSpotsOpen: false,
       isConInfoManagerOpen: false,
       isDeletedRegistrationsOpen: false,
+      isDrivingListOpenAdmin: false,
     }
   },
 
   async mounted () {
-    this.$store.dispatch('loadData')
+    if (this.$store.state.isLoggedIn) {
+      this.loadAllAdminData()
+    }
+    else {
+      this.$store.watch(() => this.$store.getters.isLoggedIn, this.loadAllAdminData)
+    }
   },
 
   methods: {
     toggleIsAllUsersOpen () { this.$store.dispatch('toggleIsAllUsersOpen') },
     toggleIsAllRegistrationsOpen () { this.$store.dispatch('toggleIsAllRegistrationsOpen') },
     toggleIsDeletedRegistrationsOpen () { this.isDeletedRegistrationsOpen = !this.isDeletedRegistrationsOpen },
+    toggleIsDrivingListOpenAdmin () { this.isDrivingListOpenAdmin = !this.isDrivingListOpenAdmin },
+
+    async loadAllAdminData () {
+      if (this.$store.state.isLoggedIn && this.$store.state.userData.isAdmin) {
+        this.$store.dispatch('loadAllAdminData')
+      }
+    },
 
     formatRoomPreference (roomPreference) {
       if (roomPreference === 'insideonly') { return 'Inside only' }
@@ -156,7 +182,7 @@ export default {
 
     async createRegs (regType, amount) {
       await registrationApi.createOpRegs(regType, amount)
-      this.$store.dispatch('loadData')
+      this.$store.dispatch('loadAllAdminData')
     },
 
     toggleTimestampFormat () {
@@ -166,6 +192,12 @@ export default {
 
   computed: {
     ...mapGetters(['isAllUsersOpen', 'isAllRegistrationsOpen']),
+
+    isDrivingListOpen () {
+      return this.$store.state.userData.isAdmin
+        ? this.isDrivingListOpenAdmin 
+        : true
+    },
   }
 }
 </script>

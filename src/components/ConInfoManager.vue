@@ -430,7 +430,7 @@ export default {
         this.responseMessage = 'Success!'
         this.isErrorMessage = false
         this.cancelEditing()
-        this.$store.dispatch('loadData')
+        this.$store.dispatch('loadAllAdminData')
         this.$store.dispatch('loadConInfo')
       }
     },

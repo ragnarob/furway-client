@@ -29,7 +29,7 @@ export default {
   },
 
   actions: {
-    async loadData ({commit}) {
+    async loadAllAdminData ({rootState, commit}) {
       let [allRegistrations, pendingRegistrations, allUsers, waitingLists] = await Promise.all([
         registrationApi.getAllRegistrations(),
         registrationApi.getPendingRegistrations(),
