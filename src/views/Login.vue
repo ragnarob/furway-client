@@ -3,6 +3,7 @@
     <h1>Login</h1>
 
     <ResponseMessage :message="responseMessage" :messageType="responseMessageType" @closeMessage="closeResponseMessage"/>
+    <LoadingMessage :message="'Logging in...'" v-if="isLoggingIn"/>
 
     <form @submit.prevent="login" class="flex-col">
       <label class="margin-top-10">Username or email</label>
@@ -10,16 +11,17 @@
 
       <label class="margin-top-10">Password</label>
       <input type="password" v-model="password"/>
-    </form>
 
-    <button @click="login" class="big-button theme-button margin-top-10">
-      <LoginIcon/> Log in
-    </button>
+      <button @click="login" class="big-button theme-button margin-top-10">
+        <LoginIcon/> Log in
+      </button>
+    </form>
   </div>
 </template>
 
 <script>
 import ResponseMessage from '../components/ResponseMessage.vue'
+import LoadingMessage from '../components/LoadingMessage.vue'
 
 import LoginIcon from 'vue-material-design-icons/Login.vue'
 
@@ -27,7 +29,8 @@ export default {
   name: 'login',
 
   components: {
-    ResponseMessage, LoginIcon
+    ResponseMessage, LoadingMessage,
+    LoginIcon,
   },
 
   data: function () {
@@ -36,13 +39,20 @@ export default {
       password: '',
       responseMessage: '',
       responseMessageType: 'error',
+      isLoggingIn: false,
     }
   },
 
   methods: {
     async login () {
+      if (this.isLoggingIn) { return }
+
+      this.isLoggingIn = true
+
       let loginResult = await this.$store.dispatch('login', 
         {usernameOrEmail: this.usernameOrEmail, password: this.password})
+
+      this.isLoggingIn = false
 
       if (loginResult.success) {
         this.responseMessage = 'Success'

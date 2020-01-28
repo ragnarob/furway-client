@@ -3,6 +3,9 @@
     <h1>Create user</h1>
 
     <p>Fields with a thick left border are mandatory.</p>
+    <button @click="fillFieldsWithStuff">
+      Fill fields with stuff
+    </button>
 
     <ResponseMessage :message="responseMessage" :messageType="responseMessageType" @closeMessage="closeResponseMessage"/>
 
@@ -268,6 +271,27 @@ export default {
   },
 
   methods: {
+    fillFieldsWithStuff () {
+      this.password1 = 'asdasd'
+      this.password2 = 'asdasd'
+      this.telegramUsername = 'TeleUserXxX'
+      this.firstName = 'Nord'
+      this.lastName = 'Olamann'
+      this.dateOfBirth = '1995-08-22'
+      this.phone = '+47420420420'
+      this.isFursuiter = true
+      this.isVegan = false
+      this.allergiesText = 'Tåler ikke gluteeeen'
+      this.additionalInfo = 'Gleder meg til con uwu'
+      this.addressLine1 = 'Trondheimsveien 01'
+      this.addressCity = '7070 Trondheim'
+      this.addressCountry = 'Norway'
+      this.pickupType = 'train'
+      this.pickupTime = '2019-06-10T13:00:00'
+      this.hasConsentedToTerms = true
+      this.email = this.generateRandomString(10)
+    },
+
     async signup () {
       if (!this.isValidInput) { return }
 
@@ -290,10 +314,25 @@ export default {
         addressCity: this.addressCity,
         addressStateprovince: this.addressStateprovince || null,
         addressCountry: this.addressCountry,
+        pickupType: this.pickupType,
+        pickupTime: this.pickupTime,
       }
 
       let response = await userApi.signup(userInfoObject)
       this.handleSignupResponse(response)
+    },
+
+    async handleSignupResponse (response) {
+      if ('error' in response) {
+        this.responseMessage = response.error
+        this.responseMessageType = 'error'
+      }
+      else {
+        this.responseMessage = 'Success!'
+        this.responseMessageType = 'success'
+        this.$store.dispatch('setUserData', response)
+        this.$router.push('my-profile')
+      }
     },
 
     onFocusUsername (isFocused) {
@@ -313,19 +352,6 @@ export default {
 
     closeResponseMessage () {
       this.responseMessage = ''
-    },
-
-    handleSignupResponse (response) {
-      if ('error' in response) {
-        this.responseMessage = response.error
-        this.responseMessageType = 'error'
-      }
-      else {
-        this.responseMessage = 'Success!'
-        this.responseMessageType = 'success'
-        this.$store.commit('setUserData', response)
-        this.$router.push('my-profile')
-      }
     },
 
     generateRandomString (length=8) {

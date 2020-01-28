@@ -26,14 +26,6 @@ export default new Vuex.Store({
     setConInfo: (state, conInfo) => state.conInfo = conInfo,
     setIsLoggedIn: (state, isLoggedIn) => state.isLoggedIn = isLoggedIn,
     setUserData: (state, userData) => {
-      if (userData) {
-        if (userData.dateOfBirth) {
-          userData['dateOfBirth'] = new Date(userData['dateOfBirth'])
-        }
-        if (userData.pickupTime) {
-          userData['pickupTime'] = new Date(userData['pickupTime'])
-        }
-      }
       state.userData = userData 
     },
     setSignupSuccess: (state, isSuccess) => state.signupSuccess = isSuccess,
@@ -41,6 +33,24 @@ export default new Vuex.Store({
   },
 
   actions: {
+    async setUserData (context, userData) {
+      if (userData) {
+        context.commit('setIsLoggedIn', true)
+
+        if (userData.dateOfBirth) {
+          userData['dateOfBirth'] = new Date(userData['dateOfBirth'])
+        }
+        if (userData.pickupTime) {
+          userData['pickupTime'] = new Date(userData['pickupTime'])
+        }
+      }
+      else {
+        context.commit('setIsLoggedIn', false)
+      }
+
+      context.commit('setUserData', userData)
+    },
+
     async loadConInfo (context) {
       let response = await miscApi.getConInfo()
 
@@ -52,21 +62,19 @@ export default new Vuex.Store({
     async login (context, {usernameOrEmail, password}) {
       let response = await userApi.login(usernameOrEmail, password)
       if (!response.error) {
-        context.commit('setUserData', response)
-        context.commit('setIsLoggedIn', true)
+        context.dispatch('setUserData', response)
         return {success: true}
       }
       return {success: false, error: response.error}
     },
 
     async logout (context) {
-      context.commit('setIsLoggedIn', false)
-      context.commit('setUserData', null)
+      context.dispatch('setUserData', null)
     },
 
     async refreshUserData (context) {
       let response = await userApi.refreshUserData()
-      context.commit('setUserData', response)
+      context.dispatch('setUserData', response)
 
       let isLoggedIn = response && response['user'] !== null
       context.commit('setIsLoggedIn', isLoggedIn)
@@ -86,8 +94,7 @@ export default new Vuex.Store({
     },
 
     logout (context) {
-      context.commit('setIsLoggedIn', false)
-      context.commit('setUserData', null)
+      context.dispatch('setUserData', null)
       context.commit('setMyRegistration', null)
     }
   },

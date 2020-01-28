@@ -1,46 +1,48 @@
 <template>
   <div v-if="isOpen">
-    <p>Below are all users who have received a spot and requested driving to the convention.</p>
+    <p>Only users with received spots are shown.</p>
 
-    <table class="margin-top-10 very-wide-table">
-      <thead>
-        <tr>
-          <th>From</th>
-          <th>Time</th>
-          <th>Username</th>
-          <th>Telegram</th>
-          <th>Full name</th>
-          <th>Phone</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="user in drivingList" :key="user.id" :class="{'bus-row': user.pickupType==='Bus', 'train-row': user.pickupType==='Train'}">
-          <td>
-            {{user.pickupType}}
-          </td>
+    <div class="wide-table-wrapper">
+      <table class="margin-top-10 very-wide-table">
+        <thead>
+          <tr>
+            <th>From</th>
+            <th>Time</th>
+            <th>Username</th>
+            <th>Telegram</th>
+            <th>Full name</th>
+            <th>Phone</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="user in drivingList" :key="user.id" :class="{'bus-row': user.pickupType==='Bus', 'train-row': user.pickupType==='Train'}">
+            <td>
+              {{user.pickupType}}
+            </td>
 
-          <td>
-            {{formatTimestamp(user.pickupTime)}}
-          </td>
+            <td>
+              {{formatTimestamp(user.pickupTime)}}
+            </td>
 
-          <td>
-            {{user.username}}
-          </td>
+            <td>
+              {{user.username}}
+            </td>
 
-          <td>
-            {{user.telegramUsername}}
-          </td>
+            <td>
+              {{user.telegramUsername}}
+            </td>
 
-          <td>
-            {{user.firstName}} {{user.lastName}}
-          </td>
+            <td>
+              {{user.firstName}} {{user.lastName}}
+            </td>
 
-          <td>
-            {{user.phone}}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            <td>
+              {{user.phone}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 

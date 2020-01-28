@@ -1,7 +1,7 @@
 <template>
   <div>
     <span v-if="!$store.state.isLoggedIn">
-      Not logged in. Won't be accessible in final version in this case.
+      Not logged in.
     </span>
 
     <span v-else>
@@ -10,6 +10,7 @@
       <p>You can edit your user profile without your registration and waiting list positions being affected.</p>
 
       <ResponseMessage :message="responseMessage" :messageType="messageType" @closeMessage="closeResponseMessage" v-if="responseMessage"/>
+      <LoadingMessage :message="'Updating profile...'" v-if="isUpdatingData"/>
 
       <div style="margin-top: 10px; margin-bottom: 10px;">
         <button @click="startEditing" v-show="!isEditingProfile" class="big-button neutral-button">
@@ -217,6 +218,7 @@
 <script>
 import userApi from '../api/user-api'
 import ResponseMessage from '../components/ResponseMessage.vue'
+import LoadingMessage from '../components/LoadingMessage.vue'
 
 import { mapGetters } from 'vuex'
 
@@ -231,7 +233,7 @@ export default {
   name: 'myProfile',
 
   components: {
-    ResponseMessage,
+    ResponseMessage, LoadingMessage,
     YesIcon, NoIcon, EditIcon, SaveIcon, CancelIcon, LogoutIcon,
   },
 
@@ -252,6 +254,7 @@ export default {
       editedUser: {},
       responseMessage: '',
       messageType: 'info',
+      isUpdatingData: false,
     }
   },
 
@@ -273,9 +276,12 @@ export default {
     },
 
     async confirmEditing () {
-      this.messageType = 'info'
-      this.responseMessage = 'Saving, please wait...'
+      if (this.isUpdatingData) { return }
+      this.isUpdatingData = true
+
       let result = await userApi.saveEditedUser(this.userData['id'], this.editedUser)
+
+      this.isUpdatingData = false
 
       if ('error' in result) {
         this.messageType = 'error'
@@ -284,7 +290,7 @@ export default {
       else {
         this.messageType = 'success'
         this.responseMessage = 'Successfully updated your profile'
-        this.$store.commit('setUserData', this.editedUser)
+        this.$store.dispatch('setUserData', this.editedUser)
         this.cancelEditing()
         this.$store.dispatch('refreshUserData')
       }
