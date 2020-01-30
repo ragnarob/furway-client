@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 import Info from '../views/Info.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
+import ForgottenPassword from '../views/ForgottenPassword.vue'
 import MyProfile from '../views/MyProfile.vue'
 import Register from '../views/Register.vue'
 import MyRegistration from '../views/MyRegistration.vue'
@@ -20,7 +21,6 @@ const routes = [
     component: Home,
     meta: {
       middleware: logRoute,
-      title: 'Home'
     }
   },
   {
@@ -35,17 +35,38 @@ const routes = [
   {
     path: '/signup',
     name: 'signup',
-    component: Signup
+    component: Signup,
+    meta: {
+      middleware: logRoute,
+      title: 'Signup'
+    }
   },
   {
     path: '/login',
     name: 'login',
-    component: Login
+    component: Login,
+    meta: {
+      middleware: logRoute,
+      title: 'Login'
+    }
+  },
+  {
+    path: '/forgotten-password',
+    name: 'forgottenPassword',
+    component: ForgottenPassword,
+    meta: {
+      middleware: logRoute,
+      title: 'Forgotten password'
+    }
   },
   {
     path: '/my-profile',
     name: 'myProfile',
-    component: MyProfile
+    component: MyProfile,
+    meta: {
+      middleware: logRoute,
+      title: 'My profile'
+    }
   },
   {
     path: '/register',
@@ -60,6 +81,10 @@ const routes = [
     path: '/my-registration',
     name: 'myRegistration',
     component: MyRegistration,
+    meta: {
+      middleware: logRoute,
+      title: 'My registration'
+    }
   },
   {
     path: '/admin',
@@ -69,6 +94,10 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: function () {
       return import(/* webpackChunkName: "about" */ '../views/Admin.vue')
+    },
+    meta: {
+      middleware: logRoute,
+      title: 'Admin'
     }
   },
   {

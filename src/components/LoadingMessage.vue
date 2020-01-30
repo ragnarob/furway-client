@@ -14,7 +14,6 @@ export default {
 
   props: {
     'message': String,
-    'messageType': String,
   },
 
   data: function () {

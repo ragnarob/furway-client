@@ -47,5 +47,22 @@ export default {
     let response = await Axios.post(`${apiBase}/api/users/${userId}/delete`)
 
     return response.data
-  }
+  },
+
+  async resetPassword (email) {
+    let response = await Axios.post(`reset-password`, {'email': email})
+
+    return response.data
+  },
+
+  async changePassword (email, oldPassword, newPassword1, newPassword2) {
+    let response = await Axios.post(`change-password`, {
+      'usernameOrEmail': email, 
+      'password': oldPassword,
+      'newPassword1': newPassword1,
+      'newPassword2': newPassword2
+    })
+
+    return response.data
+  },
 }

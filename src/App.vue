@@ -129,6 +129,9 @@ h3 {
 .margin-top-4 {
   margin-top: 4px !important;
 }
+.margin-right-4 {
+  margin-right: 4px;
+}
 .margin-left-10 {
   margin-left: 10px !important;
 }

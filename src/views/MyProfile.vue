@@ -10,21 +10,25 @@
       <p>You can edit your user profile without your registration and waiting list positions being affected.</p>
 
       <ResponseMessage :message="responseMessage" :messageType="messageType" @closeMessage="closeResponseMessage" v-if="responseMessage"/>
-      <LoadingMessage :message="'Updating profile...'" v-if="isUpdatingData"/>
+      <LoadingMessage :message="'Processing...'" v-if="isUpdatingData"/>
 
       <div style="margin-top: 10px; margin-bottom: 10px;">
-        <button @click="startEditing" v-show="!isEditingProfile" class="big-button neutral-button">
+        <button @click="startEditing" v-show="!isEditingProfile && !isChangingPassword" class="big-button neutral-button">
           <EditIcon/> Edit profile
         </button>
+        <button @click="startChangingPassword" v-show="!isEditingProfile && !isChangingPassword" class="big-button neutral-button margin-left-10">
+          Change password
+        </button>
+
         <button @click="cancelEditing" v-show="isEditingProfile" class="big-button neutral-button">
           <CancelIcon/> Cancel editing
         </button>
-        <button @click="confirmEditing" v-show="isEditingProfile" style="margin-left: 10px;" :class="{'big-button': true, 'theme-button': canSave, 'disabled-button': !canSave}">
+        <button @click="confirmEditing" v-show="isEditingProfile" :class="{'big-button': true, 'theme-button': canSave, 'disabled-button': !canSave, 'margin-left-10': true}">
           <SaveIcon/> Save changes
         </button>
       </div>
 
-      <div class="wide-table-wrapper">
+      <div class="wide-table-wrapper" v-show="!isChangingPassword">
         <table id="myRegistrationTable" class="scrolling-table">
           <tr>
             <td><p>Username</p></td>
@@ -211,6 +215,26 @@
           </tr>
         </table>
       </div>
+
+      <form v-show="isChangingPassword">
+        <div id="changePasswordGrid">
+          <label>Old password:</label>
+          <input type="password" v-model="oldPassword"/>
+          <label>New password:</label>
+          <input type="password" v-model="newPassword1"/>
+          <label>Repeat new password:</label>
+          <input type="password" v-model="newPassword2"/>
+        </div>
+
+        <div class="margin-top-10">
+          <button type="button" @click="cancelChangingPassword" @click.prevent v-show="isChangingPassword" class="big-button neutral-button">
+            <CancelIcon/> Cancel
+          </button>
+          <button @click.prevent="confirmChangingPassword" v-show="isChangingPassword" class="big-button theme-button margin-left-10" type="submit">
+            <SaveIcon/> Change password
+          </button>
+        </div>
+      </form>
     </span>
   </div>
 </template>
@@ -251,10 +275,14 @@ export default {
   data: function () {
     return {
       isEditingProfile: false,
+      isChangingPassword: false,
       editedUser: {},
       responseMessage: '',
       messageType: 'info',
       isUpdatingData: false,
+      oldPassword: '',
+      newPassword1: '',
+      newPassword2: '',
     }
   },
 
@@ -296,6 +324,36 @@ export default {
       }
     },
 
+    startChangingPassword () {
+      this.isChangingPassword = true
+      this.oldPassword = ''
+      this.newPassword1 = ''
+      this.newPassword2 = ''
+    },
+
+    cancelChangingPassword () {
+      this.isChangingPassword = false
+    },
+
+    async confirmChangingPassword () {
+      if (this.isUpdatingData) { return }
+      this.isUpdatingData = true
+
+      let result = await userApi.changePassword(this.$store.state.userData.email, this.oldPassword, this.newPassword1, this.newPassword2)
+
+      this.isUpdatingData = false
+
+      if ('error' in result) {
+        this.responseMessage = result.error
+        this.messageType = 'error'
+      }
+      else {
+        this.responseMessage = 'Password changed successfully!'
+        this.messageType = 'success'
+        this.cancelChangingPassword()
+      }
+    },
+
     logout () {
       this.$router.push('/')
       this.$store.dispatch('logout')
@@ -334,6 +392,23 @@ export default {
         text-align: left;
       }
     }
+  }
+}
+
+#changePasswordGrid {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  grid-template-columns: auto auto;
+  grid-row-gap: 4px;
+  width: fit-content;
+  margin: auto;
+  
+  input {
+    width: 160px;
+  }
+  label {
+    text-align: right;
+    margin-right: 4px;
   }
 }
 </style>
