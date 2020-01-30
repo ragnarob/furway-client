@@ -22,7 +22,6 @@
 
         <p style="text-align: left;"><b>Ting som gjenstår</b></p>
         <ul style="text-align: left; margin-top: 0px;">
-          <li>Implementere epost!! Og da også forgot password.</li>
           <li>Få på plass terms & conditions!</li>
           <li>Fikse redigering og sletting i "All Registrations" (admin)</li>
           <li>Gjøre det vanskeligere (bekreft-prompt) å rejecte pending reg (admin)</li>
@@ -38,6 +37,8 @@
         </ul>
         <p style="text-align: left;"><b>Ferdig</b></p>
         <ul style="text-align: left; margin-top: 0px;">
+          <li>Implementerte change password</li>
+          <li>Implementerte forgotten password, med epost som funker men feil avsender...</li>
           <li>Hente-info i brukerprofil</li>
           <li>Driving list, egen brukerrolle isDriver, egen admin-panel-visning for ikke-admins som er drivers</li>
         </ul>

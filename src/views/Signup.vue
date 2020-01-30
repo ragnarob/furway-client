@@ -120,6 +120,7 @@
     <div class="signup-row">
       <label>Do you need transport to the con?</label>
       <p class="tiny-info">If yes, it is highly recommended to supply your Telegram username (above) for the drivers' convenience.</p>
+      <p class="tiny-info">If you're uncertain now, you can change this information later.</p>
       <div style="text-align: left; margin-top: 2px;">
         <div>
           <input type="radio" v-model="pickupType" :value="'bus'" id="pickupBusRadio"/>
@@ -131,7 +132,7 @@
         </div>
         <div>
           <input type="radio" v-model="pickupType" :value="null" id="pickupNoRadio"/>
-          <label for="pickupNoRadio">No</label>
+          <label for="pickupNoRadio">No / I don't know yet</label>
         </div>
       </div>
     </div>
