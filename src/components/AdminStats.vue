@@ -35,11 +35,11 @@
         </tr>
         <tr>
           <td>Partially paid regs</td>
-          <td>{{numberOfOnlyAddonsUnpaidRegistrations}} / {{numberOfRegistrationsGiven}}</td>
+          <td>{{numberOfPartiallyPaidRegistrations}} / {{numberOfRegistrationsGiven}}</td>
         </tr>
         <tr>
           <td>Fully unpaid registrations</td>
-          <td>{{numberOfRegistrationsGiven - numberOfMainDaysPaidRegistrations}} / {{numberOfRegistrationsGiven}}</td>
+          <td>{{numberOfRegistrationsGiven - numberOfPartiallyPaidRegistrations}} / {{numberOfRegistrationsGiven}}</td>
         </tr>
 
         <!-- </table><table> -->
@@ -153,16 +153,12 @@ export default {
       return this.allUsers.filter(user => user.registrationId !== null).length
     },
 
-    numberOfMainDaysPaidRegistrations () {
-      return this.allRegistrations.filter(reg => reg.isMainDaysPaid === true).length
-    },
-
     numberOfFullyPaidRegistrations () {
       return this.allRegistrations.filter(reg => reg.isMainDaysPaid === true && reg.isAddonsPaid === true).length
     },
 
-    numberOfOnlyAddonsUnpaidRegistrations () {
-      return this.allRegistrations.filter(reg => reg.isMainDaysPaid === true && reg.isAddonsPaid === false).length
+    numberOfPartiallyPaidRegistrations () {
+      return this.allRegistrations.filter(reg => !reg.isPaid && reg.paidAmount>0).length
     },
 
     numberOfVegans () {
@@ -183,7 +179,7 @@ export default {
         if (reg.buyHoodie === true) {
           let size = reg.hoodieSize
           totalHoodieCounts[size] = ++totalHoodieCounts[size] || 1
-          if (reg.isHoodiePaid) {
+          if (reg.isPaid) {
             paidHoodieCounts[size] = ++paidHoodieCounts[size] || 1
           }
         }
@@ -191,7 +187,7 @@ export default {
         if (reg.buyTshirt === true) {
           let size = reg.tshirtSize
           totalTshirtCounts[size] = ++totalTshirtCounts[size] || 1
-          if (reg.isTshirtPaid) {
+          if (reg.isPaid) {
             paidTshirtCounts[size] = ++paidTshirtCounts[size] || 1
           }
         }

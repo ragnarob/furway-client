@@ -49,12 +49,13 @@
       <div style="border: 1px solid black; padding: 5px;">
         <p v-if="!myRegistration.receivedInsideSpot && !myRegistration.receivedOutsideSpot">
           Your registration is approved, but you have not received a spot yet.
-          <span v-if="myRegistration.roomPreference === 'insideonly' || 'insidepreference'">
-            Your waiting list position for an <i>inside</i> room: {{myRegistration.waitingListPositions.inside}}
+          <br>
+          <span v-if="myRegistration.roomPreference === 'insideonly' || myRegistration.roomPreference === 'insidepreference'">
+            Your waiting list position for an <i>inside</i> room: <b>{{myRegistration.waitingListPositions.inside}}</b>
           </span>
           <br>
-          <span v-if="myRegistration.roomPreference === 'insideonly' || 'insidepreference'">
-            Your waiting list position for an <i>outside</i> room: {{myRegistration.waitingListPositions.outside}}
+          <span v-if="myRegistration.roomPreference === 'outsideonly' || myRegistration.roomPreference === 'insidepreference'">
+            Your waiting list position for an <i>outside</i> room: <b>{{myRegistration.waitingListPositions.outside}}</b>
           </span>
         </p>
 
@@ -116,11 +117,11 @@
         <!-- EARLY OG LATE -->
         <div class="flex-col left-align-content">
           <span>
-            <input type="checkbox" v-model="newRegistration.earlyArrival" :disabled="isAddonsDeadlinePassed && !myRegistration.isEarlyArrivalPaid" id="updateRegearlyArrival"/>
+            <input type="checkbox" v-model="newRegistration.earlyArrival" :disabled="isAddonsDeadlinePassed" id="updateRegearlyArrival"/>
             <label for="updateRegearlyArrival">Early arrival ({{conInfo.earlyArrivalPriceNok}} kr)</label>
           </span>
           <span>
-            <input type="checkbox" v-model="newRegistration.lateDeparture"  :disabled="isAddonsDeadlinePassed && !myRegistration.isLateDeparturePaid" id="updateReglateDeparture"/>
+            <input type="checkbox" v-model="newRegistration.lateDeparture"  :disabled="isAddonsDeadlinePassed" id="updateReglateDeparture"/>
             <label for="updateReglateDeparture">Late departure ({{conInfo.lateDeparturePriceNok}} kr)</label>
           </span>
 
@@ -130,14 +131,14 @@
         <!-- HOODIE OG T-SKJORTE -->
         <div class="flex-col left-align-content">
           <span v-if="$store.state.conInfo.isSellingHoodies">
-            <input type="checkbox" v-model="newRegistration.buyHoodie" @change="possibleResetHoodieSize" :disabled="isAddonsDeadlinePassed && !myRegistration.isHoodiePaid" id="newRegistrationbuyHoodie"/>
+            <input type="checkbox" v-model="newRegistration.buyHoodie" @change="possibleResetHoodieSize" :disabled="isAddonsDeadlinePassed" id="newRegistrationbuyHoodie"/>
             <label for="newRegistrationbuyHoodie">Buy hoodie ({{conInfo.hoodiePriceNok}} kr)</label>
             <select v-model="newRegistration.hoodieSize" v-show="newRegistration.buyHoodie" class="margin-left-10">
               <option v-for="size in sizes" :key="size" :value="size">{{size}}</option>
             </select>
           </span>
           <span v-if="$store.state.conInfo.isSellingTshirts">
-            <input type="checkbox" v-model="newRegistration.buyTshirt" @change="possibleResetTshirtSize" :disabled="isAddonsDeadlinePassed && !myRegistration.isTshirtPaid" id="newRegistrationbuyTshirt"/>
+            <input type="checkbox" v-model="newRegistration.buyTshirt" @change="possibleResetTshirtSize" :disabled="isAddonsDeadlinePassed" id="newRegistrationbuyTshirt"/>
             <label for="newRegistrationbuyTshirt">Buy t-shirt ({{conInfo.tshirtPriceNok}} kr)</label>
             <select v-model="newRegistration.tshirtSize" v-show="newRegistration.buyTshirt" class="margin-left-10">
               <option v-for="size in sizes" :key="size" :value="size">{{size}}</option>
@@ -162,37 +163,40 @@
           <thead>
             <tr>
               <th>Item</th>
-              <th>Is paid</th>
               <th>Price</th>
             </tr>
           </thead>
           <tr>
-            <td>Main days paid</td>
-            <td>{{formatBoolean(myRegistration.receivedInsideSpot===true ? myRegistration.isMainDaysInsidePaid : myRegistration.isMainDaysOutsidePaid)}}</td>
-            <td>{{myRegistration.receivedInsideSpot===true ? conInfo.mainDaysInsidePriceNok : conInfo.mainDaysOutsidePriceNok}}</td>
+            <td>Main days</td>
+            <td v-if="myRegistration.roomPreference === 'insideonly' || myRegistration.receivedInsideSpot">
+              {{conInfo.mainDaysInsidePriceNok}}
+            </td>
+            <td v-else-if="myRegistration.roomPreference === 'outsideonly' || myRegistration.receivedOutsideSpot">
+              {{conInfo.mainDaysOutsidePriceNok}}
+            </td>
+            <td v-else>
+              {{conInfo.mainDaysInsidePriceNok}} inside, or<br/>
+              {{conInfo.mainDaysOutsidePriceNok}} outside
+            </td>
           </tr>
 
           <tr v-if="myRegistration.earlyArrival">
-            <td>Early arrival paid</td>
-            <td>{{formatBoolean(myRegistration.isEarlyArrivalPaid)}}</td>
+            <td>Early arrival</td>
             <td>{{conInfo.earlyArrivalPriceNok}}</td>
           </tr>
 
           <tr v-if="myRegistration.lateDeparture">
-            <td>Late departure paid</td>
-            <td>{{formatBoolean(myRegistration.isLateDeparturePaid)}}</td>
+            <td>Late departure</td>
             <td>{{conInfo.lateDeparturePriceNok}}</td>
           </tr>
 
           <tr v-if="myRegistration.buyTshirt">
-            <td>T-shirt paid</td>
-            <td>{{formatBoolean(myRegistration.isTshirtPaid)}}</td>
+            <td>T-shirt</td>
             <td>{{conInfo.tshirtPriceNok}}</td>
           </tr>
 
           <tr v-if="myRegistration.buyHoodie">
-            <td>Hoodie paid</td>
-            <td>{{formatBoolean(myRegistration.isHoodiePaid)}}</td>
+            <td>Hoodie</td>
             <td>{{conInfo.hoodiePriceNok}}</td>
           </tr>
 
@@ -209,7 +213,13 @@
 
           <tr>
             <td>Total amount to be paid</td>
-            <td colspan="2">{{myRegistration.unpaidAmount}}</td>
+            <td colspan="2">
+              {{myRegistration.totalAmount}}
+              <span v-if="isWaitingForBothSpots">
+                <br/>
+                {{`(+${conInfo.mainDaysInsidePriceNok - conInfo.mainDaysOutsidePriceNok} for inside)`}}
+              </span>
+            </td>
           </tr>
         </table>
       </div>
@@ -238,14 +248,16 @@
     </div>
 
   
+    <!-- NO REGISTRATION -->
     <div v-else-if="registrationStatus == 'noRegistration'">
       You don't have a registration. You can register <router-link :to="'/register'">here</router-link>.
     </div>
 
 
-    <!-- NO REGISTRATION -->
-    <div v-else>
-      No registration / not logged in. This route won't be available in final version unless user actually has one & is logged in.
+    <!-- REJECTED REGISTRATION -->
+    <div v-else-if="registrationStatus == 'rejected'">
+      <p>Sorry, your registration has been rejected.</p>
+      <p>If you wish to ask for more information regarding this, please send an email to info@furway.no.</p>
     </div>
   </div>
 </template>
@@ -305,6 +317,9 @@ export default {
       else if (this.myRegistration.isAdminApproved) {
         return 'approved'
       }
+      else if (this.myRegistration.isAdminApproved === false) {
+        return 'rejected'
+      }
       else {
         return 'unapproved'
       }
@@ -317,6 +332,13 @@ export default {
     isDeleteUsernameEqual () {
       return this.deleteRegistrationUsername === this.$store.state.userData.username
     },
+
+    isWaitingForBothSpots () {
+      return this.myRegistration
+        && this.myRegistration.roomPreference === 'insidepreference'
+        && this.myRegistration.receivedInsideSpot === false
+        && this.myRegistration.receivedOutsideSpot === false
+    }
   },
 
   methods: {

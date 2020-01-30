@@ -21,19 +21,19 @@
 
         <td>
           <span class="flex-col">
-            <span v-if="reg.earlyArrival">Early ({{reg.isEarlyArrivalPaid ? 'paid' : 'unpaid'}})</span>
-            <span v-if="reg.lateDeparture">Late ({{reg.isLateDeparturePaid ? 'paid' : 'unpaid'}})</span>
+            <span v-if="reg.earlyArrival">Early</span>
+            <span v-if="reg.lateDeparture">Late</span>
           </span>
         </td>
 
         <td>
           <span class="flex-col">
-            <span v-if="reg.buyHoodie">Hoodie, {{reg.hoodieSize}} ({{reg.isHoodiePaid ? 'paid' : 'unpaid'}})</span>
-            <span v-if="reg.buyTshirt">T-shirt, {{reg.tshirtSize}} ({{reg.isTshirtPaid ? 'paid' : 'unpaid'}})</span>
+            <span v-if="reg.buyHoodie">Hoodie, {{reg.hoodieSize}}</span>
+            <span v-if="reg.buyTshirt">T-shirt, {{reg.tshirtSize}}</span>
           </span>
         </td>
 
-        <td>{{reg.paidAmount}} paid, {{reg.unpaidAmount}} unpaid</td>
+        <td>{{reg.paidAmount}} paid, {{reg.totalAmount}} total</td>
 
         <td>
           <button @click="highlightRegistration(reg)">Show full reg</button>

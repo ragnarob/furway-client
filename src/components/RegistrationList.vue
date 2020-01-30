@@ -23,12 +23,6 @@
         <th title="Payment deadline">Pay deadl.</th>
         <th title="Received inside spot">Rec. ins.</th>
         <th title="Received outside spot">Rec. outs.</th>
-        <th title="Main days inside paid">Ins. paid</th>
-        <th title="Main days outside paid">Outs. paid</th>
-        <th title="Early arrival paid">Early paid</th>
-        <th title="Late departure paid">Late paid</th>
-        <th title="T-shirt paid">Ts. paid</th>
-        <th title="Hoodie paid">Hd. paid</th>
       </tr>
       <tr v-for="reg in filteredRegistrations" :key="reg.id" :class="{'highlighted-row-blue': reg.id === highlightedRegistrationId}">
         <td>
@@ -175,78 +169,6 @@
           <p v-else>
             <YesIcon v-if="reg.receivedOutsideSpot"/>
             <NoIcon v-else-if="reg.receivedOutsideSpot === false"/>
-          </p>
-        </td>
-
-        <td>
-          <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
-            <input type="radio" v-model="registrationBeingEdited.isMainDaysInsidePaid" value="true"/>True
-            <input type="radio" v-model="registrationBeingEdited.isMainDaysInsidePaid" value="false"/>False
-          </span>
-
-          <p v-else>
-            <YesIcon v-if="reg.isMainDaysInsidePaid"/>
-            <NoIcon v-else-if="reg.isMainDaysInsidePaid === false"/>
-          </p>
-        </td>
-
-        <td>
-          <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
-            <input type="radio" v-model="registrationBeingEdited.isMainDaysOutsidePaid" value="true"/>True
-            <input type="radio" v-model="registrationBeingEdited.isMainDaysOutsidePaid" value="false"/>False
-          </span>
-
-          <p v-else>
-            <YesIcon v-if="reg.isMainDaysOutsidePaid"/>
-            <NoIcon v-else-if="reg.isMainDaysOutsidePaid === false"/>
-          </p>
-        </td>
-
-        <td>
-          <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
-            <input type="radio" v-model="registrationBeingEdited.isEarlyArrivalPaid" value="true"/>True
-            <input type="radio" v-model="registrationBeingEdited.isEarlyArrivalPaid" value="false"/>False
-          </span>
-
-          <p v-else>
-            <YesIcon v-if="reg.isEarlyArrivalPaid"/>
-            <NoIcon v-else-if="reg.isEarlyArrivalPaid === false"/>
-          </p>
-        </td>
-
-        <td>
-          <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
-            <input type="radio" v-model="registrationBeingEdited.isLateDeparturePaid" value="true"/>True
-            <input type="radio" v-model="registrationBeingEdited.isLateDeparturePaid" value="false"/>False
-          </span>
-
-          <p v-else>
-            <YesIcon v-if="reg.isLateDeparturePaid"/>
-            <NoIcon v-else-if="reg.isLateDeparturePaid === false"/>
-          </p>
-        </td>
-
-        <td>
-          <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
-            <input type="radio" v-model="registrationBeingEdited.isTshirtPaid" value="true"/>True
-            <input type="radio" v-model="registrationBeingEdited.isTshirtPaid" value="false"/>False
-          </span>
-
-          <p v-else>
-            <YesIcon v-if="reg.isTshirtPaid"/>
-            <NoIcon v-else-if="reg.isTshirtPaid === false"/>
-          </p>
-        </td>
-
-        <td>
-          <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
-            <input type="radio" v-model="registrationBeingEdited.isHoodiePaid" value="true"/>True
-            <input type="radio" v-model="registrationBeingEdited.isHoodiePaid" value="false"/>False
-          </span>
-
-          <p v-else>
-            <YesIcon v-if="reg.isHoodiePaid"/>
-            <NoIcon v-else-if="reg.isHoodiePaid === false"/>
           </p>
         </td>
       </tr>

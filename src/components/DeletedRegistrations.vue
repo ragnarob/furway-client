@@ -16,12 +16,6 @@
         <th title="Payment deadline">Pay deadl.</th>
         <th title="Received inside spot">Rec. ins.</th>
         <th title="Received outside spot">Rec. outs.</th>
-        <th title="Main days inside paid">Ins. paid</th>
-        <th title="Main days outside paid">Outs. paid</th>
-        <th title="Early arrival paid">Early paid</th>
-        <th title="Late departure paid">Late paid</th>
-        <th title="T-shirt paid">Ts. paid</th>
-        <th title="Hoodie paid">Hd. paid</th>
       </tr>
       <tr v-for="reg in registrations" :key="reg.id">
         <td>
@@ -106,48 +100,6 @@
           <p>
             <YesIcon v-if="reg.receivedOutsideSpot"/>
             <NoIcon v-else-if="reg.receivedOutsideSpot === false"/>
-          </p>
-        </td>
-
-        <td>
-          <p>
-            <YesIcon v-if="reg.isMainDaysInsidePaid"/>
-            <NoIcon v-else-if="reg.isMainDaysInsidePaid === false"/>
-          </p>
-        </td>
-
-        <td>
-          <p>
-            <YesIcon v-if="reg.isMainDaysOutsidePaid"/>
-            <NoIcon v-else-if="reg.isMainDaysOutsidePaid === false"/>
-          </p>
-        </td>
-
-        <td>
-          <p>
-            <YesIcon v-if="reg.isEarlyArrivalPaid"/>
-            <NoIcon v-else-if="reg.isEarlyArrivalPaid === false"/>
-          </p>
-        </td>
-
-        <td>
-          <p>
-            <YesIcon v-if="reg.isLateDeparturePaid"/>
-            <NoIcon v-else-if="reg.isLateDeparturePaid === false"/>
-          </p>
-        </td>
-
-        <td>
-          <p>
-            <YesIcon v-if="reg.isTshirtPaid"/>
-            <NoIcon v-else-if="reg.isTshirtPaid === false"/>
-          </p>
-        </td>
-
-        <td>
-          <p>
-            <YesIcon v-if="reg.isHoodiePaid"/>
-            <NoIcon v-else-if="reg.isHoodiePaid === false"/>
           </p>
         </td>
       </tr>
