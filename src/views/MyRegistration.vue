@@ -8,8 +8,13 @@
 
     <!-- NOT APPROVED REGISTRATION -->
     <div v-else-if="registrationStatus == 'unapproved'" class="flex-col">
-      <div style="border: 1px solid black; padding: 5px;">
-        Your registration is not approved yet. You can only change your ticket type, and doing so <u>will</u> put you at the back of any existing queues.
+      <div class="shadow-box">
+        <p>
+          Your registration is not approved yet. You will have more options as soon as an admin has approved it.
+        </p>
+        <p class="margin-top-10">
+          You <i>can</i> change your ticket type, but doing so <u>will</u> put you at the back of any existing queues.
+        </p>
       </div>
 
       <h3>Ticket type</h3>
@@ -45,32 +50,46 @@
 
     <!-- APPROVED REGISTRATION -->
     <div v-else-if="registrationStatus == 'approved'" class="flex-col">
-      <h3 class="margin-top-10">Status</h3>
-      <div style="border: 1px solid black; padding: 5px;">
-        <p v-if="!myRegistration.receivedInsideSpot && !myRegistration.receivedOutsideSpot">
-          Your registration is approved, but you have not received a spot yet.
-          <br>
-          <span v-if="myRegistration.roomPreference === 'insideonly' || myRegistration.roomPreference === 'insidepreference'">
+      <div class="shadow-box">
+        <span v-if="!myRegistration.receivedInsideSpot && !myRegistration.receivedOutsideSpot">
+          <p >
+            Your registration is approved, but you have not received a spot yet.
+          </p>
+
+          <p v-if="myRegistration.roomPreference === 'insideonly' || myRegistration.roomPreference === 'insidepreference'" class="margin-top-10">
             Your waiting list position for an <i>inside</i> room: <b>{{myRegistration.waitingListPositions.inside}}</b>
-          </span>
-          <br>
-          <span v-if="myRegistration.roomPreference === 'outsideonly' || myRegistration.roomPreference === 'insidepreference'">
-            Your waiting list position for an <i>outside</i> room: <b>{{myRegistration.waitingListPositions.outside}}</b>
-          </span>
-        </p>
+          </p>
 
-        <p v-else-if="myRegistration.receivedOutsideSpot && myRegistration.roomPreference === 'insidepreference'">
-          Your registration is approved, and you have received a spot outside! <br/>
-          You are in the waiting list for a room inside, position number {{myRegistration.waitingListPositions.inside}}
-        </p>
+          <p v-if="myRegistration.roomPreference === 'outsideonly' || myRegistration.roomPreference === 'insidepreference'" class="margin-top-10">
+            Your waiting list position for an <i>outside</i> spot: <b>{{myRegistration.waitingListPositions.outside}}</b>
+          </p>
+        </span>
 
-        <p v-else-if="myRegistration.receivedInsideSpot && myRegistration.roomPreference === 'insidepreference'">
-          Your registration is approved, and you have received a spot inside! <br/>
-          You will not receive a spot outside, because your ticket type is Inside Preference.
-        </p>
+        <span v-else-if="myRegistration.receivedOutsideSpot && myRegistration.roomPreference === 'insidepreference'">
+          <p>
+            Your registration is approved, and you have received a spot outside!
+          </p>
+
+          <p class="margin-top-10">
+            Your waiting list position for an <i>inside</i> room: <b>{{myRegistration.waitingListPositions.inside}}</b>
+          </p>
+        </span>
+
+        <span v-else-if="myRegistration.receivedInsideSpot && myRegistration.roomPreference === 'insidepreference'">
+          <p>
+            Your registration is approved, and you have received a spot inside!
+          </p>
+          <p class="margin-top-10">
+            You will not receive a spot outside, because your ticket type is Inside Preference.
+          </p>
+        </span>
 
         <p v-else>
           Your registration is approved, and you have received a spot {{myRegistration.receivedInsideSpot ? 'inside' : 'outside'}}!
+        </p>
+
+        <p class="margin-top-10">
+          Your registration number is: <b>{{myRegistration.registrationNumber}}</b>
         </p>
       </div>
 
@@ -468,5 +487,15 @@ export default {
 <style lang="scss" scoped>
 h3 {
   margin-top: 20px;
+}
+</style>
+<style lang="scss">
+.shadow-box {
+  border: 0.5px solid #888;
+  background-color: white;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  margin-top: 8px;
+  box-shadow: 0 8px 16px 0px rgba(10, 14, 29, 0.04), 0px 8px 64px 0px rgba(10, 14, 29, 0.08);
 }
 </style>
