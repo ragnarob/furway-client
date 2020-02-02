@@ -15,6 +15,9 @@
         <p class="margin-top-10">
           You <i>can</i> change your ticket type, but doing so <u>will</u> put you at the back of any existing queues.
         </p>
+        <p class="margin-top-10">
+          Your registration was submitted {{formatDatetimeWithoutYear(myRegistration.timestamp)}}.
+        </p>
       </div>
 
       <h3>Ticket type</h3>
@@ -89,15 +92,22 @@
         </p>
 
         <p class="margin-top-10">
+          Your registration was approved {{formatDatetimeWithoutYear(myRegistration.timestamp)}}.
+        </p>
+        <p>
           Your registration number is: <b>{{myRegistration.registrationNumber}}</b>
         </p>
       </div>
 
       <h3>Ticket type</h3>
-      <p class="margin-bottom-10">
+      <p v-if="canChangeRoomPrefWithoutReset || canChangeRoomPreferenceWithPartialReset">
+        You can change your ticket type while keeping one of your spots / waiting list positions. Click the button below to see more details.
+      </p>
+      <p v-else>
         If you change your ticket type to one of the other options below you <u>will</u> lose your spot and be put at the back of any waiting list.
       </p>
-      <div class="flex-col left-align-content">
+
+      <div class="flex-col left-align-content margin-top-10">
         <span>
           <input type="radio" v-model="newRegistration.roomPreference" value="insideonly" :disabled="!isEditingRoomPreference" id="roomPreferenceinsideonly"/>
           <label for="roomPreferenceinsideonly">Inside only</label>
@@ -114,11 +124,27 @@
 
       <button @click="isEditingRoomPreference = true" v-show="!isEditingRoomPreference" class="margin-top-10">Change ticket type</button>
 
-      <p v-show="isEditingRoomPreference" class="margin-top-10 margin-bottom-10 warning-text">
-        REMINDER: Updating your ticket type will make you lose your spot, and put you at the back of any waiting list!
-      </p>
+      <div v-show="isEditingRoomPreference" class="margin-top-10">
+        <p v-if="canChangeRoomPrefWithoutReset" class="warning-text">
+          Changing your ticket type from 'Inside Preference' to anything else will make you lose your position in one of the waiting lists. Your position in the waiting list of your new desired room type <u>will stay the same</u>.
+        </p>
 
-      <div v-show="isEditingRoomPreference">
+        <span v-else-if="canChangeRoomPreferenceWithPartialReset" class="warning-text">
+          <p>
+            If you change your ticket type to 'Outside Only' you will <u>keep your outside spot</u>.
+          </p>
+
+          <p class="margin-top-10">
+            If you change your ticket type to 'Inside Only' you will <u>lose your outside spot</u>, but keep your current position in the inside waiting list.
+          </p>
+        </span>
+
+        <p v-else class="warning-text">
+          REMINDER: Updating your ticket type will make you lose your spot, and put you at the back of any waiting list!
+        </p>
+      </div>
+
+      <div v-show="isEditingRoomPreference" class="margin-top-10">
         <button @click="cancelEditing" class="big-button neutral-button">
           <CancelIcon/> Cancel
         </button>
@@ -278,6 +304,16 @@
       <p>Sorry, your registration has been rejected.</p>
       <p>If you wish to ask for more information regarding this, please send an email to info@furway.no.</p>
     </div>
+
+
+    <div v-if="registrationStatus == 'notLoggedIn' && !isLoadingRegistration" class="margin-top-10">
+      <p>Not logged in.</p> 
+      <p class="margin-top-4">
+        <router-link :to="'/login'">
+          Go to login
+        </router-link>
+      </p>
+    </div>
   </div>
 </template>
 
@@ -324,6 +360,20 @@ export default {
 
     canSaveRoomPreference () {
       return this.newRegistration['roomPreference'] !== this.myRegistration['roomPreference']
+    },
+
+    canChangeRoomPrefWithoutReset () {
+      return this.myRegistration 
+        && this.myRegistration.roomPreference === 'insidepreference'
+        && !this.myRegistration.receivedInsideSpot
+        && !this.myRegistration.receivedOutsideSpot
+    },
+
+    canChangeRoomPreferenceWithPartialReset () {
+      return this.myRegistration 
+        && this.myRegistration.roomPreference === 'insidepreference'
+        && !this.myRegistration.receivedInsideSpot
+        && this.myRegistration.receivedOutsideSpot
     },
 
     registrationStatus () {
@@ -433,6 +483,7 @@ export default {
       
       if (!this.$store.getters.isLoggedIn) {
         this.setupLoginListener()
+        this.isLoadingRegistration = false
         return
       }
 
@@ -468,7 +519,12 @@ export default {
         top: 0,
         left: 0,
         behavior: 'smooth'
-      });
+      })
+    },
+
+    formatDatetimeWithoutYear (dateTime) {
+      dateTime = new Date(dateTime)
+      return dateTime===null ? '' : dateTime.toDateString().substring(0,10) + ', ' + dateTime.toTimeString().substring(0,5)
     },
 
     formatBoolean,

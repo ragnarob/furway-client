@@ -79,10 +79,6 @@ export default {
       this.$store.commit('setHighlightedUsername', username)
     },
 
-    scrollToErrorMessage () {
-      // todo 
-    },
-    
     formatTimestamp, 
     formatRoomPreference,
   },

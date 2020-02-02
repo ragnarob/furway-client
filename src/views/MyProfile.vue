@@ -1,8 +1,8 @@
 <template>
   <div>
-    <span v-if="!$store.state.isLoggedIn">
+    <p v-if="!$store.state.isLoggedIn" class="margin-top-20">
       Not logged in.
-    </span>
+    </p>
 
     <span v-else>
       <h1>User page: {{$store.state.userData.username}}</h1>

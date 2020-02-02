@@ -327,6 +327,11 @@ export default {
       if ('error' in response) {
         this.responseMessage = response.error
         this.responseMessageType = 'error'
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth'
+        })
       }
       else {
         this.responseMessage = 'Success!'

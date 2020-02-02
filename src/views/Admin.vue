@@ -2,7 +2,9 @@
   <div class="flex-col">
     <h1>Admin</h1>
 
-      <p @click="toggleTimestampFormat" class="link-text">Toggle timestamp format</p>
+      <p @click="toggleTimestampFormat" class="link-text" v-if="isAdmin">
+        Toggle timestamp format
+      </p>
 
       <!-- Jukseknapper-div -->
       <div v-if="isAdmin" class="admin-component-container">
@@ -25,18 +27,18 @@
           <li>Få på plass terms & conditions!</li>
           <li>Fikse redigering og sletting i "All Registrations" (admin)</li>
           <li>Gjøre det vanskeligere (bekreft-prompt) å rejecte pending reg (admin)</li>
-          <li>Reworke betaling, gå bort fra liste over hva som er betalt, til heller bare beløp betalt og beløp som gjenstår</li>
-          <li>Implementere at endring i reg faktisk resetter timestamp. Nå skjer det ikke.</li>
-          <li>Vise timestamp i "My Registration"</li>
           <li>Donation, men det kommer når jeg implementerer betaling</li>
           <li>Legge til mulighet for egendefinerte add-ons (som f.eks. charms), med pris og max antall</li>
-          <li>Gi en faktisk reg-id, kun til registrations som har fått plass</li>
-          <li>Vise brukers posisjon i ventelisten når det er relevant</li>
           <li>Fikse titles på alle ikoner</li>
           <li>Få alt i admin-panelet til å respektere timestamp format</li>
         </ul>
         <p style="text-align: left;"><b>Ferdig</b></p>
         <ul style="text-align: left; margin-top: 0px;">
+          <li>Vise timestamp i "My Registration"</li>
+          <li>Implementere at endring i reg faktisk resetter timestamp når det skal skje. Nå skjer det ikke.</li>
+          <li>Vise brukers posisjon i ventelisten når det er relevant</li>
+          <li>Gi en faktisk reg-id til approved regs</li>
+          <li>Reworke betaling, gå bort fra liste over hva som er betalt, til heller bare beløp betalt og beløp som gjenstår</li>
           <li>Implementerte change password</li>
           <li>Implementerte forgotten password, med epost som funker men feil avsender...</li>
           <li>Hente-info i brukerprofil</li>
@@ -135,7 +137,7 @@
     </div>
 
     <div v-if="!$store.state.isLoggedIn || !($store.state.userData.isDriver || $store.state.userData.isAdmin)">
-      Not logged in eller ikke admin/driver. Denne siden blir ikke vist engang i ferdig implementasjon, bare redirect til index.
+      You are not authorized to view this page.
     </div>
   </div>
 </template>
