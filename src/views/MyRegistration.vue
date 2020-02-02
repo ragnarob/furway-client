@@ -42,10 +42,10 @@
 
       <div>
         <button @click="cancelEditing" v-show="isEditingUnapprovedRoomPreference" class="big-button neutral-button">
-          <CancelIcon/> Cancel
+          <CancelIcon title=""/> Cancel
         </button>
         <button @click="updateRegistration" v-show="isEditingUnapprovedRoomPreference" class="big-button danger-button margin-left-10">
-          <SaveIcon/> Update ticket type
+          <SaveIcon title/> Update ticket type
         </button>
       </div>
     </div>
@@ -146,10 +146,10 @@
 
       <div v-show="isEditingRoomPreference" class="margin-top-10">
         <button @click="cancelEditing" class="big-button neutral-button">
-          <CancelIcon/> Cancel
+          <CancelIcon title=""/> Cancel
         </button>
         <button @click="updateRegistration" v-show="canSaveRoomPreference" class="big-button danger-button margin-left-10">
-          <SaveIcon/> Update ticket type
+          <SaveIcon title=""/> Update ticket type
         </button>
       </div>
 
@@ -193,10 +193,10 @@
 
         <div v-show="canSaveAddons" class="margin-top-10">
           <button @click="cancelEditing" class="big-button neutral-button">
-            <CancelIcon/> Cancel
+            <CancelIcon title=""/> Cancel
           </button>
           <button @click="updateRegistration" class="big-button theme-button margin-left-10">
-            <SaveIcon/> Update add-ons
+            <SaveIcon title=""/> Update add-ons
           </button>
         </div>
       </div>
@@ -273,10 +273,10 @@
         <h3>Delete registration</h3>
         <p>Not going to Furway after all? You may delete your registration, but there is no going back from this!</p>
         <button @click="isDeletingRegistration = true" v-show="!isDeletingRegistration" class="margin-top-10">
-          <DeleteIcon/> Delete my registration
+          <DeleteIcon title=""/> Delete my registration
         </button>
         <button @click="cancelDeleting" v-show="isDeletingRegistration" class="margin-top-10 margin-bottom-10 big-button">
-          <CancelIcon/> Cancel deleting
+          <CancelIcon title=""/> Cancel deleting
         </button>
         
         <div v-if="isDeletingRegistration">
@@ -285,7 +285,7 @@
           <div class="margin-top-10 flex-col">
             <input type="text" v-model="deleteRegistrationUsername" style="width: 120px; margin-bottom: 4px;"/>
             <button @click="confirmDeleteRegistration" :class="{'danger-button': true, 'big-button': true, 'disabled-button': !isDeleteUsernameEqual}">
-              <DeleteIcon/> Delete registration
+              <DeleteIcon title=""/> Delete registration
             </button>
           </div>
         </div>

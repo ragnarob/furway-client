@@ -26,7 +26,7 @@
 
         <div id="twitterLink">
           <a href="https://twitter.com/FurwayCon">
-            <TwitterIcon/>
+            <TwitterIcon title="Twitter"/>
           </a>
         </div>
       </div>

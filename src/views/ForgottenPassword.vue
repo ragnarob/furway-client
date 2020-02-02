@@ -21,7 +21,7 @@
 
     <p v-show="isResetSuccessful" class="margin-top-10">
       <router-link :to="'/login'">
-        <BackIcon/> back to login
+        <BackIcon title="Back"/> back to login
       </router-link>
     </p>
   </div>

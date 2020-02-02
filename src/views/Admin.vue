@@ -29,11 +29,11 @@
           <li>Gjøre det vanskeligere (bekreft-prompt) å rejecte pending reg (admin)</li>
           <li>Donation, men det kommer når jeg implementerer betaling</li>
           <li>Legge til mulighet for egendefinerte add-ons (som f.eks. charms), med pris og max antall</li>
-          <li>Fikse titles på alle ikoner</li>
           <li>Få alt i admin-panelet til å respektere timestamp format</li>
         </ul>
         <p style="text-align: left;"><b>Ferdig</b></p>
         <ul style="text-align: left; margin-top: 0px;">
+          <li>Fikse titles på alle ikoner</li>
           <li>Vise timestamp i "My Registration"</li>
           <li>Implementere at endring i reg faktisk resetter timestamp når det skal skje. Nå skjer det ikke.</li>
           <li>Vise brukers posisjon i ventelisten når det er relevant</li>

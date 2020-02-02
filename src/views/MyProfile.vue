@@ -14,17 +14,17 @@
 
       <div style="margin-top: 10px; margin-bottom: 10px;">
         <button @click="startEditing" v-show="!isEditingProfile && !isChangingPassword" class="big-button neutral-button">
-          <EditIcon/> Edit profile
+          <EditIcon title/> Edit profile
         </button>
         <button @click="startChangingPassword" v-show="!isEditingProfile && !isChangingPassword" class="big-button neutral-button margin-left-10">
           Change password
         </button>
 
         <button @click="cancelEditing" v-show="isEditingProfile" class="big-button neutral-button">
-          <CancelIcon/> Cancel editing
+          <CancelIcon title/> Cancel editing
         </button>
         <button @click="confirmEditing" v-show="isEditingProfile" :class="{'big-button': true, 'theme-button': canSave, 'disabled-button': !canSave, 'margin-left-10': true}">
-          <SaveIcon/> Save changes
+          <SaveIcon title/> Save changes
         </button>
       </div>
 
@@ -132,8 +132,8 @@
             <td><p>Fursuiter</p></td>
             <td>
               <p v-if="!isEditingProfile">
-                <YesIcon v-if="userData.isFursuiter"/>
-                <NoIcon v-else-if="userData.isFursuiter === false"/>
+                <YesIcon v-if="userData.isFursuiter" title="Yes"/>
+                <NoIcon v-else-if="userData.isFursuiter === false" title="No"/>
               </p>
               <p v-else>
                 <input type="radio" v-model="editedUser.isFursuiter" :value="true"/>Yes
@@ -146,8 +146,8 @@
             <td><p>Vegan/vegetarian</p></td>
             <td>
               <p v-if="!isEditingProfile">
-                <YesIcon v-if="userData.isVegan"/>
-                <NoIcon v-else-if="userData.isVegan === false"/>
+                <YesIcon v-if="userData.isVegan" title="Yes"/>
+                <NoIcon v-else-if="userData.isVegan === false" title="No"/>
               </p>
               <p v-else>
                 <input type="radio" v-model="editedUser.isVegan" :value="true"/>Yes
@@ -207,8 +207,8 @@
             <td><p>Volunteer</p></td>
             <td>
               <p :class="{'non-editable-cell': isEditingProfile}">
-                <YesIcon v-if="userData.isVolunteer"/>
-                <NoIcon v-else-if="userData.isVolunteer === false"/>
+                <YesIcon v-if="userData.isVolunteer" title="Yes"/>
+                <NoIcon v-else-if="userData.isVolunteer === false" title="No"/>
                 <span v-if="isEditingProfile" style="text-style: italic;"><br/>(only changed by admins)</span>
               </p>
             </td>
@@ -228,10 +228,10 @@
 
         <div class="margin-top-10">
           <button type="button" @click="cancelChangingPassword" @click.prevent v-show="isChangingPassword" class="big-button neutral-button">
-            <CancelIcon/> Cancel
+            <CancelIcon title=""/> Cancel
           </button>
           <button @click.prevent="confirmChangingPassword" v-show="isChangingPassword" class="big-button theme-button margin-left-10" type="submit">
-            <SaveIcon/> Change password
+            <SaveIcon title/> Change password
           </button>
         </div>
       </form>

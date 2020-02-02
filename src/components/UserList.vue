@@ -60,10 +60,10 @@
 
           <!-- DELETE -->
           <button v-if="isThisUserBeingDeleted(user.id)" @click="cancelDeleting()" class="neutral-button big-button">
-            Cancel <DeleteIcon title="Delete"/>
+            Cancel <DeleteIcon title=""/>
           </button>
           <button v-if="isThisUserBeingDeleted(user.id)" @click="confirmDeleteUser()" class="danger-button big-button">
-            Confirm <FilledDeleteIcon title="Delete"/>
+            Confirm <FilledDeleteIcon title=""/>
           </button>
         </td>
 
@@ -75,8 +75,8 @@
 
         <td>
           <p :class="{'non-editable-cell': isThisUserBeingEdited(user.id)}">
-            <YesIcon v-if="user.registrationId !== null"/>
-            <NoIcon v-else/>
+            <YesIcon v-if="user.registrationId !== null" title="Yes"/>
+            <NoIcon v-else title="No"/>
           </p>
         </td>
 
@@ -142,8 +142,8 @@
             <label for="isVeganFalse">No</label>
           </p>
           <p v-else>
-            <YesIcon v-if="user.isVegan"/>
-            <NoIcon v-else-if="user.isVegan === false"/>
+            <YesIcon v-if="user.isVegan" title="Yes"/>
+            <NoIcon v-else-if="user.isVegan === false" title="No"/>
           </p>
         </td>
 
@@ -155,8 +155,8 @@
             <label for="isFursuiterFalse">No</label>
           </p>
           <p v-else>
-            <YesIcon v-if="user.isFursuiter"/>
-            <NoIcon v-else-if="user.isFursuiter === false"/>
+            <YesIcon v-if="user.isFursuiter" title="Yes"/>
+            <NoIcon v-else-if="user.isFursuiter === false" title="No"/>
           </p>
         </td>
 
@@ -226,7 +226,7 @@
           <p v-else-if="user.pickupType !== null">
             {{user.pickupType}}
           </p>
-          <NoIcon v-else />
+          <NoIcon v-else  title="No"/>
         </td>
 
         <td>
@@ -254,8 +254,8 @@
             <label for="isVolunteerFalse">No</label>
           </p>
           <p v-else>
-            <YesIcon v-if="user.isVolunteer"/>
-            <NoIcon v-else-if="user.isVolunteer === false"/>
+            <YesIcon v-if="user.isVolunteer" title="Yes"/>
+            <NoIcon v-else-if="user.isVolunteer === false" title="No"/>
           </p>
         </td>
 
@@ -267,8 +267,8 @@
             <label for="isDriverFalse">No</label>
           </p>
           <p v-else>
-            <YesIcon v-if="user.isDriver"/>
-            <NoIcon v-else-if="user.isDriver === false"/>
+            <YesIcon v-if="user.isDriver" title="Yes"/>
+            <NoIcon v-else-if="user.isDriver === false" title="No"/>
           </p>
         </td>
 
@@ -280,8 +280,8 @@
             <label for="isAdminFalse">No</label>
           </p>
           <p v-else>
-            <YesIcon v-if="user.isAdmin"/>
-            <NoIcon v-else-if="user.isAdmin === false"/>
+            <YesIcon v-if="user.isAdmin" title="Yes"/>
+            <NoIcon v-else-if="user.isAdmin === false" title="No"/>
           </p>
         </td>
       </tr>

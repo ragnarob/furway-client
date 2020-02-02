@@ -66,8 +66,8 @@
 
         <td>
           <p :class="{'non-editable-cell': isThisRegistrationBeingEdited(reg.id)}">
-            <YesIcon v-if="reg.isAdminApproved"/>
-            <NoIcon v-else-if="reg.isAdminApproved === false"/>
+            <YesIcon v-if="reg.isAdminApproved" title="Yes"/>
+            <NoIcon v-else-if="reg.isAdminApproved === false" title="No"/>
           </p>
         </td>
 
@@ -78,8 +78,8 @@
           </span>
 
           <p v-else>
-            <YesIcon v-if="reg.earlyArrival"/>
-            <NoIcon v-else-if="reg.earlyArrival === false"/>
+            <YesIcon v-if="reg.earlyArrival" title="Yes"/>
+            <NoIcon v-else-if="reg.earlyArrival === false" title="No"/>
           </p>
         </td>
 
@@ -90,8 +90,8 @@
           </span>
 
           <p v-else>
-            <YesIcon v-if="reg.lateDeparture"/>
-            <NoIcon v-else-if="reg.lateDeparture === false"/>
+            <YesIcon v-if="reg.lateDeparture" title="Yes"/>
+            <NoIcon v-else-if="reg.lateDeparture === false" title="No"/>
           </p>
         </td>
 
@@ -102,8 +102,8 @@
           </span>
 
           <p v-else>
-            <YesIcon v-if="reg.buyTshirt"/>
-            <NoIcon v-else-if="reg.buyTshirt === false"/>
+            <YesIcon v-if="reg.buyTshirt" title="Yes"/>
+            <NoIcon v-else-if="reg.buyTshirt === false" title="No"/>
           </p>
         </td>
 
@@ -114,8 +114,8 @@
           </span>
 
           <p v-else>
-            <YesIcon v-if="reg.buyHoodie"/>
-            <NoIcon v-else-if="reg.buyHoodie === false"/>
+            <YesIcon v-if="reg.buyHoodie" title="Yes"/>
+            <NoIcon v-else-if="reg.buyHoodie === false" title="No"/>
           </p>
         </td>
 
@@ -155,8 +155,8 @@
           </span>
 
           <p v-else>
-            <YesIcon v-if="reg.receivedInsideSpot"/>
-            <NoIcon v-else-if="reg.receivedInsideSpot === false"/>
+            <YesIcon v-if="reg.receivedInsideSpot" title="Yes"/>
+            <NoIcon v-else-if="reg.receivedInsideSpot === false" title="No"/>
           </p>
         </td>
 
@@ -167,8 +167,8 @@
           </span>
 
           <p v-else>
-            <YesIcon v-if="reg.receivedOutsideSpot"/>
-            <NoIcon v-else-if="reg.receivedOutsideSpot === false"/>
+            <YesIcon v-if="reg.receivedOutsideSpot" title="Yes"/>
+            <NoIcon v-else-if="reg.receivedOutsideSpot === false" title="No"/>
           </p>
         </td>
       </tr>
