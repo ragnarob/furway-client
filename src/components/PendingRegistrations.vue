@@ -1,5 +1,5 @@
 <template>
-  <table v-if="pendingRegistrations.length > 0" class="very-wide-table">
+  <table v-if="pendingRegistrations.length > 0" class="very-wide-table" id="pendingRegistrationTable">
     <tr>
       <th>Username</th>
       <th>First name</th>
@@ -14,10 +14,26 @@
       <td>{{reg.lastName}}</td>
       <td>{{formatRoomPreference(reg.roomPreference)}}</td>
       <td>{{formatTimestamp(reg.timestamp, timestampFormat)}}</td>
-      <td>
-        <button @click="approveRegistration(reg)">Approve</button>
-        <button @click="rejectRegistration(reg)">Reject</button>
-        <button @click="highlightUser(reg.username)">Show full user</button>
+      <td v-if="!isRejectingRegistration">
+        <button @click="approveRegistration(reg)" class="theme-button">
+          <ConfirmIcon/> Approve
+        </button>
+        <button @click="startRejectingRegistration(reg)">
+          <CancelIcon/> Reject
+        </button>
+        <button @click="highlightUser(reg.username)">
+          <DownIcon/> Show full user
+        </button>
+      </td>
+      <td v-else-if="isRejectingRegistration && rejectingRegistrationId===reg.id">
+        <button @click="cancelRejectingRegistration()">
+          <CancelIcon title=""/> Cancel
+        </button>
+        <button @click="rejectRegistration(reg)" class="danger-button">
+          <ConfirmIcon title=""/> Confirm rejection
+        </button>
+      </td>
+      <td v-else>
       </td>
     </tr>
   </table>
@@ -31,9 +47,16 @@
 import { mapGetters } from 'vuex'
 import { formatTimestamp, formatRoomPreference, sleepMillisec } from '../utils'
 import registrationApi from '../api/registration-api'
+import CancelIcon from 'vue-material-design-icons/Close.vue'
+import ConfirmIcon from 'vue-material-design-icons/Check.vue'
+import DownIcon from 'vue-material-design-icons/ArrowDown.vue'
 
 export default {
   name: 'pendingRegistrations',
+
+  components: {
+    CancelIcon, ConfirmIcon, DownIcon,
+  },
 
   computed: {
     ...mapGetters(['pendingRegistrations', 'highlightedUsername', 'isAllUsersOpen', 'timestampFormat'])
@@ -42,6 +65,8 @@ export default {
   data: function () {
     return {
       errorMessage: '',
+      isRejectingRegistration: false,
+      rejectingRegistrationId: undefined,
     }
   },
 
@@ -57,6 +82,16 @@ export default {
         this.$store.dispatch('loadAllAdminData')
       }
     },
+
+    startRejectingRegistration (registration) {
+      this.isRejectingRegistration = true
+      this.rejectingRegistrationId = registration.id
+    },
+
+    cancelRejectingRegistration () {
+      this.isRejectingRegistration = false
+      this.rejectingRegistrationId = undefined
+    },
     
     async rejectRegistration (reg) {
       let result = await registrationApi.rejectRegistration(reg.userId)
@@ -67,6 +102,7 @@ export default {
       }
       else {
         this.$store.dispatch('loadAllAdminData')
+        this.cancelRejectingRegistration()
       }
     },
 
@@ -84,3 +120,11 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+#pendingRegistrationTable {
+  td {
+    height: 30px;
+  }
+}
+</style>
