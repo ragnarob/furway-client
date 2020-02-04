@@ -25,8 +25,8 @@
         <p style="text-align: left;"><b>Ting som gjenstår</b></p>
         <ul style="text-align: left; margin-top: 0px;">
           <li>Få på plass terms & conditions!</li>
-          <li>Fikse redigering og sletting i "All Registrations" (admin)</li>
-          <li>Gjøre det vanskeligere (bekreft-prompt) å rejecte pending reg (admin)</li>
+          <li>Fikse sletting i "All Registrations" (admin)</li>
+          <li>Lage deadlines til dato <u>med klokkeslett</u></li>
           <li>Donation, men det kommer når jeg implementerer betaling</li>
           <li>Legge til mulighet for egendefinerte add-ons (som f.eks. charms), med pris og max antall</li>
           <li>Få alt i admin-panelet til å respektere timestamp format</li>
@@ -34,6 +34,8 @@
         </ul>
         <p style="text-align: left;"><b>Ferdig</b></p>
         <ul style="text-align: left; margin-top: 0px;">
+          <li>Fikse redigering i "All Registrations" (admin)</li>
+          <li>Gjøre det vanskeligere (bekreft-prompt) å rejecte pending reg (admin)</li>
           <li>Fikse titles på alle ikoner</li>
           <li>Vise timestamp i "My Registration"</li>
           <li>Implementere at endring i reg faktisk resetter timestamp når det skal skje. Nå skjer det ikke.</li>

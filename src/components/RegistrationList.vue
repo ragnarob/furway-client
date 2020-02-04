@@ -1,5 +1,7 @@
 <template>
   <div style="width: 100%;" v-show="isAllRegistrationsOpen">
+    <ResponseMessage :message="responseMessage" :messageType="responseMessageType" @closeMessage="closeResponseMessage"/>
+    <LoadingMessage :message="'Saving...'" v-if="isSaving"/>
 
     <div style="margin-bottom: 2px;">
       <input type="checkbox" v-model="shouldFilterList" id="onlyShowWithGivenSpotsCheckbox">
@@ -9,7 +11,7 @@
     <table class="very-wide-table">
       <tr>
         <th>Action</th>
-        <th>Id</th>
+        <th>Reg #</th>
         <th>Username</th>
         <th>Ticket</th>
         <th title="Approved">Appr.</th>
@@ -19,7 +21,7 @@
         <th title="Hoodie">Hd.</th>
         <th title="T-shirt size">Ts. sz</th>
         <th title="Hoodie size">Hd. sz</th>
-        <th title="Submitted time">Subm.</th>
+        <th title="Timestamp for submission if not approved, timestamp for approval if approved">Timest.</th>
         <th title="Payment deadline">Pay deadl.</th>
         <th title="Received inside spot">Rec. ins.</th>
         <th title="Received outside spot">Rec. outs.</th>
@@ -44,7 +46,7 @@
 
         <td>
           <p :class="{'non-editable-cell': isThisRegistrationBeingEdited(reg.id), 'registration-id-cell': true}">
-            {{reg.id}}
+            {{reg.registrationNumber}}
           </p>
         </td>
 
@@ -56,9 +58,14 @@
 
         <td>
           <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
-            <input type="radio" v-model="registrationBeingEdited.roomPreference" value="insideonly" @change="warnNotPreferredMethodRoomPreference"/>Inside only
-            <input type="radio" v-model="registrationBeingEdited.roomPreference" value="outsideonly" @change="warnNotPreferredMethodRoomPreference"/>Outside only
-            <input type="radio" v-model="registrationBeingEdited.roomPreference" value="insidepreference" @change="warnNotPreferredMethodRoomPreference"/>Inside preference
+            <input type="radio" v-model="registrationBeingEdited.roomPreference" value="insideonly" @change="warnNotPreferredMethodRoomPreference" id="roomPrefInside"/>
+            <label for="roomPrefInside">Inside only</label>
+
+            <input type="radio" v-model="registrationBeingEdited.roomPreference" value="outsideonly" @change="warnNotPreferredMethodRoomPreference" id="roomPrefOutside"/>
+            <label for="roomPrefOutside">Outside only</label>
+
+            <input type="radio" v-model="registrationBeingEdited.roomPreference" value="insidepreference" @change="warnNotPreferredMethodRoomPreference" id="roomPrefInsidePref"/>
+            <label for="roomPrefInsidePref">Inside preference</label>
           </span>
           
           <p v-else>{{formatRoomPreference(reg.roomPreference)}}</p>
@@ -73,8 +80,11 @@
 
         <td>
           <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
-            <input type="radio" v-model="registrationBeingEdited.earlyArrival" value="true"/>True
-            <input type="radio" v-model="registrationBeingEdited.earlyArrival" value="false"/>False
+            <input type="radio" v-model="registrationBeingEdited.earlyArrival" :value="true" id="earlyArrivalYes"/>
+            <label for="earlyArrivalYes">Yes</label>
+
+            <input type="radio" v-model="registrationBeingEdited.earlyArrival" :value="false" id="earlyArrivalNo"/>
+            <label for="earlyArrivalNo">No</label>
           </span>
 
           <p v-else>
@@ -85,8 +95,11 @@
 
         <td>
           <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
-            <input type="radio" v-model="registrationBeingEdited.lateDeparture" value="true"/>True
-            <input type="radio" v-model="registrationBeingEdited.lateDeparture" value="false"/>False
+            <input type="radio" v-model="registrationBeingEdited.lateDeparture" :value="true" id="lateDepartureYes"/>
+            <label for="lateDepartureYes">Yes</label>
+
+            <input type="radio" v-model="registrationBeingEdited.lateDeparture" :value="false" id="lateDepartureNo"/>
+            <label for="lateDepartureNo">No</label>
           </span>
 
           <p v-else>
@@ -97,8 +110,11 @@
 
         <td>
           <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
-            <input type="radio" v-model="registrationBeingEdited.buyTshirt" value="true"/>True
-            <input type="radio" v-model="registrationBeingEdited.buyTshirt" value="false"/>False
+            <input type="radio" v-model="registrationBeingEdited.buyTshirt" :value="true" id="buyTshirtYes"/>
+            <label for="buyTshirtYes">Yes</label>
+
+            <input type="radio" v-model="registrationBeingEdited.buyTshirt" :value="false" id="buyTshirtNo"/>
+            <label for="buyTshirtNo">No</label>
           </span>
 
           <p v-else>
@@ -109,8 +125,11 @@
 
         <td>
           <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
-            <input type="radio" v-model="registrationBeingEdited.buyHoodie" value="true"/>True
-            <input type="radio" v-model="registrationBeingEdited.buyHoodie" value="false"/>False
+            <input type="radio" v-model="registrationBeingEdited.buyHoodie" :value="true" id="buyHoodieYes"/>
+            <label for="buyHoodieYes">Yes</label>
+            
+            <input type="radio" v-model="registrationBeingEdited.buyHoodie" :value="false" id="buyHoodieNo"/>
+            <label for="buyHoodieNo">No</label>
           </span>
 
           <p v-else>
@@ -137,7 +156,7 @@
 
         <td>
           <p :class="{'non-editable-cell': isThisRegistrationBeingEdited(reg.id)}">
-            {{formatTimestamp(reg.timestamp)}}
+            {{formatTimestamp(reg.timestamp, timestampFormat)}}
           </p>
         </td>
 
@@ -146,12 +165,19 @@
             <input type="date" v-model="registrationBeingEdited.paymentDeadline"/>
             <button @click="clearPaymentDeadlineDate">Clear</button>
           </span>
+
+          <p v-else>
+            {{formatTimestamp(reg.paymentDeadline, timestampFormat)}}
+          </p>
         </td>
 
         <td>
           <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
-            <input type="radio" v-model="registrationBeingEdited.receivedInsideSpot" value="true"/>True
-            <input type="radio" v-model="registrationBeingEdited.receivedInsideSpot" value="false"/>False
+            <input type="radio" v-model="registrationBeingEdited.receivedInsideSpot" :value="true" id="recInsideSpotYes"/>
+            <label for="recInsideSpotYes">Yes</label>
+
+            <input type="radio" v-model="registrationBeingEdited.receivedInsideSpot" :value="false" id="recInsideSpotNo"/>
+            <label for="recInsideSpotNo">No</label>
           </span>
 
           <p v-else>
@@ -162,8 +188,11 @@
 
         <td>
           <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
-            <input type="radio" v-model="registrationBeingEdited.receivedOutsideSpot" value="true" @change="warnNotPreferredMethodReceivedSpot"/>True
-            <input type="radio" v-model="registrationBeingEdited.receivedOutsideSpot" value="false"@change="warnNotPreferredMethodReceivedSpot"/>False
+            <input type="radio" v-model="registrationBeingEdited.receivedOutsideSpot" :value="true" @change="warnNotPreferredMethodReceivedSpot" id="recOutsideSpotYes"/>
+            <label for="recOutsideSpotYes">Yes</label>
+
+            <input type="radio" v-model="registrationBeingEdited.receivedOutsideSpot" :value="false"@change="warnNotPreferredMethodReceivedSpot" id="recOutsideSpotNo"/>
+            <label for="recOutsideSpotNo">No</label>
           </span>
 
           <p v-else>
@@ -184,8 +213,11 @@ import SaveIcon from 'vue-material-design-icons/ContentSave.vue'
 import CancelIcon from 'vue-material-design-icons/Close.vue'
 import DeleteIcon from 'vue-material-design-icons/DeleteOutline.vue'
 
+import ResponseMessage from './ResponseMessage.vue'
+import LoadingMessage from '../components/LoadingMessage.vue'
 import { mapGetters } from 'vuex'
 import { formatTimestamp, formatRoomPreference } from '../utils'
+import registrationApi from '../api/registration-api'
 
 export default {
   name: 'registrationList',
@@ -195,6 +227,7 @@ export default {
   },
 
   components: {
+    ResponseMessage, LoadingMessage,
     YesIcon, NoIcon, EditIcon, SaveIcon, CancelIcon, DeleteIcon,
   },
 
@@ -203,6 +236,10 @@ export default {
       registrationBeingEdited: null,
       sizes: [null, 'S','M','L','XL','XXL'],
       shouldFilterList: false,
+
+      responseMessage: '',
+      responseMessageType: 'info',
+      isSaving: false,
     }
   },
 
@@ -245,12 +282,32 @@ export default {
       this.registrationBeingEdited = null
     },
 
-    saveRegistration () {
-      
+    async saveRegistration () {
+      this.isSaving = true
+
+      let result = await registrationApi.updateRegistrationAsAdmin(this.registrationBeingEdited.userId, this.registrationBeingEdited)
+
+      this.isSaving = false
+
+      if ('error' in result) {
+        this.responseMessage = result.error
+        this.responseMessageType = 'error'
+      }
+      else {
+        this.responseMessage = 'Success!'
+        this.responseMessageType = 'success'
+        this.cancelEditing()
+        this.$store.dispatch('loadAllAdminData')
+      }
     },
 
     clearPaymentDeadlineDate () {
       this.registrationBeingEdited.paymentDeadline = null
+    },
+
+    closeResponseMessage () {
+      this.responseMessage = ''
+      this.responseMessageType = 'info'
     },
 
     formatTimestamp,

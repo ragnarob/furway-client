@@ -40,6 +40,12 @@ export default {
     return response.data
   },
 
+  async updateRegistrationAsAdmin(userId, registrationData) {
+    let response = await Axios.post(`${apiBase}/registrations/user/${userId}/update-admin`, registrationData)
+
+    return response.data
+  },
+
   async approveRegistration (userId) {
     let response = await Axios.post(`${apiBase}/registrations/user/${userId}/approve`)
 
