@@ -26,21 +26,31 @@
         <th title="Received inside spot">Rec. ins.</th>
         <th title="Received outside spot">Rec. outs.</th>
       </tr>
-      <tr v-for="reg in filteredRegistrations" :key="reg.id" :class="{'highlighted-row-blue': reg.id === highlightedRegistrationId}">
+
+      <tr v-for="reg in filteredRegistrations" :key="reg.id" :class="{'highlighted-row-blue': reg.id === highlightedRegistrationId}" style="height: 38px;">
         <td>
-          <button v-if="registrationBeingEdited === null" @click="editRegistration(reg.id)" class="icon-button icon-button-small neutral-button">
+          <!-- DEFAULT -->
+          <button v-if="registrationBeingEdited === null && userIdBeingDeleted === null" @click="editRegistration(reg.id)" class="icon-button icon-button-small neutral-button">
             <EditIcon title="Edit"/>
           </button>
-          <button v-if="registrationBeingEdited === null" @click="deleteRegistration(reg.id)" class="icon-button icon-button-small neutral-button">
+          <button v-if="registrationBeingEdited === null && userIdBeingDeleted === null" @click="startDeletingRegistration(reg.userId)" class="icon-button icon-button-small neutral-button">
             <DeleteIcon title="Delete"/>
           </button>
 
-
+          <!-- EDITING -->
           <button v-if="isThisRegistrationBeingEdited(reg.id)" @click="cancelEditing()" class="icon-button icon-button-small neutral-button">
             <CancelIcon title="Cancel"/>
           </button>
           <button v-if="isThisRegistrationBeingEdited(reg.id)" @click="saveRegistration()" class="icon-button icon-button-small theme-button">
             <SaveIcon title="Save"/>
+          </button>
+
+          <!-- DELETING -->
+          <button v-if="userIdBeingDeleted === reg.userId" @click="cancelDeleting()" class="neutral-button big-button">
+            <NoIcon/> Cancel
+          </button>
+          <button v-if="userIdBeingDeleted === reg.userId" @click="deleteRegistration()" class="danger-button big-button">
+            Confirm <FilledDeleteIcon title=""/>
           </button>
         </td>
 
@@ -212,6 +222,7 @@ import EditIcon from 'vue-material-design-icons/Pencil.vue'
 import SaveIcon from 'vue-material-design-icons/ContentSave.vue'
 import CancelIcon from 'vue-material-design-icons/Close.vue'
 import DeleteIcon from 'vue-material-design-icons/DeleteOutline.vue'
+import FilledDeleteIcon from 'vue-material-design-icons/Delete.vue'
 
 import ResponseMessage from './ResponseMessage.vue'
 import LoadingMessage from '../components/LoadingMessage.vue'
@@ -228,12 +239,13 @@ export default {
 
   components: {
     ResponseMessage, LoadingMessage,
-    YesIcon, NoIcon, EditIcon, SaveIcon, CancelIcon, DeleteIcon,
+    YesIcon, NoIcon, EditIcon, SaveIcon, CancelIcon, DeleteIcon, FilledDeleteIcon,
   },
 
   data: function () {
     return {
       registrationBeingEdited: null,
+      userIdBeingDeleted: null,
       sizes: [null, 'S','M','L','XL','XXL'],
       shouldFilterList: false,
 
@@ -274,15 +286,41 @@ export default {
       window.alert(`Note: This is NOT the standard way to give spots to registrants, and should only be used in special cases where the system won't automatically assign spots based on timestamps as sorted in the waiting lists`)
     },
 
-    deleteRegistration (regId) {
+    cancelDeleting () {
+      this.userIdBeingDeleted = null
+    },
 
+    startDeletingRegistration (userId) {
+      this.userIdBeingDeleted = userId
+    },
+
+    async deleteRegistration () {
+      if (this.isSaving) { return }
+      this.isSaving = true
+
+      let result = await registrationApi.deleteRegistration(this.userIdBeingDeleted)
+
+      this.isSaving = false
+
+      if ('error' in result) {
+        this.responseMessage = result.error
+        this.responseMessageType = 'error'
+      }
+      else {
+        this.responseMessage = 'Delete successful!'
+        this.responseMessageType = 'success'
+        this.cancelDeleting()
+        this.$store.dispatch('loadAllAdminData')
+      }
     },
 
     cancelEditing () {
+      this.isSaving = false
       this.registrationBeingEdited = null
     },
 
     async saveRegistration () {
+      if (this.isSaving) { return }
       this.isSaving = true
 
       let result = await registrationApi.updateRegistrationAsAdmin(this.registrationBeingEdited.userId, this.registrationBeingEdited)

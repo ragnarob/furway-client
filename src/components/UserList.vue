@@ -40,7 +40,7 @@
         <th>Driver</th>
         <th>Admin</th>
       </tr>
-      <tr v-for="user in userListToUse" :key="user.id" :class="{'highlighted-row': user.username === highlightedUsername}">
+      <tr v-for="user in userListToUse" :key="user.id" :class="{'highlighted-row': user.username === highlightedUsername}" style="height: 38px;">
         <td>
           <!-- DEFAULT -->
           <button v-if="userBeingEdited === null && userIdToBeDeleted === null" @click="editUser(user.id)" class="icon-button icon-button-small neutral-button">
