@@ -13,18 +13,18 @@
       <LoadingMessage :message="'Processing...'" v-if="isUpdatingData"/>
 
       <div style="margin-top: 10px; margin-bottom: 10px;">
-        <button @click="startEditing" v-show="!isEditingProfile && !isChangingPassword" class="big-button neutral-button">
-          <EditIcon title/> Edit profile
+        <button @click="startEditing" v-show="!isEditingProfile && !isChangingPassword" class="big-button neutral-button double-button">
+          <EditIcon title/>Edit profile
         </button>
         <button @click="startChangingPassword" v-show="!isEditingProfile && !isChangingPassword" class="big-button neutral-button margin-left-10">
           Change password
         </button>
 
-        <button @click="cancelEditing" v-show="isEditingProfile" class="big-button neutral-button">
-          <CancelIcon title/> Cancel editing
+        <button @click="cancelEditing" v-show="isEditingProfile" class="big-button neutral-button double-button">
+          <CancelIcon title=""/>Cancel editing
         </button>
-        <button @click="confirmEditing" v-show="isEditingProfile" :class="{'big-button': true, 'theme-button': canSave, 'disabled-button': !canSave, 'margin-left-10': true}">
-          <SaveIcon title/> Save changes
+        <button @click="confirmEditing" v-show="isEditingProfile" :class="{'big-button': true, 'theme-button': canSave, 'disabled-button': !canSave, 'margin-left-10': true, 'double-button': true}">
+          <SaveIcon title=""/>Save changes
         </button>
       </div>
 
@@ -227,11 +227,11 @@
         </div>
 
         <div class="margin-top-10">
-          <button type="button" @click="cancelChangingPassword" @click.prevent v-show="isChangingPassword" class="big-button neutral-button">
-            <CancelIcon title=""/> Cancel
+          <button type="button" @click="cancelChangingPassword" @click.prevent v-show="isChangingPassword" class="big-button neutral-button double-button">
+            <CancelIcon title=""/>Cancel
           </button>
-          <button @click.prevent="confirmChangingPassword" v-show="isChangingPassword" class="big-button theme-button margin-left-10" type="submit">
-            <SaveIcon title/> Change password
+          <button @click.prevent="confirmChangingPassword" v-show="isChangingPassword" class="big-button theme-button margin-left-10 double-button" type="submit">
+            <SaveIcon title/>Change password
           </button>
         </div>
       </form>

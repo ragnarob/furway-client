@@ -57,8 +57,12 @@
           <label for="roomPreferenceRadioOutside">Outside only</label>
         </div>
 
-        <button @click="submitRegistration" :class="{'disabled-button': !roomPreference, 'big-button': true, 'theme-button': true}" style="margin-top: 10px;">Submit registration</button>
-        <button @click="cancelRegistration" class="big-button" style="margin-top: 4px;">Cancel</button>
+        <button @click="submitRegistration" :class="{'disabled-button': !roomPreference, 'big-button': true, 'theme-button': true}" style="margin-top: 10px;">
+          Submit registration
+        </button>
+        <button @click="cancelRegistration" class="big-button" style="margin-top: 4px;">
+          Cancel
+        </button>
 
         <p style="color: red" v-show="errorMessage">Error: {{errorMessage}}</p>
       </div>

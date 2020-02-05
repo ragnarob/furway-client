@@ -12,8 +12,8 @@
       <label class="margin-top-10">Password</label>
       <input type="password" v-model="password"/>
 
-      <button @click="login" class="big-button theme-button margin-top-20">
-        <LoginIcon title="Login"/> Log in
+      <button @click="login" class="big-button theme-button margin-top-20 double-button">
+        <LoginIcon title="Login"/>Log in
       </button>
 
       <router-link :to="'/forgotten-password'" class="margin-top-20">Forgot password?</router-link>

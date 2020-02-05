@@ -59,10 +59,10 @@
           </button>
 
           <!-- DELETE -->
-          <button v-if="isThisUserBeingDeleted(user.id)" @click="cancelDeleting()" class="neutral-button big-button">
-            Cancel <DeleteIcon title=""/>
+          <button v-if="isThisUserBeingDeleted(user.id)" @click="cancelDeleting()" class="neutral-button big-button double-button">
+            <CancelIcon title=""/>Cancel
           </button>
-          <button v-if="isThisUserBeingDeleted(user.id)" @click="confirmDeleteUser()" class="danger-button big-button">
+          <button v-if="isThisUserBeingDeleted(user.id)" @click="confirmDeleteUser()" class="danger-button big-button" style="padding-right: 10px;">
             Confirm <FilledDeleteIcon title=""/>
           </button>
         </td>

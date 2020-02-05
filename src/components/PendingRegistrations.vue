@@ -15,22 +15,22 @@
       <td>{{formatRoomPreference(reg.roomPreference)}}</td>
       <td>{{formatTimestamp(reg.timestamp, timestampFormat)}}</td>
       <td v-if="!isRejectingRegistration">
-        <button @click="approveRegistration(reg)" class="theme-button">
-          <ConfirmIcon/> Approve
+        <button @click="approveRegistration(reg)" class="theme-button double-button">
+          <ConfirmIcon/>Approve
         </button>
-        <button @click="startRejectingRegistration(reg)">
-          <CancelIcon/> Reject
+        <button @click="startRejectingRegistration(reg)" class="double-button">
+          <CancelIcon/>Reject
         </button>
-        <button @click="highlightUser(reg.username)">
-          <DownIcon/> Show full user
+        <button @click="highlightUser(reg.username)" class="double-button">
+          <DownIcon/>Show full user
         </button>
       </td>
       <td v-else-if="isRejectingRegistration && rejectingRegistrationId===reg.id">
-        <button @click="cancelRejectingRegistration()">
-          <CancelIcon title=""/> Cancel
+        <button @click="cancelRejectingRegistration()" class="double-button">
+          <CancelIcon title=""/>Cancel
         </button>
-        <button @click="rejectRegistration(reg)" class="danger-button">
-          <ConfirmIcon title=""/> Confirm rejection
+        <button @click="rejectRegistration(reg)" class="danger-button double-button">
+          <ConfirmIcon title=""/>Confirm rejection
         </button>
       </td>
       <td v-else>

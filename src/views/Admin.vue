@@ -25,15 +25,15 @@
         <p style="text-align: left;"><b>Ting som gjenstår</b></p>
         <ul style="text-align: left; margin-top: 0px;">
           <li>Få på plass terms & conditions!</li>
-          <li>Fikse sletting i "All Registrations" (admin)</li>
           <li>Lage deadlines til dato <u>med klokkeslett</u></li>
           <li>Donation, men det kommer når jeg implementerer betaling</li>
           <li>Legge til mulighet for egendefinerte add-ons (som f.eks. charms), med pris og max antall</li>
           <li>Få alt i admin-panelet til å respektere timestamp format</li>
-          <li>Bedre alignet buttons-med-icons (fjerne space, span -2 margin)</li>
         </ul>
         <p style="text-align: left;"><b>Ferdig</b></p>
         <ul style="text-align: left; margin-top: 0px;">
+          <li>Bedre alignet buttons-med-icons (fjerne space, span -2 margin)</li>
+          <li>Fikse sletting i "All Registrations" (admin)</li>
           <li>Fikse redigering i "All Registrations" (admin)</li>
           <li>Gjøre det vanskeligere (bekreft-prompt) å rejecte pending reg (admin)</li>
           <li>Fikse titles på alle ikoner</li>

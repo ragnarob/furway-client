@@ -1,6 +1,6 @@
 <template>
   <div class="flex-col">
-    <h1>Create user</h1>
+    <h1>Sign up</h1>
 
     <p>Fields with a thick left border are mandatory.</p>
     <button @click="fillFieldsWithStuff">
@@ -161,12 +161,16 @@
     </div>
     <br/>
 
-    <button @click="signup" :class="{'big-button': true, 'theme-button': isValidInput, 'disabled-button': !isValidInput}" >Create user</button>
+    <button @click="signup" :class="{'big-button': true, 'theme-button': isValidInput, 'disabled-button': !isValidInput, 'double-button': true}">
+      <ConfirmIcon/>Sign up
+    </button>
   </div>
 </template>
 
 <script>
 import InfoIcon from 'vue-material-design-icons/InformationOutline.vue'
+import ConfirmIcon from 'vue-material-design-icons/Check.vue'
+
 import ResponseMessage from '../components/ResponseMessage.vue'
 import userApi from '@/api/user-api'
 
@@ -175,7 +179,7 @@ export default {
 
   components: {
     ResponseMessage,
-    InfoIcon,
+    InfoIcon, ConfirmIcon,
   },
 
   data: function () {

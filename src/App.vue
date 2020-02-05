@@ -308,6 +308,13 @@ button {
       box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     }
   }
+
+  &.double-button {
+    span {
+      margin-left: -2px;
+      margin-right: 3px;
+    }
+  }
 }
 
 .small-box-shadow {
@@ -318,6 +325,13 @@ button {
   padding: 8px 14px;
   font-size: 15px;
   font-weight: 600;
+
+  &.double-button {
+    span {
+      margin-left: -3px;
+      margin-right: 4px;
+    }
+  }
 }
 
 .theme-button {

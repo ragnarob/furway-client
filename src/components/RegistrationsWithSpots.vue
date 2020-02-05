@@ -36,7 +36,9 @@
         <td>{{reg.paidAmount}} paid, {{reg.totalAmount}} total</td>
 
         <td>
-          <button @click="highlightRegistration(reg)">Show full reg</button>
+          <button @click="highlightRegistration(reg)">
+            Show full reg
+          </button>
         </td>
       </tr>
     </table>
