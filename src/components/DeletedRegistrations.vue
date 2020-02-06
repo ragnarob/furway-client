@@ -79,13 +79,13 @@
 
         <td>
           <p>
-            {{formatTimestamp(reg.timestamp)}}
+            {{formatTimestamp(reg.timestamp, $store.getters.timestampFormat)}}
           </p>
         </td>
 
         <td>
           <p>
-            {{formatTimestamp(reg.paymentDeadline)}}
+            {{formatTimestamp(reg.paymentDeadline, $store.getters.timestampFormat)}}
           </p>
         </td>
 

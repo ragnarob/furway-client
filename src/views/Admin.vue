@@ -25,13 +25,14 @@
         <p style="text-align: left;"><b>Ting som gjenstår</b></p>
         <ul style="text-align: left; margin-top: 0px;">
           <li>Få på plass terms & conditions!</li>
-          <li>Lage deadlines til dato <u>med klokkeslett</u></li>
           <li>Donation, men det kommer når jeg implementerer betaling</li>
           <li>Legge til mulighet for egendefinerte add-ons (som f.eks. charms), med pris og max antall</li>
-          <li>Få alt i admin-panelet til å respektere timestamp format</li>
+          <li>Lage en liten tabell med oversikt over deadlines</li>
         </ul>
         <p style="text-align: left;"><b>Ferdig</b></p>
         <ul style="text-align: left; margin-top: 0px;">
+          <li>Lage deadlines til dato <u>med klokkeslett</u></li>
+          <li>Få alt i admin-panelet til å respektere timestamp format</li>
           <li>Bedre alignet buttons-med-icons (fjerne space, span -2 margin)</li>
           <li>Fikse sletting i "All Registrations" (admin)</li>
           <li>Fikse redigering i "All Registrations" (admin)</li>
@@ -49,10 +50,10 @@
         </ul>
       </div>
       
-      <!-- Numbers & dates -->
+      <!-- Numbers -->
       <div v-if="isAdmin" class="admin-component-container">
         <h2 class="header-with-show-hide">
-          Numbers & dates
+          Numbers
           <ShowIcon v-if="!showAdminStats" @click="showAdminStats = true" class="show-hide-icon"/>
           <HideIcon v-if="showAdminStats" @click="showAdminStats = false" class="show-hide-icon"/>
         </h2>

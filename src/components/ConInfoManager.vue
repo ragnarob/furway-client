@@ -2,7 +2,7 @@
   <div v-if="isOpen">
     <p style="margin-bottom: 8px;">Most of the information in this table should be set before registration opens, and not touched afterwards.</p>
 
-    <RepsonseMessage :message="responseMessage" :isError="isErrorMessage" @closeMessage="closeResponseMessage" v-if="responseMessage"/>
+    <RepsonseMessage :message="responseMessage" :messageType="responseMessageType" @closeMessage="closeResponseMessage"/>
 
     <table>
       <tr>
@@ -35,13 +35,13 @@
         <td>Registration opening date</td>
         <td>
           <span v-if="!isEditing.registrationOpenDate">
-            {{formatShortTimestamp(conInfo.registrationOpenDate)}}
+            {{formatLongTimestamp(conInfo.registrationOpenDate)}}
             <button @click="editField('registrationOpenDate')" class="icon-button icon-button-small">
               <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
-            <input type="date" v-model="editedConInfo.registrationOpenDate"/>
+            <input type="datetime-local" v-model="editedConInfo.registrationOpenDate"/>
             <button @click="cancelEditing" class="icon-button icon-button-small">
               <CancelIcon title="Cancel"/>
             </button>
@@ -56,13 +56,13 @@
         <td>Registration opening date, volunteers</td>
         <td>
           <span v-if="!isEditing.volunteerRegistrationOpenDate">
-            {{formatShortTimestamp(conInfo.volunteerRegistrationOpenDate)}}
+            {{formatLongTimestamp(conInfo.volunteerRegistrationOpenDate)}}
             <button @click="editField('volunteerRegistrationOpenDate')" class="icon-button icon-button-small">
               <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
-            <input type="date" v-model="editedConInfo.volunteerRegistrationOpenDate"/>
+            <input type="datetime-local" v-model="editedConInfo.volunteerRegistrationOpenDate"/>
             <button @click="cancelEditing" class="icon-button icon-button-small">
               <CancelIcon title="Cancel"/>
             </button>
@@ -77,13 +77,13 @@
         <td>Registration closing date</td>
         <td>
           <span v-if="!isEditing.registrationCloseDate">
-            {{formatShortTimestamp(conInfo.registrationCloseDate)}}
+            {{formatLongTimestamp(conInfo.registrationCloseDate)}}
             <button @click="editField('registrationCloseDate')" class="icon-button icon-button-small">
               <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
-            <input type="date" v-model="editedConInfo.registrationCloseDate"/>
+            <input type="datetime-local" v-model="editedConInfo.registrationCloseDate"/>
             <button @click="cancelEditing" class="icon-button icon-button-small">
               <CancelIcon title="Cancel"/>
             </button>
@@ -103,13 +103,13 @@
         </td>
         <td>
           <span v-if="!isEditing.originalPaymentDeadline">
-            {{formatShortTimestamp(conInfo.originalPaymentDeadline)}}
+            {{formatLongTimestamp(conInfo.originalPaymentDeadline)}}
             <button @click="editField('originalPaymentDeadline')" class="icon-button icon-button-small">
               <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
-            <input type="date" v-model="editedConInfo.originalPaymentDeadline"/>
+            <input type="datetime-local" v-model="editedConInfo.originalPaymentDeadline"/>
             <button @click="cancelEditing" class="icon-button icon-button-small">
               <CancelIcon title="Cancel"/>
             </button>
@@ -124,13 +124,13 @@
         <td>Addon payment deadline</td>
         <td>
           <span v-if="!isEditing.addonPaymentDeadline">
-            {{formatShortTimestamp(conInfo.addonPaymentDeadline)}}
+            {{formatLongTimestamp(conInfo.addonPaymentDeadline)}}
             <button @click="editField('addonPaymentDeadline')" class="icon-button icon-button-small">
               <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
-            <input type="date" v-model="editedConInfo.addonPaymentDeadline"/>
+            <input type="datetime-local" v-model="editedConInfo.addonPaymentDeadline"/>
             <button @click="cancelEditing" class="icon-button icon-button-small">
               <CancelIcon title="Cancel"/>
             </button>
@@ -150,13 +150,13 @@
         </td>
         <td>
           <span v-if="!isEditing.finalRegPaymentDeadline">
-            {{formatShortTimestamp(conInfo.finalRegPaymentDeadline)}}
+            {{formatLongTimestamp(conInfo.finalRegPaymentDeadline)}}
             <button @click="editField('finalRegPaymentDeadline')" class="icon-button icon-button-small">
               <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
-            <input type="date" v-model="editedConInfo.finalRegPaymentDeadline"/>
+            <input type="datetime-local" v-model="editedConInfo.finalRegPaymentDeadline"/>
             <button @click="cancelEditing" class="icon-button icon-button-small">
               <CancelIcon title="Cancel"/>
             </button>
@@ -372,7 +372,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { formatShortTimestamp, formatBoolean } from '../utils'
+import { formatShortTimestamp, formatBoolean, formatLongTimestamp } from '../utils'
 import miscApi from "../api/misc-api";
 import RepsonseMessage from './ResponseMessage.vue'
 
@@ -400,7 +400,7 @@ export default {
   data: function () {
     return {
       responseMessage: '',
-      isErrorMessage: true,
+      responseMessageType: 'info',
       showExplanations: false,
       editedConInfo: {...this.conInfo},
       isEditing: this.getNoneEditingObject(),
@@ -424,11 +424,11 @@ export default {
 
       if ('error' in result) {
         this.responseMessage = result.error
-        this.isErrorMessage = true
+        this.responseMessageType = 'error'
       }
       else {
         this.responseMessage = 'Success!'
-        this.isErrorMessage = false
+        this.responseMessageType = 'success'
         this.cancelEditing()
         this.$store.dispatch('loadAllAdminData')
         this.$store.dispatch('loadConInfo')
@@ -444,7 +444,7 @@ export default {
       this.responseMessage = ''
     },
 
-    formatShortTimestamp, formatBoolean,
+    formatShortTimestamp, formatBoolean, formatLongTimestamp,
   },
 }
 </script>
