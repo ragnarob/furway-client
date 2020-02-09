@@ -24,13 +24,13 @@
 
         <p style="text-align: left;"><b>Ting som gjenstår</b></p>
         <ul style="text-align: left; margin-top: 0px;">
-          <li>Få på plass terms & conditions!</li>
           <li>Donation, men det kommer når jeg implementerer betaling</li>
           <li>Legge til mulighet for egendefinerte add-ons (som f.eks. charms), med pris og max antall</li>
           <li>Lage en liten tabell med oversikt over deadlines</li>
         </ul>
         <p style="text-align: left;"><b>Ferdig</b></p>
         <ul style="text-align: left; margin-top: 0px;">
+          <li>Få på plass terms & conditions!</li>
           <li>Country code på tlf</li>
           <li>Lage deadlines til dato <u>med klokkeslett</u></li>
           <li>Få alt i admin-panelet til å respektere timestamp format</li>

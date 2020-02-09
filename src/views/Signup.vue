@@ -157,13 +157,47 @@
     <div class="signup-row">
       <p style="max-width: 500px;">
         <input type="checkbox" v-model="hasConsentedToTerms"/>
-        I hereby confirm that by creating a user, I accept Furway's T&C, which can be viewed below by
+        I hereby confirm that by creating a user, I accept Furway's terms and conditions, which can be viewed below by
         <span class="link-text" @click="termsAndConditionsIsExpanded = true">clicking here</span>
       </p>
     </div>
     <div v-show="termsAndConditionsIsExpanded" id="termsAndConditions">
-      <h3>Furway's T's & C's</h3>
-      <p>LOREM IPSUM OG SÅNT</p>
+      <h3>Furway Terms and conditions 2020</h3>
+      <ol>
+        <li>
+          Participants are required to act in a manner befitting of respect and politeness, as well as avoid offense. Furway is a place with many different people and opinions, and a mutual respect for this fact and this variety is expected from all attendees. Serious transgressions in this regard will result in expulsion from the arrangement.
+        </li>
+        <li>
+          On buying a ticket to FW you concede to joining the organization as a member for one year. Upon buying the ticket, you consent to FW storing the personalia given in the registration form for one year. This information is securely stored in Google Drive, and kept confidential. FW may at all times deny entrance to, or expel from the venue, those without a valid and confirmable ticket.
+        </li>
+        <li>
+          Photography and filming will happen at Furway, both by Furway crew and other participants. By coming to Furway, you acknowledge that this will happen, and acknowledge that you yourself is explicitly responsible for verbally declining being photographed. <u>All attendees that themselves photograph or film others must ask for explicit permission from the one being depicted beforehand</u>.
+        </li>
+        <li>
+          All attendees at the arrangement agree to ensure the facilities and venue remain clean and orderly at all times. Smoking is not permitted inside the venue buildings, and must be done in designated areas outside. Cigarette butts must be collected and safely stored in either ashtrays or appropriate containers.
+        </li>
+        <li>
+          All allergies, intolerances and health issues must be reported to FW beforehand so as to ensure successful and adequate pre-emptive precautions by the FW staff.
+        </li>
+        <li>
+          Participants are themselves responsible for their own health and well-being. FW can not be held responsible for any personal injury that might occur during the arrangement. (Though we’ll certainly do our best to help!)
+        </li>
+        <li>
+          Items and substances prohibited by Norwegian law are in any and all cases forbidden. Transgressions will result in expulsion and possibly legal action.
+        </li>
+        <li>
+          FW has the right to expel anyone excessively intoxicated, or anyone refusing to comply with requests from FW staff about change in behaviour or mannerisms.
+        </li>
+        <li>
+          Animals are allowed on the venue, but not inside the buildings themselves due to hygiene and allergy concerns. Norwegian legislation on leashes apply normally.
+        </li>
+        <li>
+          The organization Furway is both proprietor and in rent of costly equipment and facilities. Attendees must use equipment and facilities only according to premeditated plans and activities, and must treat this fairly. Damage/destruction of equipment, facilities or property will necessitate financial recompense by the parties involved.
+        </li>
+        <li>
+          These terms apply to all meetings and arrangements organized by FW unless otherwise specified. These terms apply to everyone attending the arrangements. By attending a FW arrangement, the attendee agrees to complying with these terms.
+        </li>
+      </ol>
     </div>
     <br/>
 
@@ -232,7 +266,7 @@ export default {
 
   computed: {
     isValidInput () {
-      return ![this.firstName, this.lastName, this.phone, this.addressLine1, this.addressCity, this.addressCountry].some(s => s==='undefined' || s.length === 0)
+      return ![this.firstName, this.lastName, this.phone, this.phoneCountryCode, this.addressLine1, this.addressCity, this.addressCountry].some(s => s==='undefined' || s.length === 0)
         && /^[a-zA-ZÆØÅæøå][\w\d_-ÆØÅæøå]{1,19}$/.test(this.username)
         && this.password1.length >= 6 && this.password2.length >= 6
         && this.isFursuiter !== undefined && this.isVegan !== undefined
@@ -419,7 +453,20 @@ input[type="email"] {
 
 #termsAndConditions {
   border: 1px solid #ccc;
-  padding: 16px;
+  box-sizing: border-box;
+  padding: 0px 16px;
   margin-top: 10px;
+  max-width: 800px;
+  @media screen and (max-width: 849px) {
+    max-width: 90%;
+    padding: 10px;
+  }
+  ol {
+    text-align: left;
+    padding-left: 20px;
+    li {
+      margin-top: 10px;
+    }
+  }
 }
 </style>
