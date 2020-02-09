@@ -25,6 +25,7 @@
         <th>Date of birth</th>
         <th title="Telegram username">Telegram</th>
         <th>Phone</th>
+        <th title="Phone country code">Phone cc.</th>
         <th>Vegan</th>
         <th>Fursuiter</th>
         <th>Allergies</th>
@@ -131,6 +132,15 @@
           </p>
           <p v-else>
             {{user.phone}}
+          </p>
+        </td>
+
+        <td>
+          <p v-if="isThisUserBeingEdited(user.id)">
+            <input type="number" v-model="userBeingEdited.phoneCountryCode" style="width: 70px;"/>
+          </p>
+          <p v-else>
+            {{user.phoneCountryCode}}
           </p>
         </td>
 

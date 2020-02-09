@@ -31,6 +31,7 @@
         </ul>
         <p style="text-align: left;"><b>Ferdig</b></p>
         <ul style="text-align: left; margin-top: 0px;">
+          <li>Country code på tlf</li>
           <li>Lage deadlines til dato <u>med klokkeslett</u></li>
           <li>Få alt i admin-panelet til å respektere timestamp format</li>
           <li>Bedre alignet buttons-med-icons (fjerne space, span -2 margin)</li>

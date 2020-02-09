@@ -37,7 +37,7 @@
             </td>
 
             <td>
-              {{user.phone}}
+              {{user.phoneCountryCode}}{{user.phone}}
             </td>
           </tr>
         </tbody>

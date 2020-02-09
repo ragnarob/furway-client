@@ -89,6 +89,14 @@
           </tr>
 
           <tr>
+            <td><p>Phone country code</p></td>
+            <td>
+              <p v-if="!isEditingProfile">{{userData.phoneCountryCode}}</p>
+              <input v-else type="number" v-model="editedUser.phoneCountryCode" style="width: 70px;"/>
+            </td>
+          </tr>
+
+          <tr>
             <td><p>Address line 1</p></td>
             <td>
               <p v-if="!isEditingProfile">{{userData.addressLine1}}</p>

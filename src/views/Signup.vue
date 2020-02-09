@@ -57,9 +57,15 @@
       <input type="date" v-model="dateOfBirth" class="required-input"/>
     </div>
 
-    <label>Phone number</label>
-    <input type="text" v-model="phone" class="required-input"/>
-    <br/>
+    <div class="flex-col signup-row">
+      <div>
+        <label>Country code, phone number</label>
+      </div>
+      <div class="two-column-field">
+          <input type="number" v-model="phoneCountryCode" class="required-input" style="width: 70px !important;"/>
+          <input type="text" v-model="phone" class="required-input" style="margin-left: 6px;"/>
+      </div>
+    </div>
 
     <div class="signup-row" style="margin-bottom: 0px;">
       <div class="two-column-field">
@@ -196,6 +202,7 @@ export default {
       lastName: '',
       dateOfBirth: undefined,
       phone: '',
+      phoneCountryCode: '',
       isFursuiter: undefined,
       isVegan: undefined,
       allergiesText: '',
@@ -283,7 +290,8 @@ export default {
       this.firstName = 'Nord'
       this.lastName = 'Olamann'
       this.dateOfBirth = '1995-08-22'
-      this.phone = '+47420420420'
+      this.phone = '420420420'
+      this.phoneCountryCode = '+47'
       this.isFursuiter = true
       this.isVegan = false
       this.allergiesText = 'Tåler ikke gluteeeen'
@@ -310,6 +318,7 @@ export default {
         lastName: this.lastName,
         dateOfBirth: this.dateOfBirth,
         phone: this.phone,
+        phoneCountryCode: this.phoneCountryCode,
         isFursuiter: this.isFursuiter,
         isVegan: this.isVegan,
         allergiesText: this.allergiesText || null,
