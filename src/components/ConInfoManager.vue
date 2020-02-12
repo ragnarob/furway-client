@@ -121,42 +121,21 @@
       </tr>
 
       <tr>
-        <td>Addon payment deadline</td>
-        <td>
-          <span v-if="!isEditing.addonPaymentDeadline">
-            {{formatLongTimestamp(conInfo.addonPaymentDeadline)}}
-            <button @click="editField('addonPaymentDeadline')" class="icon-button icon-button-small">
-              <EditIcon title="Edit"/>
-            </button>
-          </span>
-          <span v-else>
-            <input type="datetime-local" v-model="editedConInfo.addonPaymentDeadline"/>
-            <button @click="cancelEditing" class="icon-button icon-button-small">
-              <CancelIcon title="Cancel"/>
-            </button>
-            <button @click="saveField" class="icon-button icon-button-small theme-button">
-              <SaveIcon title="Save"/>
-            </button>
-          </span>
-        </td>
-      </tr>
-
-      <tr>
         <td>
           Final payment deadline
           <p v-show="showExplanations" class="explanation">
-            The last possible date for an admin to manually set payment deadlines
+            The last possible date for payments - used if someone receives their spot <br/>just after the payment deadline because someone else lost their spot
           </p>
         </td>
         <td>
-          <span v-if="!isEditing.finalRegPaymentDeadline">
-            {{formatLongTimestamp(conInfo.finalRegPaymentDeadline)}}
-            <button @click="editField('finalRegPaymentDeadline')" class="icon-button icon-button-small">
+          <span v-if="!isEditing.finalPaymentDeadline">
+            {{formatLongTimestamp(conInfo.finalPaymentDeadline)}}
+            <button @click="editField('finalPaymentDeadline')" class="icon-button icon-button-small">
               <EditIcon title="Edit"/>
             </button>
           </span>
           <span v-else>
-            <input type="datetime-local" v-model="editedConInfo.finalRegPaymentDeadline"/>
+            <input type="datetime-local" v-model="editedConInfo.finalPaymentDeadline"/>
             <button @click="cancelEditing" class="icon-button icon-button-small">
               <CancelIcon title="Cancel"/>
             </button>

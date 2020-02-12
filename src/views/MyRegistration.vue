@@ -16,7 +16,7 @@
           You <i>can</i> change your ticket type, but doing so <u>will</u> put you at the back of any existing queues.
         </p>
         <p class="margin-top-10">
-          Your registration was submitted {{formatDatetimeWithoutYear(myRegistration.timestamp)}}.
+          Your registration was submitted {{formatDatetimeWithSeconds(myRegistration.timestamp)}}.
         </p>
       </div>
 
@@ -92,7 +92,7 @@
         </p>
 
         <p class="margin-top-10">
-          Your registration was approved {{formatDatetimeWithoutYear(myRegistration.timestamp)}}.
+          Your registration was approved {{formatDatetime(myRegistration.timestamp)}}.
         </p>
         <p>
           Your registration number is: <b>{{myRegistration.registrationNumber}}</b>
@@ -155,20 +155,30 @@
         </button>
       </div>
 
+      <!-- ADDONS -->
       <div v-show="!isEditingRoomPreference" class="flex-col">
         <h3>Add-ons</h3>
         <p class="margin-bottom-10">
-          You can add and remove add-ons without your spot being affected. Once you pay for an add-on, you cannot remove it and it will not be refunded.
+          Adding or removing add-ons will not affect your spot. Paid amounts will not be refunded.
         </p>
-        <p v-if="isAddonsDeadlinePassed">DEADLINE PASSED! Kan ikke legge til eller fjerne.</p>
+        <p v-if="receivedSomeSpot" class="margin-bottom-10">
+          Your payment deadline: <b>{{formatDatetimeWithWeekday(myRegistration.paymentDeadline)}}</b>
+        </p>
+        <p v-if="!receivedSomeSpot" class="margin-bottom-10">
+          You cannot add add-ons until you receive a spot.
+        </p>
+        <p v-else-if="isPaymentDeadlinePassed" class="margin-bottom-10">
+          Payment deadline passed. You cannot add or remove add-ons.
+        </p>
+
         <!-- EARLY OG LATE -->
         <div class="flex-col left-align-content">
           <span>
-            <input type="checkbox" v-model="newRegistration.earlyArrival" :disabled="isAddonsDeadlinePassed" id="updateRegearlyArrival"/>
+            <input type="checkbox" v-model="newRegistration.earlyArrival" :disabled="!canEditAddons" id="updateRegearlyArrival"/>
             <label for="updateRegearlyArrival">Early arrival ({{conInfo.earlyArrivalPriceNok}} kr)</label>
           </span>
           <span>
-            <input type="checkbox" v-model="newRegistration.lateDeparture"  :disabled="isAddonsDeadlinePassed" id="updateReglateDeparture"/>
+            <input type="checkbox" v-model="newRegistration.lateDeparture"  :disabled="!canEditAddons" id="updateReglateDeparture"/>
             <label for="updateReglateDeparture">Late departure ({{conInfo.lateDeparturePriceNok}} kr)</label>
           </span>
 
@@ -178,14 +188,14 @@
         <!-- HOODIE OG T-SKJORTE -->
         <div class="flex-col left-align-content">
           <span v-if="$store.state.conInfo.isSellingHoodies">
-            <input type="checkbox" v-model="newRegistration.buyHoodie" @change="possibleResetHoodieSize" :disabled="isAddonsDeadlinePassed" id="newRegistrationbuyHoodie"/>
+            <input type="checkbox" v-model="newRegistration.buyHoodie" @change="possibleResetHoodieSize" :disabled="!canEditAddons" id="newRegistrationbuyHoodie"/>
             <label for="newRegistrationbuyHoodie">Buy hoodie ({{conInfo.hoodiePriceNok}} kr)</label>
             <select v-model="newRegistration.hoodieSize" v-show="newRegistration.buyHoodie" class="margin-left-10">
               <option v-for="size in sizes" :key="size" :value="size">{{size}}</option>
             </select>
           </span>
           <span v-if="$store.state.conInfo.isSellingTshirts">
-            <input type="checkbox" v-model="newRegistration.buyTshirt" @change="possibleResetTshirtSize" :disabled="isAddonsDeadlinePassed" id="newRegistrationbuyTshirt"/>
+            <input type="checkbox" v-model="newRegistration.buyTshirt" @change="possibleResetTshirtSize" :disabled="!canEditAddons" id="newRegistrationbuyTshirt"/>
             <label for="newRegistrationbuyTshirt">Buy t-shirt ({{conInfo.tshirtPriceNok}} kr)</label>
             <select v-model="newRegistration.tshirtSize" v-show="newRegistration.buyTshirt" class="margin-left-10">
               <option v-for="size in sizes" :key="size" :value="size">{{size}}</option>
@@ -205,7 +215,7 @@
 
       <!-- PAYMENT -->
       <div v-show="!isEditingRoomPreference">
-        <h3>Payments</h3>
+        <h3>Payment</h3>
         <table>
           <thead>
             <tr>
@@ -264,11 +274,21 @@
               {{myRegistration.totalAmount}}
               <span v-if="isWaitingForBothSpots">
                 <br/>
-                {{`(+${conInfo.mainDaysInsidePriceNok - conInfo.mainDaysOutsidePriceNok} for inside)`}}
+                {{`(+${conInfo.mainDaysInsidePriceNok - conInfo.mainDaysOutsidePriceNok} if inside)`}}
               </span>
             </td>
           </tr>
         </table>
+
+        <!-- CAN PAY -->
+        <div v-if="myRegistration.receivedInsideSpot || myRegistration.receivedOutsideSpot" class="margin-top-10">
+          <!-- <Payment :amount="333"/> -->
+        </div>
+
+        <!-- CAN NOT PAY -->
+        <p v-else class="margin-top-10">
+          You cannot make any payments until you have received a spot.
+        </p>
       </div>
 
       <div v-show="!isEditingRoomPreference" class="flex-col">
@@ -323,6 +343,7 @@
 import registrationApi from '../api/registration-api'
 import ResponseMessage from '../components/ResponseMessage.vue'
 import LoadingMessage from '../components/LoadingMessage.vue'
+import Payment from '../components/Payment.vue'
 
 import SaveIcon from 'vue-material-design-icons/ContentSave.vue'
 import CancelIcon from 'vue-material-design-icons/Close.vue'
@@ -335,8 +356,8 @@ export default {
   name: 'myRegistration',
 
   components: {
-    ResponseMessage, LoadingMessage,
-    SaveIcon, CancelIcon, DeleteIcon
+    ResponseMessage, LoadingMessage, Payment,
+    SaveIcon, CancelIcon, DeleteIcon,
   },
 
   data: function () {
@@ -349,12 +370,23 @@ export default {
       responseMessageType: 'error',
       newRegistration: null,
       sizes: ['S','M','L','XL','XXL'],
-      isAddonsDeadlinePassed: false,
     }
   },
 
   computed: {
     ...mapGetters(['myRegistration', 'conInfo']),
+
+    receivedSomeSpot () {
+      return this.myRegistration && (this.myRegistration.receivedInsideSpot || this.myRegistration.receivedOutsideSpot)
+    },
+
+    isPaymentDeadlinePassed () {
+      return this.myRegistration && (new Date() > new Date(this.myRegistration.paymentDeadline))
+    },
+
+    canEditAddons () {
+      return this.receivedSomeSpot && !this.isPaymentDeadlinePassed
+    },
 
     canSaveAddons () {
       return Object.keys(this.newRegistration).some(key => (key !== 'roomPreference') && (this.newRegistration[key] !== this.myRegistration[key]))
@@ -504,10 +536,6 @@ export default {
       this.responseMessage = ''
     },
 
-    async calculateDeadlines () {
-      this.isAddonsDeadlinePassed = new Date() > new Date(this.conInfo.addonPaymentDeadline)
-    },
-
     setupLoginListener () {
       this.$store.watch(() => this.$store.getters.isLoggedIn, () => {
         if (this.myRegistration === null || this.myRegistration === undefined) {
@@ -524,9 +552,19 @@ export default {
       })
     },
 
-    formatDatetimeWithoutYear (dateTime) {
+    formatDatetime (dateTime) {
+      dateTime = new Date(dateTime)
+      return dateTime===null ? '' : dateTime.toDateString().substring(4,10) + ', ' + dateTime.toTimeString().substring(0,5)
+    },
+
+    formatDatetimeWithWeekday (dateTime) {
       dateTime = new Date(dateTime)
       return dateTime===null ? '' : dateTime.toDateString().substring(0,10) + ', ' + dateTime.toTimeString().substring(0,5)
+    },
+
+    formatDatetimeWithSeconds (dateTime) {
+      dateTime = new Date(dateTime)
+      return `${dateTime===null ? '' : dateTime.toDateString().substring(0,10)}, ${dateTime.toTimeString().substring(0,8)}.${dateTime.getMilliseconds()}`
     },
 
     formatBoolean,
@@ -534,7 +572,6 @@ export default {
 
   async mounted () {
     this.getRegistration()
-    this.calculateDeadlines()
   },
 
   destroyed () {
@@ -555,5 +592,12 @@ h3 {
   margin-bottom: 16px;
   margin-top: 8px;
   box-shadow: 0 8px 16px 0px rgba(10, 14, 29, 0.04), 0px 8px 64px 0px rgba(10, 14, 29, 0.08);
+}
+.stripe-card {
+  width: 300px;
+  border: 1px solid grey;
+}
+.stripe-card.complete {
+  border-color: green;
 }
 </style>
