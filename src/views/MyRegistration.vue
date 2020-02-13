@@ -22,18 +22,19 @@
 
       <h3>Ticket type</h3>
       <div class="flex-col left-align-content">
-        <span>
-          <input type="radio" v-model="newRegistration.roomPreference" value="insideonly" id="roomPreferenceInside"/>
-          <label for="roomPreferenceInside">Inside only</label>          
-        </span>
-        <span class="margin-top-4">
-          <input type="radio" v-model="newRegistration.roomPreference" value="insidepreference" id="roomPreferenceInsidePreference"/>
-          <label for="roomPreferenceInsidePreference">Inside preference</label>          
-        </span>
-        <span class="margin-top-4">
-          <input type="radio" v-model="newRegistration.roomPreference" value="outsideonly" id="roomPreferenceOutside"/>
-          <label for="roomPreferenceOutside">Outside only</label>          
-        </span>
+        <div class="margin-top-4 room-pref-picker" style="text-align: left;">
+          <input type="radio" v-model="newRegistration.roomPreference" value="insideonly" id="roomPreferenceRadioInside" class="no-margin-top"/>
+          <label for="roomPreferenceRadioInside">Inside only</label>
+          <p class="room-pref-description">Either I sleep inside or I won't attend</p>
+
+          <input type="radio" v-model="newRegistration.roomPreference" value="insidepreference" id="roomPreferenceRadioPreference"/>
+          <label for="roomPreferenceRadioPreference">Inside preference</label> 
+          <p class="room-pref-description">If I don't get a spot inside, I'll take an outside slot if available</p>
+
+          <input type="radio" v-model="newRegistration.roomPreference" value="outsideonly" id="roomPreferenceRadioOutside"/>
+          <label for="roomPreferenceRadioOutside">Outside only</label>
+          <p class="room-pref-description">Either I sleep outside, or I won't attend</p>
+        </div>
       </div>
 
       <p v-show="isEditingUnapprovedRoomPreference" class="margin-top-10 margin-bottom-10 warning-text">
@@ -108,18 +109,19 @@
       </p>
 
       <div class="flex-col left-align-content margin-top-10">
-        <span>
-          <input type="radio" v-model="newRegistration.roomPreference" value="insideonly" :disabled="!isEditingRoomPreference" id="roomPreferenceinsideonly"/>
-          <label for="roomPreferenceinsideonly">Inside only</label>
-        </span>
-        <span class="margin-top-4">
-          <input type="radio" v-model="newRegistration.roomPreference" value="insidepreference" :disabled="!isEditingRoomPreference" id="roomPreferenceinsidepreference"/>
-          <label for="roomPreferenceinsidepreference">Inside preference</label>
-        </span>
-        <span class="margin-top-4">
-          <input type="radio" v-model="newRegistration.roomPreference" value="outsideonly" :disabled="!isEditingRoomPreference" id="roomPreferenceoutsideonly"/>
-          <label for="roomPreferenceoutsideonly">Outside only</label>
-        </span>
+        <div class="margin-top-4 room-pref-picker" style="text-align: left;">
+          <input type="radio" v-model="newRegistration.roomPreference" value="insideonly" :disabled="!isEditingRoomPreference" id="roomPreferenceRadioInside" class="no-margin-top"/>
+          <label for="roomPreferenceRadioInside">Inside only</label>
+          <p class="room-pref-description">Either I sleep inside or I won't attend</p>
+
+          <input type="radio" v-model="newRegistration.roomPreference" value="insidepreference" :disabled="!isEditingRoomPreference" id="roomPreferenceRadioPreference"/>
+          <label for="roomPreferenceRadioPreference">Inside preference</label> 
+          <p class="room-pref-description">If I don't get a spot inside, I'll take an outside slot if available</p>
+
+          <input type="radio" v-model="newRegistration.roomPreference" value="outsideonly" :disabled="!isEditingRoomPreference" id="roomPreferenceRadioOutside"/>
+          <label for="roomPreferenceRadioOutside">Outside only</label>
+          <p class="room-pref-description">Either I sleep outside, or I won't attend</p>
+        </div>
       </div>
 
       <button @click="isEditingRoomPreference = true" v-show="!isEditingRoomPreference" class="margin-top-10">
@@ -160,9 +162,6 @@
         <h3>Add-ons</h3>
         <p class="margin-bottom-10">
           Adding or removing add-ons will not affect your spot. Paid amounts will not be refunded.
-        </p>
-        <p v-if="receivedSomeSpot" class="margin-bottom-10">
-          Your payment deadline: <b>{{formatDatetimeWithWeekday(myRegistration.paymentDeadline)}}</b>
         </p>
         <p v-if="!receivedSomeSpot" class="margin-bottom-10">
           You cannot add add-ons until you receive a spot.
@@ -216,6 +215,9 @@
       <!-- PAYMENT -->
       <div v-show="!isEditingRoomPreference">
         <h3>Payment</h3>
+        <p v-if="receivedSomeSpot" class="margin-bottom-10">
+          Your payment deadline: <b>{{formatDatetimeWithWeekday(myRegistration.paymentDeadline)}}</b>
+        </p>
         <table>
           <thead>
             <tr>
@@ -264,11 +266,6 @@
           </thead>
 
           <tr>
-            <td>Total paid amount</td>
-            <td colspan="2">{{myRegistration.paidAmount}}</td>
-          </tr>
-
-          <tr>
             <td>Total amount to be paid</td>
             <td colspan="2">
               {{myRegistration.totalAmount}}
@@ -278,12 +275,29 @@
               </span>
             </td>
           </tr>
+
+          <tr>
+            <td>Total paid amount</td>
+            <td colspan="2">{{myRegistration.paidAmount}}</td>
+          </tr>
+
+          <tr v-if="receivedSomeSpot">
+            <td><b>Remaining amount</b></td>
+            <td colspan="2">
+              <b>{{myRegistration.unpaidAmount}}</b>
+            </td>
+          </tr>
         </table>
 
         <!-- CAN PAY -->
-        <div v-if="myRegistration.receivedInsideSpot || myRegistration.receivedOutsideSpot" class="margin-top-10">
-          <!-- <Payment :amount="333"/> -->
-        </div>
+        <Payment v-if="receivedSomeSpot && myRegistration.unpaidAmount > 0" 
+                 @success="onPaymentSuccess"
+                 :amount="myRegistration.unpaidAmount"
+                 class="margin-top-10"/>
+
+        <p v-else-if="receivedSomeSpot && myRegistration.unpaidAmount === 0" class="margin-top-10">
+          Nothing left to pay!
+        </p>
 
         <!-- CAN NOT PAY -->
         <p v-else class="margin-top-10">
@@ -343,7 +357,7 @@
 import registrationApi from '../api/registration-api'
 import ResponseMessage from '../components/ResponseMessage.vue'
 import LoadingMessage from '../components/LoadingMessage.vue'
-import Payment from '../components/Payment.vue'
+import Payment from '../components/payment/Payment.vue'
 
 import SaveIcon from 'vue-material-design-icons/ContentSave.vue'
 import CancelIcon from 'vue-material-design-icons/Close.vue'
@@ -530,6 +544,13 @@ export default {
     cancelEditing () {
       this.newRegistration = {...this.myRegistration}
       this.isEditingRoomPreference = false
+    },
+
+    async onPaymentSuccess () {
+      this.getRegistration()
+      this.responseMessage = 'Payment successful!'
+      this.responseMessageType = 'success'
+      this.scrollTop()
     },
 
     closeResponseMessage () {

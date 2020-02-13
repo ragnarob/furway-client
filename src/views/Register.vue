@@ -3,10 +3,7 @@
     <h1>Registration</h1>
 
     <p v-if="!$store.state.isLoggedIn">
-      <!-- You must <router-link :to="'/login'">log in</router-link> or <router-link :to="'/signup'">create a user</router-link> to register for Furway. -->
-      You must log in or create a user to register for Furway.
-      <br>
-      A user system with the possibilities to do this is coming soon!
+      You must <router-link :to="'/login'">log in</router-link> or <router-link :to="'/signup'">create a user</router-link> to register for Furway.
     </p>
 
     <div v-if="!isRegistrationOpen" class="registration-countdown">
@@ -42,19 +39,20 @@
       </h2>
       
       <div v-if="isCreatingRegistration" id="createRegistrationWrapper">
-        <div class="margin-top-4" style="text-align: left;">
-          <p class="margin-bottom-10">Desired ticket type:</p>
+        <div class="margin-top-4 room-pref-picker" style="text-align: left;">
+          <p class="margin-bottom-10">Choose your desired ticket type:</p>
 
-          <input type="radio" v-model="roomPreference" value="insideonly" id="roomPreferenceRadioInside" style="margin-bottom: 10px"/>
+          <input type="radio" v-model="roomPreference" value="insideonly" id="roomPreferenceRadioInside" class="no-margin-top"/>
           <label for="roomPreferenceRadioInside">Inside only</label>
-          <br>
+          <p class="room-pref-description">Either I sleep inside or I won't attend</p>
 
-          <input type="radio" v-model="roomPreference" value="insidepreference" id="roomPreferenceRadioPreference" style="margin-bottom: 10px"/>
+          <input type="radio" v-model="roomPreference" value="insidepreference" id="roomPreferenceRadioPreference"/>
           <label for="roomPreferenceRadioPreference">Inside preference</label> 
-          <br>
+          <p class="room-pref-description">If I don't get a spot inside, I'll take an outside slot if available</p>
 
-          <input type="radio" v-model="roomPreference" value="outsideonly" id="roomPreferenceRadioOutside" style="margin-bottom: 10px"/>
+          <input type="radio" v-model="roomPreference" value="outsideonly" id="roomPreferenceRadioOutside"/>
           <label for="roomPreferenceRadioOutside">Outside only</label>
+          <p class="room-pref-description">Either I sleep outside, or I won't attend</p>
         </div>
 
         <button @click="submitRegistration" :class="{'disabled-button': !roomPreference, 'big-button': true, 'theme-button': true}" style="margin-top: 10px;">
@@ -205,6 +203,22 @@ export default {
 </script>
 
 <style lang="scss">
+.room-pref-picker {
+  p:not(:first-child) {
+    font-size: 13px;
+    font-style: italic;
+    margin-top: 0px;
+  }
+
+  input:not(:first-child) {
+    margin-top: 20px;
+  }
+
+  label {
+    font-weight: 600;
+  }
+}
+
 .registration-countdown {
   p:first-child {
     font-size: 20px;
@@ -212,6 +226,7 @@ export default {
   }
   margin: 20px;
 }
+
 #createRegistrationWrapper {
   display: flex;
   flex-direction: column;
