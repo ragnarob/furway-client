@@ -25,6 +25,7 @@
         <th title="Payment deadline">Pay deadl.</th>
         <th title="Received inside spot">Rec. ins.</th>
         <th title="Received outside spot">Rec. outs.</th>
+        <th>Money</th>
       </tr>
 
       <tr v-for="reg in filteredRegistrations" :key="reg.id" :class="{'highlighted-row-blue': reg.id === highlightedRegistrationId}" style="height: 38px;">
@@ -208,6 +209,18 @@
           <p v-else>
             <YesIcon v-if="reg.receivedOutsideSpot" title="Yes"/>
             <NoIcon v-else-if="reg.receivedOutsideSpot === false" title="No"/>
+          </p>
+        </td>
+
+        <td>
+          <span v-if="isThisRegistrationBeingEdited(reg.id)">
+            Paid: <input type="number" v-model="registrationBeingEdited.paidAmount" style="width: 80px;"/>
+            <br>
+            <p>({{reg.totalAmount}} total)</p>
+          </span>
+
+          <p v-else>
+            {{reg.paidAmount}} paid, {{reg.totalAmount}} total
           </p>
         </td>
       </tr>

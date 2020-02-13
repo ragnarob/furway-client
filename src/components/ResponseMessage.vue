@@ -3,7 +3,7 @@
        v-show="message && message.length > 0"
        id="responseMessageContainer">
     <p>{{message}}</p>
-    <CloseIcon @click="closeMessage" title="Close"/>
+    <CloseIcon @click="closeMessage" title="Close" v-if="!preventClose"/>
   </div>
 </template>
 
@@ -18,6 +18,7 @@ export default {
   props: {
     'message': String,
     'messageType': String,
+    'preventClose': Boolean,
   },
 
   data: function () {
