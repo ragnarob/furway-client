@@ -8,6 +8,7 @@ import Login from '../views/Login.vue'
 import ForgottenPassword from '../views/ForgottenPassword.vue'
 import MyProfile from '../views/MyProfile.vue'
 import Register from '../views/Register.vue'
+import Legal from '../views/Legal.vue'
 import MyRegistration from '../views/MyRegistration.vue'
 import NotFound from '../views/NotFound.vue'
 import { logRoute } from '../utils'
@@ -75,6 +76,15 @@ const routes = [
     meta: {
       middleware: logRoute,
       title: 'Registration'
+    }
+  },
+  {
+    path: '/legal',
+    name: 'legal',
+    component: Legal,
+    meta: {
+      middleware: logRoute,
+      title: 'Legal'
     }
   },
   {
