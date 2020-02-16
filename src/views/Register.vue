@@ -2,11 +2,7 @@
   <div class="flex-col">
     <h1>Registration</h1>
 
-    <p v-if="!$store.state.isLoggedIn">
-      You must <router-link :to="'/login'">log in</router-link> or <router-link :to="'/signup'">create a user</router-link> to register for Furway.
-    </p>
-
-    <div v-if="!isRegistrationOpen" class="registration-countdown">
+    <div v-if="!isRegistrationOpen && $store.getters.hasRegistration" class="registration-countdown">
       <p v-if="!isRegistrationOpen && $store.getters.conInfo.registrationOpenDate">
         Registration opens in {{timeUntilRegistrationString}}
       </p>
@@ -15,17 +11,16 @@
       </p>
     </div>
 
-    <p v-else-if="isRegistrationOpen && $store.getters.conInfo.registrationOpenDate" class="registration-countdown">
+    <p v-else-if="isRegistrationOpen && $store.getters.conInfo.registrationOpenDate && !$store.getters.hasRegistration" class="registration-countdown">
       Registration is open! Apply below.
     </p>
 
-
-    <!-- CREATING REGISTRATION -->
     <p v-if="!$store.state.isLoggedIn">
-      You must <router-link :to="'/login'">log in</router-link> or <router-link :to="'/signup'">create a user</router-link> in order to create your registration.
+      You must <router-link :to="'/login'">log in</router-link> or <router-link :to="'/signup'">create a user</router-link> to register for Furway.
     </p>
 
-    <p v-if="$store.state.isLoggedIn && $store.state.userData.registrationId != null">
+    <!-- CREATING REGISTRATION -->
+    <p v-if="$store.state.isLoggedIn && $store.getters.hasRegistration">
       You already have a registration, see <router-link :to="'/my-registration'">my registration</router-link>.
     </p>
     

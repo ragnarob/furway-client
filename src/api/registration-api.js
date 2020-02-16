@@ -46,6 +46,12 @@ export default {
     return response.data
   },
 
+  async overrideRegistrationPaymentAsAdmin (userId, amount) {
+    let response = await Axios.post(`${apiBase}/registrations/user/${userId}/override-payment`, {amount})
+
+    return response.data
+  },
+
   async approveRegistration (userId) {
     let response = await Axios.post(`${apiBase}/registrations/user/${userId}/approve`)
 

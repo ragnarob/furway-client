@@ -39,10 +39,10 @@
           </button>
 
           <!-- EDITING -->
-          <button v-if="isThisRegistrationBeingEdited(reg.id)" @click="cancelEditing()" class="icon-button icon-button-small neutral-button">
+          <button v-if="isRegistrationBeingEdited(reg.id)" @click="cancelEditing()" class="icon-button icon-button-small neutral-button">
             <CancelIcon title="Cancel"/>
           </button>
-          <button v-if="isThisRegistrationBeingEdited(reg.id)" @click="saveRegistration()" class="icon-button icon-button-small theme-button">
+          <button v-if="isRegistrationBeingEdited(reg.id)" @click="saveRegistration()" class="icon-button icon-button-small theme-button">
             <SaveIcon title="Save"/>
           </button>
 
@@ -56,19 +56,19 @@
         </td>
 
         <td>
-          <p :class="{'non-editable-cell': isThisRegistrationBeingEdited(reg.id), 'registration-id-cell': true}">
+          <p :class="{'non-editable-cell': isEditableCell(reg.id), 'registration-id-cell': true}">
             {{reg.registrationNumber}}
           </p>
         </td>
 
         <td>
-          <p :class="{'non-editable-cell': isThisRegistrationBeingEdited(reg.id)}">
+          <p :class="{'non-editable-cell': isEditableCell(reg.id)}">
             {{reg.username}}
           </p>
         </td>
 
         <td>
-          <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
+          <span v-if="isEditableCell(reg.id)" class="cell-with-radio">
             <input type="radio" v-model="registrationBeingEdited.roomPreference" value="insideonly" @change="warnNotPreferredMethodRoomPreference" id="roomPrefInside"/>
             <label for="roomPrefInside">Inside only</label>
 
@@ -83,14 +83,14 @@
         </td>
 
         <td>
-          <p :class="{'non-editable-cell': isThisRegistrationBeingEdited(reg.id)}">
+          <p :class="{'non-editable-cell': isEditableCell(reg.id)}">
             <YesIcon v-if="reg.isAdminApproved" title="Yes"/>
             <NoIcon v-else-if="reg.isAdminApproved === false" title="No"/>
           </p>
         </td>
 
         <td>
-          <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
+          <span v-if="isEditableCell(reg.id)" class="cell-with-radio">
             <input type="radio" v-model="registrationBeingEdited.earlyArrival" :value="true" id="earlyArrivalYes"/>
             <label for="earlyArrivalYes">Yes</label>
 
@@ -105,7 +105,7 @@
         </td>
 
         <td>
-          <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
+          <span v-if="isEditableCell(reg.id)" class="cell-with-radio">
             <input type="radio" v-model="registrationBeingEdited.lateDeparture" :value="true" id="lateDepartureYes"/>
             <label for="lateDepartureYes">Yes</label>
 
@@ -120,7 +120,7 @@
         </td>
 
         <td>
-          <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
+          <span v-if="isEditableCell(reg.id)" class="cell-with-radio">
             <input type="radio" v-model="registrationBeingEdited.buyTshirt" :value="true" id="buyTshirtYes"/>
             <label for="buyTshirtYes">Yes</label>
 
@@ -135,7 +135,7 @@
         </td>
 
         <td>
-          <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
+          <span v-if="isEditableCell(reg.id)" class="cell-with-radio">
             <input type="radio" v-model="registrationBeingEdited.buyHoodie" :value="true" id="buyHoodieYes"/>
             <label for="buyHoodieYes">Yes</label>
             
@@ -150,7 +150,7 @@
         </td>
 
         <td>
-          <select v-model="registrationBeingEdited.tshirtSize" v-if="isThisRegistrationBeingEdited(reg.id)">
+          <select v-model="registrationBeingEdited.tshirtSize" v-if="isEditableCell(reg.id)">
             <option v-for="size in sizes" :key="size" :value="size">{{size}}</option>
           </select>
 
@@ -158,7 +158,7 @@
         </td>
 
         <td>
-          <select v-model="registrationBeingEdited.hoodieSize" v-if="isThisRegistrationBeingEdited(reg.id)">
+          <select v-model="registrationBeingEdited.hoodieSize" v-if="isEditableCell(reg.id)">
             <option v-for="size in sizes" :key="size" :value="size">{{size}}</option>
           </select>
 
@@ -166,13 +166,13 @@
         </td>
 
         <td>
-          <p :class="{'non-editable-cell': isThisRegistrationBeingEdited(reg.id)}">
+          <p :class="{'non-editable-cell': isEditableCell(reg.id)}">
             {{formatTimestamp(reg.timestamp, timestampFormat)}}
           </p>
         </td>
 
         <td>
-          <span v-if="isThisRegistrationBeingEdited(reg.id)" class="flex-col">
+          <span v-if="isEditableCell(reg.id)" class="flex-col">
             <input type="date" v-model="registrationBeingEdited.paymentDeadline"/>
             <button @click="clearPaymentDeadlineDate">Clear</button>
           </span>
@@ -183,7 +183,7 @@
         </td>
 
         <td>
-          <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
+          <span v-if="isEditableCell(reg.id)" class="cell-with-radio">
             <input type="radio" v-model="registrationBeingEdited.receivedInsideSpot" :value="true" id="recInsideSpotYes"/>
             <label for="recInsideSpotYes">Yes</label>
 
@@ -198,7 +198,7 @@
         </td>
 
         <td>
-          <span v-if="isThisRegistrationBeingEdited(reg.id)" class="cell-with-radio">
+          <span v-if="isEditableCell(reg.id)" class="cell-with-radio">
             <input type="radio" v-model="registrationBeingEdited.receivedOutsideSpot" :value="true" @change="warnNotPreferredMethodReceivedSpot" id="recOutsideSpotYes"/>
             <label for="recOutsideSpotYes">Yes</label>
 
@@ -213,8 +213,14 @@
         </td>
 
         <td>
-          <span v-if="isThisRegistrationBeingEdited(reg.id)">
-            Paid: <input type="number" v-model="registrationBeingEdited.paidAmount" style="width: 80px;"/>
+          <span v-if="isRegistrationBeingEdited(reg.id)&& !isOverridingPayment">
+            {{reg.paidAmount}} paid, {{reg.totalAmount}} total
+            <br/>
+            <button class="small-button" @click="startPaymentOverride">Override</button>
+          </span>
+
+          <span v-else-if="isRegistrationBeingEdited(reg.id) && isOverridingPayment">
+            Paid: <input type="number" v-model="registrationBeingEdited.paidAmount" style="width: 100px;"/>
             <br>
             <p>({{reg.totalAmount}} total)</p>
           </span>
@@ -261,6 +267,7 @@ export default {
       userIdBeingDeleted: null,
       sizes: [null, 'S','M','L','XL','XXL'],
       shouldFilterList: false,
+      isOverridingPayment: false,
 
       responseMessage: '',
       responseMessageType: 'info',
@@ -282,13 +289,21 @@ export default {
   },
 
   methods: {
-    isThisRegistrationBeingEdited (regId) {
+    isEditableCell (regId) {
+      return this.isRegistrationBeingEdited(regId) && !this.isOverridingPayment
+    },
+
+    isRegistrationBeingEdited (regId) {
       return this.registrationBeingEdited !== null && this.registrationBeingEdited.id === regId
     },
 
     editRegistration (regId) {
       this.registrationBeingEdited = {...this.allRegistrations.find(reg => reg.id === regId)}
       this.registrationBeingEdited.timestamp = new Date(this.registrationBeingEdited.timestamp).toISOString().substr(0,10)
+    },
+
+    startPaymentOverride () {
+      this.isOverridingPayment = true
     },
 
     warnNotPreferredMethodRoomPreference () {
@@ -330,14 +345,31 @@ export default {
     cancelEditing () {
       this.isSaving = false
       this.registrationBeingEdited = null
+      this.isOverridingPayment = false
     },
 
     async saveRegistration () {
       if (this.isSaving) { return }
       this.isSaving = true
 
-      let result = await registrationApi.updateRegistrationAsAdmin(this.registrationBeingEdited.userId, this.registrationBeingEdited)
+      let result
+      if (this.isOverridingPayment) {
+        result = await registrationApi.overrideRegistrationPaymentAsAdmin(
+          this.registrationBeingEdited.userId,
+          this.registrationBeingEdited.paidAmount
+        )
+      }
+      else {
+        result = await registrationApi.updateRegistrationAsAdmin(
+          this.registrationBeingEdited.userId,
+          this.registrationBeingEdited
+        )
+      }
 
+      this.processSaveResult(result)
+    },
+
+    processSaveResult (result) {
       this.isSaving = false
 
       if ('error' in result) {

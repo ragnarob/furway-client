@@ -75,6 +75,7 @@ export default {
       .filter(reg => reg.receivedInsideSpot || reg.receivedOutsideSpot)
       .map(reg => reg.username),
     registrationsWithSpots: state => state.allRegistrations.filter(reg => reg.receivedInsideSpot || reg.receivedOutsideSpot),
+    hasRegistration: state => state.isLoggedIn && state.userData.registrationId !== null && state.userData.registrationId !== undefined,
 
     isAllUsersOpen: state => state.isAllUsersOpen,
     highlightedUsername: state => state.highlightedUsername,
