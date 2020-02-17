@@ -3,9 +3,9 @@
     <h1>Sign up</h1>
 
     <p>Fields with a thick left border are mandatory.</p>
-    <button @click="fillFieldsWithStuff">
+    <!-- <button @click="fillFieldsWithStuff">
       Fill fields with stuff
-    </button>
+    </button> -->
 
     <ResponseMessage :message="responseMessage" :messageType="responseMessageType" @closeMessage="closeResponseMessage"/>
 
@@ -317,27 +317,27 @@ export default {
   },
 
   methods: {
-    fillFieldsWithStuff () {
-      this.password1 = 'asdasd'
-      this.password2 = 'asdasd'
-      this.telegramUsername = 'TeleUserXxX'
-      this.firstName = 'Nord'
-      this.lastName = 'Olamann'
-      this.dateOfBirth = '1995-08-22'
-      this.phone = '420420420'
-      this.phoneCountryCode = '+47'
-      this.isFursuiter = true
-      this.isVegan = false
-      this.allergiesText = 'Tåler ikke gluteeeen'
-      this.additionalInfo = 'Gleder meg til con uwu'
-      this.addressLine1 = 'Trondheimsveien 01'
-      this.addressCity = '7070 Trondheim'
-      this.addressCountry = 'Norway'
-      this.pickupType = 'train'
-      this.pickupTime = '2019-06-10T13:00:00'
-      this.hasConsentedToTerms = true
-      this.email = this.generateRandomString(10)
-    },
+    // fillFieldsWithStuff () {
+    //   this.password1 = 'asdasd'
+    //   this.password2 = 'asdasd'
+    //   this.telegramUsername = 'TeleUserXxX'
+    //   this.firstName = 'Nord'
+    //   this.lastName = 'Olamann'
+    //   this.dateOfBirth = '1995-08-22'
+    //   this.phone = '420420420'
+    //   this.phoneCountryCode = '+47'
+    //   this.isFursuiter = true
+    //   this.isVegan = false
+    //   this.allergiesText = 'Tåler ikke gluteeeen'
+    //   this.additionalInfo = 'Gleder meg til con uwu'
+    //   this.addressLine1 = 'Trondheimsveien 01'
+    //   this.addressCity = '7070 Trondheim'
+    //   this.addressCountry = 'Norway'
+    //   this.pickupType = 'train'
+    //   this.pickupTime = '2019-06-10T13:00:00'
+    //   this.hasConsentedToTerms = true
+    //   this.email = this.generateRandomString(10)
+    // },
 
     async signup () {
       if (!this.isValidInput) { return }

@@ -43,17 +43,26 @@
         <div class="margin-top-4 room-pref-picker" style="text-align: left;">
           <p class="margin-bottom-10">Choose your desired ticket type:</p>
 
-          <input type="radio" v-model="roomPreference" value="insideonly" id="roomPreferenceRadioInside" class="no-margin-top"/>
-          <label for="roomPreferenceRadioInside">Inside only</label>
-          <p class="room-pref-description">Either I sleep inside or I won't attend</p>
+          <div class="room-pref-option no-margin-top" 
+               :class="{'selected-option': roomPreference=='insideonly'}"
+               @click="selectRoomPreference('insideonly')">
+            <label for="roomPreferenceRadioInside">Inside only</label>
+            <p class="room-pref-description">Either I sleep inside or I won't attend</p>
+          </div>
 
-          <input type="radio" v-model="roomPreference" value="insidepreference" id="roomPreferenceRadioPreference"/>
-          <label for="roomPreferenceRadioPreference">Inside preference</label> 
-          <p class="room-pref-description">If I don't get a spot inside, I'll take an outside slot if available</p>
+          <div class="room-pref-option" 
+               :class="{'selected-option': roomPreference=='insidepreference'}"
+               @click="selectRoomPreference('insidepreference')">
+            <label for="roomPreferenceRadioPreference">Inside preference</label> 
+            <p class="room-pref-description">If I don't get a spot inside, I'll take an outside slot if available</p>
+          </div>
 
-          <input type="radio" v-model="roomPreference" value="outsideonly" id="roomPreferenceRadioOutside"/>
-          <label for="roomPreferenceRadioOutside">Outside only</label>
-          <p class="room-pref-description">Either I sleep outside, or I won't attend</p>
+          <div class="room-pref-option" 
+               :class="{'selected-option': roomPreference=='outsideonly'}"
+               @click="selectRoomPreference('outsideonly')">
+            <label for="roomPreferenceRadioOutside">Outside only</label>
+            <p class="room-pref-description">Either I sleep outside, or I won't attend</p>
+          </div>
         </div>
 
         <button @click="submitRegistration" :class="{'disabled-button': !roomPreference, 'big-button': true, 'theme-button': true}" style="margin-top: 10px;">
@@ -188,6 +197,10 @@ export default {
   },
 
   methods: {
+    selectRoomPreference (pref) {
+      this.roomPreference = pref
+    },
+    
     async submitRegistration () {
       let result = await registrationApi.submitRegistration(this.$store.state.userData.id, {roomPreference: this.roomPreference})
 
@@ -211,18 +224,40 @@ export default {
 
 <style lang="scss">
 .room-pref-picker {
+  max-width: 90vw;
+
   p:not(:first-child) {
     font-size: 13px;
     font-style: italic;
     margin-top: 0px;
   }
 
-  input:not(:first-child) {
-    margin-top: 20px;
-  }
-
   label {
     font-weight: 600;
+  }
+
+  .room-pref-option {
+    border: 3px solid #ddd;
+    margin-top: 10px;
+    padding: 8px 12px;
+    box-sizing: border-box;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &.hide-cursor-pointer {
+      &:hover {
+        cursor: default;
+      }
+    }
+
+    &.selected-option {
+      background-color: #dafff1;
+      // color: white;
+      border-color: #35b886;
+      border-width: 3px;
+    }
   }
 }
 

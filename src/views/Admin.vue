@@ -7,7 +7,7 @@
       </p>
 
       <!-- Jukseknapper-div -->
-      <div v-if="isAdmin" class="admin-component-container">
+      <!-- <div v-if="isAdmin" class="admin-component-container">
         <div style="text-align: left;" id="temp-op-div">
           <button class="danger-button" @click="createRegs('insideonly', 1)">Lag 1 bruker og inside-only regs</button>
           <button class="danger-button" @click="createRegs('insideonly', 2)">Lag 2 brukere og inside-only regs</button>
@@ -20,9 +20,9 @@
           <button class="danger-button" @click="createRegs('outsideonly', 1)">Lag 1 bruker og outside-only regs</button>
           <button class="danger-button" @click="createRegs('outsideonly', 2)">Lag 2 brukere og outside-only regs</button>
           <button class="danger-button" @click="createRegs('outsideonly', 10)">Lag 10 brukere og outside-only regs</button>
-        </div>
+        </div> -->
 
-        <p style="text-align: left;"><b>Ting som gjenstår</b></p>
+        <!-- <p style="text-align: left;"><b>Ting som gjenstår</b></p>
         <ul style="text-align: left; margin-top: 0px;">
           <li>Legge til mulighet for egendefinerte add-ons (som f.eks. charms), med pris og max antall</li>
           <li>Payment med vipps</li>
@@ -56,7 +56,7 @@
           <li>Hente-info i brukerprofil</li>
           <li>Driving list, egen brukerrolle isDriver, egen admin-panel-visning for ikke-admins som er drivers</li>
         </ul>
-      </div>
+      </div> -->
       
       <!-- Numbers -->
       <div v-if="isAdmin" class="admin-component-container">

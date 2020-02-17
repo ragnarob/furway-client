@@ -23,17 +23,27 @@
       <h3>Ticket type</h3>
       <div class="flex-col left-align-content">
         <div class="margin-top-4 room-pref-picker" style="text-align: left;">
-          <input type="radio" v-model="newRegistration.roomPreference" value="insideonly" id="roomPreferenceRadioInside" class="no-margin-top"/>
-          <label for="roomPreferenceRadioInside">Inside only</label>
-          <p class="room-pref-description">Either I sleep inside or I won't attend</p>
 
-          <input type="radio" v-model="newRegistration.roomPreference" value="insidepreference" id="roomPreferenceRadioPreference"/>
-          <label for="roomPreferenceRadioPreference">Inside preference</label> 
-          <p class="room-pref-description">If I don't get a spot inside, I'll take an outside slot if available</p>
+          <div class="room-pref-option no-margin-top" 
+               :class="{'selected-option': newRegistration.roomPreference=='insideonly'}"
+               @click="selectRoomPreference('insideonly')">
+            <label for="roomPreferenceRadioInside">Inside only</label>
+            <p class="room-pref-description">Either I sleep inside or I won't attend</p>
+          </div>
 
-          <input type="radio" v-model="newRegistration.roomPreference" value="outsideonly" id="roomPreferenceRadioOutside"/>
-          <label for="roomPreferenceRadioOutside">Outside only</label>
-          <p class="room-pref-description">Either I sleep outside, or I won't attend</p>
+          <div class="room-pref-option" 
+               :class="{'selected-option': newRegistration.roomPreference=='insidepreference'}"
+               @click="selectRoomPreference('insidepreference')">
+            <label for="roomPreferenceRadioPreference">Inside preference</label> 
+            <p class="room-pref-description">If I don't get a spot inside, I'll take an outside slot if available</p>
+          </div>
+
+          <div class="room-pref-option" 
+               :class="{'selected-option': newRegistration.roomPreference=='outsideonly'}"
+               @click="selectRoomPreference('outsideonly')">
+            <label for="roomPreferenceRadioOutside">Outside only</label>
+            <p class="room-pref-description">Either I sleep outside, or I won't attend</p>
+          </div>
         </div>
       </div>
 
@@ -110,17 +120,29 @@
 
       <div class="flex-col left-align-content margin-top-10">
         <div class="margin-top-4 room-pref-picker" style="text-align: left;">
-          <input type="radio" v-model="newRegistration.roomPreference" value="insideonly" :disabled="!isEditingRoomPreference" id="roomPreferenceRadioInside" class="no-margin-top"/>
-          <label for="roomPreferenceRadioInside">Inside only</label>
-          <p class="room-pref-description">Either I sleep inside or I won't attend</p>
+          <div class="room-pref-option no-margin-top" 
+               :class="{'selected-option': newRegistration.roomPreference=='insideonly',
+                        'hide-cursor-pointer': !isEditingRoomPreference}"
+               @click="selectApprovedRoomPreference('insideonly')">
+            <label for="roomPreferenceRadioInside">Inside only</label>
+            <p class="room-pref-description">Either I sleep inside or I won't attend</p>
+          </div>
 
-          <input type="radio" v-model="newRegistration.roomPreference" value="insidepreference" :disabled="!isEditingRoomPreference" id="roomPreferenceRadioPreference"/>
-          <label for="roomPreferenceRadioPreference">Inside preference</label> 
-          <p class="room-pref-description">If I don't get a spot inside, I'll take an outside slot if available</p>
+          <div class="room-pref-option" 
+               :class="{'selected-option': newRegistration.roomPreference=='insidepreference',
+                        'hide-cursor-pointer': !isEditingRoomPreference}"
+               @click="selectApprovedRoomPreference('insidepreference')">
+            <label for="roomPreferenceRadioPreference">Inside preference</label> 
+            <p class="room-pref-description">If I don't get a spot inside, I'll take an outside slot if available</p>
+          </div>
 
-          <input type="radio" v-model="newRegistration.roomPreference" value="outsideonly" :disabled="!isEditingRoomPreference" id="roomPreferenceRadioOutside"/>
-          <label for="roomPreferenceRadioOutside">Outside only</label>
-          <p class="room-pref-description">Either I sleep outside, or I won't attend</p>
+          <div class="room-pref-option" 
+               :class="{'selected-option': newRegistration.roomPreference=='outsideonly',
+                        'hide-cursor-pointer': !isEditingRoomPreference}"
+               @click="selectApprovedRoomPreference('outsideonly')">
+            <label for="roomPreferenceRadioOutside">Outside only</label>
+            <p class="room-pref-description">Either I sleep outside, or I won't attend</p>
+          </div>
         </div>
       </div>
 
@@ -481,6 +503,16 @@ export default {
   },
 
   methods: {
+    selectRoomPreference (pref) {
+      this.newRegistration.roomPreference = pref
+    },
+
+    selectApprovedRoomPreference (pref) {
+      if (this.isEditingRoomPreference) {
+        this.newRegistration.roomPreference = pref
+      }
+    },
+
     possibleResetHoodieSize (changeEvent) {
       if (!changeEvent.target.checked) {
         this.newRegistration.hoodieSize = null

@@ -2,7 +2,7 @@
   <footer class="footer">
     <div class="footer-inner">
       <p>Contact: info@furway.no</p>
-      <p>Org. no 123123</p>
+      <p>Org. no 921440898</p>
       <router-link :to="'/legal'" style="text-decoration: none; margin-bottom: -2px;">
         Terms and conditions
       </router-link>

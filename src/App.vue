@@ -3,18 +3,18 @@
     <Navigation/>
     <NavigationHamburger/>
     <router-view id="pageContent"/>
-    <Footer v-if="['home', 'admin'].indexOf($route.name) < 0"/>
+    <FurwayFooter v-if="['home', 'admin'].indexOf($route.name) < 0"/>
   </div>
 </template>
 
 <script>
 import Navigation from './components/Navigation.vue'
 import NavigationHamburger from './components/NavigationHamburger.vue'
-import Footer from './components/Footer.vue'
+import FurwayFooter from './components/FurwayFooter.vue'
 
 export default {
   components: {
-    Navigation, NavigationHamburger, Footer,
+    Navigation, NavigationHamburger, FurwayFooter,
   },
 
   data: function () {
