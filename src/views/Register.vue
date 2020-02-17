@@ -1,7 +1,6 @@
 <template>
   <div class="flex-col">
     <h1>Registration</h1>
-
     <div v-if="!isRegistrationOpen && !isRegistrationClosed" class="registration-countdown">
       <p v-if="!isRegistrationOpen && $store.getters.conInfo.registrationOpenDate">
         Registration opens in {{timeUntilRegistrationString}}
@@ -11,12 +10,12 @@
       </p>
     </div>
 
-    <div v-if="isRegistrationClosed">
+    <div v-else-if="isRegistrationClosed">
       Registration is closed.
     </div>
 
-    <div v-else>
-      <p v-if="$store.getters.conInfo.registrationOpenDate" class="registration-countdown">
+    <div v-else-if="isRegistrationOpen">
+      <p v-if="isRegistrationOpen" class="registration-countdown">
         Registration is open! Apply below.
       </p>
 
@@ -176,7 +175,18 @@ export default {
   computed: {
     isRegistrationOpen () {
       let now = new Date()
-      return now > new Date(this.$store.getters.conInfo.registrationOpenDate)
+
+      if (!this.$store.getters.isLoggedIn === true) {
+        return now > new Date(this.$store.getters.conInfo.registrationOpenDate)
+      }
+      else {
+        if (this.$store.getters.userData.isVolunteer === true) {
+          return now > new Date(this.$store.getters.conInfo.volunteerRegistrationOpenDate)
+        }
+        else {
+          return now > new Date(this.$store.getters.conInfo.registrationOpenDate)
+        }
+      }
     },
 
     isRegistrationClosed () {
@@ -186,6 +196,7 @@ export default {
 
     timeUntilRegistrationString () {
       if (this.isRegistrationOpen) { return 0 }
+
       let remainingSeconds = (new Date(this.$store.getters.conInfo.registrationOpenDate) - new Date ())/1000
       let remainingDays = Math.floor(remainingSeconds/(86400))
       let remainingHours = Math.floor((remainingSeconds-remainingDays*86400)/3600)
