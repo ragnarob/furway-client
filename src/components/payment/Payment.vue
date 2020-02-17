@@ -2,7 +2,7 @@
   <div class="margin-top-20">
     <p><b>Choose your payment method:</b></p>
     <div id="paymentMethodSelector" class="margin-top-4 margin-bottom-20">
-      <div @click="paymentMethod = 'stripe'" class="payment-method" :class="{'selected-method': paymentMethod === 'stripe'}">
+      <div @click="setPaymentMethod('stripe')" class="payment-method" :class="{'selected-method': paymentMethod === 'stripe'}">
         <CardIcon/> 
         <p class="margin-left-4">Credit card</p>
       </div>
@@ -44,6 +44,14 @@ export default {
   },
 
   methods: {
+    setPaymentMethod (paymentMethod) {
+      this.paymentMethod = paymentMethod
+
+      setTimeout (() => {
+        document.getElementById('stripePaymentComponent').scrollIntoView()
+      }, 100)
+    },
+
     async onPaymentSuccess () {
       this.paymentMethod = undefined
       this.$emit('success')

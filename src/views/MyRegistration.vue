@@ -172,34 +172,49 @@
 
         <!-- EARLY OG LATE -->
         <div class="flex-col left-align-content">
-          <span>
+          <div class="box-with-label">
             <input type="checkbox" v-model="newRegistration.earlyArrival" :disabled="!canEditAddons" id="updateRegearlyArrival"/>
             <label for="updateRegearlyArrival">Early arrival ({{conInfo.earlyArrivalPriceNok}} kr)</label>
-          </span>
-          <span>
+          </div>
+          <div class="box-with-label">
             <input type="checkbox" v-model="newRegistration.lateDeparture"  :disabled="!canEditAddons" id="updateReglateDeparture"/>
             <label for="updateReglateDeparture">Late departure ({{conInfo.lateDeparturePriceNok}} kr)</label>
-          </span>
-
+          </div>
         </div>
         <br>
 
         <!-- HOODIE OG T-SKJORTE -->
         <div class="flex-col left-align-content">
           <span v-if="$store.state.conInfo.isSellingHoodies">
-            <input type="checkbox" v-model="newRegistration.buyHoodie" @change="possibleResetHoodieSize" :disabled="!canEditAddons" id="newRegistrationbuyHoodie"/>
-            <label for="newRegistrationbuyHoodie">Buy hoodie ({{conInfo.hoodiePriceNok}} kr)</label>
+            <div class="box-with-label">
+              <input type="checkbox" v-model="newRegistration.buyHoodie" @change="possibleResetHoodieSize" :disabled="!canEditAddons" id="newRegistrationbuyHoodie"/>
+              <label for="newRegistrationbuyHoodie">Buy hoodie ({{conInfo.hoodiePriceNok}} kr)</label>
+            </div>
             <select v-model="newRegistration.hoodieSize" v-show="newRegistration.buyHoodie" class="margin-left-10">
               <option v-for="size in sizes" :key="size" :value="size">{{size}}</option>
             </select>
           </span>
           <span v-if="$store.state.conInfo.isSellingTshirts">
-            <input type="checkbox" v-model="newRegistration.buyTshirt" @change="possibleResetTshirtSize" :disabled="!canEditAddons" id="newRegistrationbuyTshirt"/>
-            <label for="newRegistrationbuyTshirt">Buy t-shirt ({{conInfo.tshirtPriceNok}} kr)</label>
+            <div class="box-with-label">
+              <input type="checkbox" v-model="newRegistration.buyTshirt" @change="possibleResetTshirtSize" :disabled="!canEditAddons" id="newRegistrationbuyTshirt"/>
+              <label for="newRegistrationbuyTshirt">Buy t-shirt ({{conInfo.tshirtPriceNok}} kr)</label>
+            </div>
             <select v-model="newRegistration.tshirtSize" v-show="newRegistration.buyTshirt" class="margin-left-10">
               <option v-for="size in sizes" :key="size" :value="size">{{size}}</option>
             </select>
           </span>
+        <br>
+        </div>
+
+        <div class="flex-col left-align-content">
+          <div class="flex-row">
+            <input type="checkbox" v-model="isDonating" @change="isDonatingChanged" :disabled="!canEditAddons" id="newRegistrationDonation"/>
+            <label for="newRegistrationDonation">I would like to donate to Furway</label>
+          </div>
+          <div v-show="isDonating" class="flex-row-center" style="margin: auto;">
+            <p class="margin-right-4">Amount in NOK: </p>
+            <input type="number" min="1" v-model="newRegistration.donationAmount" style="width: 80px;"/>
+          </div>
         </div>
 
         <div v-show="canSaveAddons" class="margin-top-10">
@@ -207,7 +222,7 @@
             <CancelIcon title=""/>Cancel
           </button>
           <button @click="updateRegistration" class="big-button theme-button double-button margin-left-10">
-            <SaveIcon title=""/>Update add-ons
+            <SaveIcon title=""/>Save
           </button>
         </div>
       </div>
@@ -259,6 +274,11 @@
             <td>{{conInfo.hoodiePriceNok}}</td>
           </tr>
 
+          <tr v-if="myRegistration.donationAmount > 0">
+            <td>Donation</td>
+            <td>{{myRegistration.donationAmount}}</td>
+          </tr>
+
           <thead>
             <tr>
               <th colspan="3"></th>
@@ -285,17 +305,18 @@
             <td><b>Remaining amount</b></td>
             <td colspan="2">
               <b>{{myRegistration.unpaidAmount}}</b>
+              <p v-if="myRegistration.unpaidAmount < 5">Amount too low to process, consider it paid</p>
             </td>
           </tr>
         </table>
 
         <!-- CAN PAY -->
-        <Payment v-if="receivedSomeSpot && myRegistration.unpaidAmount > 0" 
+        <Payment v-if="receivedSomeSpot && myRegistration.unpaidAmount >= 5" 
                  @success="onPaymentSuccess"
                  :amount="myRegistration.unpaidAmount"
                  class="margin-top-10"/>
 
-        <p v-else-if="receivedSomeSpot && myRegistration.unpaidAmount === 0" class="margin-top-10">
+        <p v-else-if="receivedSomeSpot && myRegistration.unpaidAmount < 5" class="margin-top-10">
           Nothing left to pay!
         </p>
 
@@ -380,6 +401,7 @@ export default {
       isEditingRoomPreference: false,
       isDeletingRegistration: false,
       deleteRegistrationUsername: '',
+      isDonating: false,
       responseMessage: '',
       responseMessageType: 'error',
       newRegistration: null,
@@ -496,6 +518,12 @@ export default {
       this.scrollTop()
     },
 
+    isDonatingChanged () {
+      if (!this.isDonating) {
+        this.newRegistration.donationAmount = 0
+      }
+    },
+
     async updateRegistration () {
       let result
       if (this.isEditingRoomPreference === true) {
@@ -539,6 +567,7 @@ export default {
 
       this.newRegistration = {...this.myRegistration}
       this.isLoadingRegistration = false
+      this.isDonating = this.newRegistration.donationAmount > 0
     },
 
     cancelEditing () {

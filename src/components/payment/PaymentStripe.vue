@@ -1,5 +1,5 @@
 <template>
-  <div class="shadow-box payment-container">
+  <div class="shadow-box payment-container" id="stripePaymentComponent">
     <p style="font-size: 20px; margin-bottom: 10px;"><b>Paying {{amount}} NOK</b></p>
 
     <ResponseMessage :message="stripeResponse.responseMessage" :messageType="stripeResponse.messageType" @closeMessage="closeResponseMessage" v-if="stripeResponse.responseMessage"/>

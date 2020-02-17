@@ -202,7 +202,7 @@
             <input type="radio" v-model="registrationBeingEdited.receivedOutsideSpot" :value="true" @change="warnNotPreferredMethodReceivedSpot" id="recOutsideSpotYes"/>
             <label for="recOutsideSpotYes">Yes</label>
 
-            <input type="radio" v-model="registrationBeingEdited.receivedOutsideSpot" :value="false"@change="warnNotPreferredMethodReceivedSpot" id="recOutsideSpotNo"/>
+            <input type="radio" v-model="registrationBeingEdited.receivedOutsideSpot" :value="false" @change="warnNotPreferredMethodReceivedSpot" id="recOutsideSpotNo"/>
             <label for="recOutsideSpotNo">No</label>
           </span>
 

@@ -147,6 +147,15 @@ h3 {
   display: flex;
   flex-direction: row;
 }
+.flex-row-center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.box-with-label {
+  display: flex;
+  flex-direction: row;
+}
 
 table {
   margin: 0 auto;
