@@ -29,6 +29,7 @@
         </ul>
         <p style="text-align: left;"><b>Ferdig</b></p>
         <ul style="text-align: left; margin-top: 0px;">
+          <li>Footer med stuff</li>
           <li>Donation</li>
           <li>Fikse funksjonell override av paid amount i /admin reg-liste</li>
           <li>Payment med stripe!</li>

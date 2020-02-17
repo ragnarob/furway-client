@@ -2,17 +2,19 @@
   <div id="app">
     <Navigation/>
     <NavigationHamburger/>
-    <router-view/>
+    <router-view id="pageContent"/>
+    <Footer v-if="['home', 'admin'].indexOf($route.name) < 0"/>
   </div>
 </template>
 
 <script>
 import Navigation from './components/Navigation.vue'
 import NavigationHamburger from './components/NavigationHamburger.vue'
+import Footer from './components/Footer.vue'
 
 export default {
   components: {
-    Navigation, NavigationHamburger,
+    Navigation, NavigationHamburger, Footer,
   },
 
   data: function () {
@@ -56,8 +58,15 @@ th {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  padding-bottom: 20px;
+  // padding-bottom: 20px;
   padding-top: 44px;
+  position: relative;
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+
+#pageContent {
+  padding-bottom: 54px;
 }
 
 a {
