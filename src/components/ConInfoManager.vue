@@ -32,6 +32,52 @@
       </tr>
 
       <tr>
+        <td>Inside spots</td>
+        <td>
+          <span v-if="!isEditing.numberOfInsideSpots">
+            {{conInfo.numberOfInsideSpots}}
+            <button @click="editField('numberOfInsideSpots')" class="icon-button icon-button-small">
+              <EditIcon title="Edit"/>
+            </button>
+          </span>
+          <span v-else>
+            <div class="flex-col">
+              <input type="number" v-model="editedConInfo.numberOfInsideSpots">
+            </div>
+            <button @click="cancelEditing" class="icon-button icon-button-small">
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button icon-button-small" style="margin-left: 10px;">
+              <SaveIcon title="Save"/>
+            </button>
+          </span>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Outside spots</td>
+        <td>
+          <span v-if="!isEditing.numberOfOutsideSpots">
+            {{conInfo.numberOfOutsideSpots}}
+            <button @click="editField('numberOfOutsideSpots')" class="icon-button icon-button-small">
+              <EditIcon title="Edit"/>
+            </button>
+          </span>
+          <span v-else>
+            <div class="flex-col">
+              <input type="number" v-model="editedConInfo.numberOfOutsideSpots">
+            </div>
+            <button @click="cancelEditing" class="icon-button icon-button-small">
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button icon-button-small" style="margin-left: 10px;">
+              <SaveIcon title="Save"/>
+            </button>
+          </span>
+        </td>
+      </tr>
+
+      <tr>
         <td>Registration opening date</td>
         <td>
           <span v-if="!isEditing.registrationOpenDate">

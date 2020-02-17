@@ -327,7 +327,7 @@
             <td><b>Remaining amount</b></td>
             <td colspan="2">
               <b>{{myRegistration.unpaidAmount}}</b>
-              <p v-if="myRegistration.unpaidAmount < 5">Amount too low to process, consider it paid</p>
+              <p v-if="myRegistration.unpaidAmount < 5 && myRegistration.unpaidAmount > 0">Amount too low to process, consider it paid</p>
             </td>
           </tr>
         </table>
