@@ -101,6 +101,7 @@ export default new Vuex.Store({
 
   getters: {
     myRegistration: state => state.myRegistration,
+    hasRegistration: state => state.isLoggedIn && state.userData.registrationId !== null && state.userData.registrationId !== undefined,
     conInfo: state => state.conInfo,
     isLoggedIn: state => state.isLoggedIn,
     userData: state => state.userData,

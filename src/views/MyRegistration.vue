@@ -614,7 +614,7 @@ export default {
 
     formatDatetimeWithSeconds (dateTime) {
       dateTime = new Date(dateTime)
-      return `${dateTime===null ? '' : dateTime.toDateString().substring(0,10)}, ${dateTime.toTimeString().substring(0,8)}.${dateTime.getMilliseconds()}`
+      return `${dateTime===null ? '' : dateTime.toDateString().substring(0,10)}, ${dateTime.toTimeString().substring(0,8)}`
     },
 
     formatBoolean,

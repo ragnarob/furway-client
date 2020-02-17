@@ -2,7 +2,7 @@
   <div class="flex-col">
     <h1>Registration</h1>
 
-    <div v-if="!isRegistrationOpen && $store.getters.hasRegistration" class="registration-countdown">
+    <div v-if="!isRegistrationOpen && !isRegistrationClosed" class="registration-countdown">
       <p v-if="!isRegistrationOpen && $store.getters.conInfo.registrationOpenDate">
         Registration opens in {{timeUntilRegistrationString}}
       </p>
@@ -11,22 +11,28 @@
       </p>
     </div>
 
-    <p v-else-if="isRegistrationOpen && $store.getters.conInfo.registrationOpenDate && !$store.getters.hasRegistration" class="registration-countdown">
-      Registration is open! Apply below.
-    </p>
+    <div v-if="isRegistrationClosed">
+      Registration is closed.
+    </div>
 
-    <p v-if="!$store.state.isLoggedIn">
-      You must <router-link :to="'/login'">log in</router-link> or <router-link :to="'/signup'">create a user</router-link> to register for Furway.
-    </p>
+    <div v-else>
+      <p v-if="$store.getters.conInfo.registrationOpenDate" class="registration-countdown">
+        Registration is open! Apply below.
+      </p>
 
-    <!-- CREATING REGISTRATION -->
-    <p v-if="$store.state.isLoggedIn && $store.getters.hasRegistration">
-      You already have a registration, see <router-link :to="'/my-registration'">my registration</router-link>.
-    </p>
-    
-    <button v-else-if="$store.state.isLoggedIn && !isCreatingRegistration" @click="isCreatingRegistration = true" class="big-button">
-      Create registration
-    </button>
+      <p v-if="!$store.state.isLoggedIn">
+        You must <router-link :to="'/login'">log in</router-link> or <router-link :to="'/signup'">create a user</router-link> to register for Furway.
+      </p>
+
+      <!-- CREATING REGISTRATION -->
+      <p v-if="$store.state.isLoggedIn && $store.getters.hasRegistration">
+        You already have a registration, see <router-link :to="'/my-registration'">my registration</router-link>.
+      </p>
+      
+      <button v-else-if="$store.state.isLoggedIn && !isCreatingRegistration" @click="isCreatingRegistration = true" class="big-button">
+        Create registration
+      </button>
+    </div>
 
     <div class="margin-bottom-20">
       <h2 v-if="isCreatingRegistration" class="no-margin-top">
@@ -162,7 +168,13 @@ export default {
 
   computed: {
     isRegistrationOpen () {
-      return  new Date() > new Date(this.$store.getters.conInfo.registrationOpenDate)
+      let now = new Date()
+      return now > new Date(this.$store.getters.conInfo.registrationOpenDate)
+    },
+
+    isRegistrationClosed () {
+      let now = new Date()
+      return now > new Date(this.$store.getters.conInfo.registrationCloseDate)
     },
 
     timeUntilRegistrationString () {

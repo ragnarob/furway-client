@@ -24,12 +24,12 @@
 
         <p style="text-align: left;"><b>Ting som gjenstår</b></p>
         <ul style="text-align: left; margin-top: 0px;">
-          <li>Donation</li>
           <li>Legge til mulighet for egendefinerte add-ons (som f.eks. charms), med pris og max antall</li>
           <li>Payment med vipps</li>
         </ul>
         <p style="text-align: left;"><b>Ferdig</b></p>
         <ul style="text-align: left; margin-top: 0px;">
+          <li>Donation</li>
           <li>Fikse funksjonell override av paid amount i /admin reg-liste</li>
           <li>Payment med stripe!</li>
           <li>Lage egen "Legal"-side</li>
