@@ -39,7 +39,7 @@
         </tr>
         <tr>
           <td>Fully unpaid registrations</td>
-          <td>{{numberOfRegistrationsGiven - numberOfPartiallyPaidRegistrations}} / {{numberOfRegistrationsGiven}}</td>
+          <td>{{numberOfRegistrationsGiven - numberOfPartiallyPaidRegistrations - numberOfFullyPaidRegistrations}} / {{numberOfRegistrationsGiven}}</td>
         </tr>
 
         <!-- </table><table> -->
@@ -154,7 +154,7 @@ export default {
     },
 
     numberOfFullyPaidRegistrations () {
-      return this.allRegistrations.filter(reg => reg.isMainDaysPaid === true && reg.isAddonsPaid === true).length
+      return this.allRegistrations.filter(reg => reg.isPaid === true).length
     },
 
     numberOfPartiallyPaidRegistrations () {

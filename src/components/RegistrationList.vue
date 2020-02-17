@@ -26,6 +26,7 @@
         <th title="Received inside spot">Rec. ins.</th>
         <th title="Received outside spot">Rec. outs.</th>
         <th>Money</th>
+        <th>Donation</th>
       </tr>
 
       <tr v-for="reg in filteredRegistrations" :key="reg.id" :class="{'highlighted-row-blue': reg.id === highlightedRegistrationId}" style="height: 38px;">
@@ -227,6 +228,12 @@
 
           <p v-else>
             {{reg.paidAmount}} paid, {{reg.totalAmount}} total
+          </p>
+        </td>
+
+        <td>
+          <p v-if="reg.donationAmount > 0">
+            {{reg.donationAmount}}
           </p>
         </td>
       </tr>
