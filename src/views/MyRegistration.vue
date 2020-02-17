@@ -192,50 +192,54 @@
           Payment deadline passed. You cannot add or remove add-ons.
         </p>
 
-        <!-- EARLY OG LATE -->
-        <div class="flex-col left-align-content">
-          <div class="box-with-label">
-            <input type="checkbox" v-model="newRegistration.earlyArrival" :disabled="!canEditAddons" id="updateRegearlyArrival"/>
-            <label for="updateRegearlyArrival">Early arrival ({{conInfo.earlyArrivalPriceNok}} kr)</label>
-          </div>
-          <div class="box-with-label">
-            <input type="checkbox" v-model="newRegistration.lateDeparture"  :disabled="!canEditAddons" id="updateReglateDeparture"/>
-            <label for="updateReglateDeparture">Late departure ({{conInfo.lateDeparturePriceNok}} kr)</label>
-          </div>
-        </div>
-        <br>
+        <div>
 
-        <!-- HOODIE OG T-SKJORTE -->
-        <div class="flex-col left-align-content">
-          <span v-if="$store.state.conInfo.isSellingHoodies">
+          <!-- EARLY OG LATE -->
+          <div class="flex-col left-align-content">
             <div class="box-with-label">
-              <input type="checkbox" v-model="newRegistration.buyHoodie" @change="possibleResetHoodieSize" :disabled="!canEditAddons" id="newRegistrationbuyHoodie"/>
-              <label for="newRegistrationbuyHoodie">Buy hoodie ({{conInfo.hoodiePriceNok}} kr)</label>
+              <input type="checkbox" v-model="newRegistration.earlyArrival" :disabled="!canEditAddons" id="updateRegearlyArrival"/>
+              <label for="updateRegearlyArrival">Early arrival ({{conInfo.earlyArrivalPriceNok}} kr)</label>
             </div>
-            <select v-model="newRegistration.hoodieSize" v-show="newRegistration.buyHoodie" class="margin-left-10">
-              <option v-for="size in sizes" :key="size" :value="size">{{size}}</option>
-            </select>
-          </span>
-          <span v-if="$store.state.conInfo.isSellingTshirts">
             <div class="box-with-label">
-              <input type="checkbox" v-model="newRegistration.buyTshirt" @change="possibleResetTshirtSize" :disabled="!canEditAddons" id="newRegistrationbuyTshirt"/>
-              <label for="newRegistrationbuyTshirt">Buy t-shirt ({{conInfo.tshirtPriceNok}} kr)</label>
+              <input type="checkbox" v-model="newRegistration.lateDeparture"  :disabled="!canEditAddons" id="updateReglateDeparture"/>
+              <label for="updateReglateDeparture">Late departure ({{conInfo.lateDeparturePriceNok}} kr)</label>
             </div>
-            <select v-model="newRegistration.tshirtSize" v-show="newRegistration.buyTshirt" class="margin-left-10">
-              <option v-for="size in sizes" :key="size" :value="size">{{size}}</option>
-            </select>
-          </span>
-        <br>
-        </div>
-
-        <div class="flex-col left-align-content">
-          <div class="flex-row">
-            <input type="checkbox" v-model="isDonating" @change="isDonatingChanged" :disabled="!canEditAddons" id="newRegistrationDonation"/>
-            <label for="newRegistrationDonation">I would like to donate to Furway</label>
           </div>
-          <div v-show="isDonating" class="flex-row-center" style="margin: auto;">
-            <p class="margin-right-4">Amount in NOK: </p>
-            <input type="number" min="1" v-model="newRegistration.donationAmount" style="width: 80px;"/>
+          <br>
+
+          <!-- HOODIE OG T-SKJORTE -->
+          <div class="flex-col left-align-content">
+            <span v-if="$store.state.conInfo.isSellingHoodies" class="flex-row-center">
+              <div class="box-with-label">
+                <input type="checkbox" v-model="newRegistration.buyHoodie" @change="possibleResetHoodieSize" :disabled="!canEditAddons" id="newRegistrationbuyHoodie"/>
+                <label for="newRegistrationbuyHoodie">Buy hoodie ({{conInfo.hoodiePriceNok}} kr)</label>
+              </div>
+              <select v-model="newRegistration.hoodieSize" v-show="newRegistration.buyHoodie" class="margin-left-10">
+                <option v-for="size in sizes" :key="size" :value="size">{{size}}</option>
+              </select>
+            </span>
+
+            <span v-if="$store.state.conInfo.isSellingTshirts" class="flex-row-center">
+              <div class="box-with-label">
+                <input type="checkbox" v-model="newRegistration.buyTshirt" @change="possibleResetTshirtSize" :disabled="!canEditAddons" id="newRegistrationbuyTshirt"/>
+                <label for="newRegistrationbuyTshirt">Buy t-shirt ({{conInfo.tshirtPriceNok}} kr)</label>
+              </div>
+              <select v-model="newRegistration.tshirtSize" v-show="newRegistration.buyTshirt" class="margin-left-10">
+                <option v-for="size in sizes" :key="size" :value="size">{{size}}</option>
+              </select>
+            </span>
+          <br>
+          </div>
+
+          <div class="flex-col left-align-content">
+            <div class="flex-row">
+              <input type="checkbox" v-model="isDonating" @change="isDonatingChanged" :disabled="!canEditAddons" id="newRegistrationDonation"/>
+              <label for="newRegistrationDonation">I would like to donate to Furway</label>
+            </div>
+            <div v-show="isDonating" class="flex-row-center">
+              <p class="margin-right-4">Amount in NOK: </p>
+              <input type="number" min="1" v-model="newRegistration.donationAmount" style="width: 80px;"/>
+            </div>
           </div>
         </div>
 

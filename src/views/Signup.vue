@@ -88,7 +88,7 @@
         </div>
         <div class="flex-col">
           <label>State/Province</label>
-          <input type="text" v-model="addressStateprovince">
+          <input type="text" v-model="addressStateProvince">
         </div>
       </div>
     </div>
@@ -245,7 +245,7 @@ export default {
       addressLine1: '',
       addressLine2: '',
       addressCity: '',
-      addressStateprovince: '',
+      addressStateProvince: '',
       addressCountry: '',
 
       pickupType: undefined,
@@ -360,7 +360,7 @@ export default {
         addressLine1: this.addressLine1,
         addressLine2: this.addressLine2 || null,
         addressCity: this.addressCity,
-        addressStateprovince: this.addressStateprovince || null,
+        addressStateProvince: this.addressStateProvince || null,
         addressCountry: this.addressCountry,
         pickupType: this.pickupType,
         pickupTime: this.pickupTime,

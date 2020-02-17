@@ -153,9 +153,7 @@
         Should you decide to change your ticket type <i>after</i> it has been approved, you will be put at the back of any waiting lists, if they exist. This rule does not apply for changing from <b>inside preference</b> to either of the other types - in that case, you will keep your spot or waiting list number for the ticket type you change to.
       </p>
       <p style="margin-top: 26px;">
-        Attendee lists are public, with only username and country being displayed.
-        <br>
-        Payments will not be refunded.
+        Payments will not be refunded, more info in the <router-link :to="'/legal'">terms and conditions</router-link>.
       </p>
     </div>
   </div>

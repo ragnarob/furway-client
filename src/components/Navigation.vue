@@ -57,7 +57,7 @@ export default {
   position: fixed;
   top: 0;
   z-index: 3;
-  width: 100%;
+  width: 100vw;
 
   @media screen and (max-width: 849px) {
     display: none !important;
