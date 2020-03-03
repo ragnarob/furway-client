@@ -16,24 +16,35 @@
           You <i>can</i> change your ticket type, but doing so <u>will</u> put you at the back of any existing queues.
         </p>
         <p class="margin-top-10">
-          Your registration was submitted {{formatDatetimeWithoutYear(myRegistration.timestamp)}}.
+          Your registration was submitted {{formatDatetimeWithSeconds(myRegistration.timestamp)}}.
         </p>
       </div>
 
       <h3>Ticket type</h3>
       <div class="flex-col left-align-content">
-        <span>
-          <input type="radio" v-model="newRegistration.roomPreference" value="insideonly" id="roomPreferenceInside"/>
-          <label for="roomPreferenceInside">Inside only</label>          
-        </span>
-        <span class="margin-top-4">
-          <input type="radio" v-model="newRegistration.roomPreference" value="insidepreference" id="roomPreferenceInsidePreference"/>
-          <label for="roomPreferenceInsidePreference">Inside preference</label>          
-        </span>
-        <span class="margin-top-4">
-          <input type="radio" v-model="newRegistration.roomPreference" value="outsideonly" id="roomPreferenceOutside"/>
-          <label for="roomPreferenceOutside">Outside only</label>          
-        </span>
+        <div class="margin-top-4 room-pref-picker" style="text-align: left;">
+
+          <div class="room-pref-option no-margin-top" 
+               :class="{'selected-option': newRegistration.roomPreference=='insideonly'}"
+               @click="selectRoomPreference('insideonly')">
+            <label for="roomPreferenceRadioInside">Inside only</label>
+            <p class="room-pref-description">Either I sleep inside or I won't attend</p>
+          </div>
+
+          <div class="room-pref-option" 
+               :class="{'selected-option': newRegistration.roomPreference=='insidepreference'}"
+               @click="selectRoomPreference('insidepreference')">
+            <label for="roomPreferenceRadioPreference">Inside preference</label> 
+            <p class="room-pref-description">If I don't get a spot inside, I'll take an outside slot if available</p>
+          </div>
+
+          <div class="room-pref-option" 
+               :class="{'selected-option': newRegistration.roomPreference=='outsideonly'}"
+               @click="selectRoomPreference('outsideonly')">
+            <label for="roomPreferenceRadioOutside">Outside only</label>
+            <p class="room-pref-description">Either I sleep outside, or I won't attend</p>
+          </div>
+        </div>
       </div>
 
       <p v-show="isEditingUnapprovedRoomPreference" class="margin-top-10 margin-bottom-10 warning-text">
@@ -92,7 +103,7 @@
         </p>
 
         <p class="margin-top-10">
-          Your registration was approved {{formatDatetimeWithoutYear(myRegistration.timestamp)}}.
+          Your registration was approved {{formatDatetime(myRegistration.timestamp)}}.
         </p>
         <p>
           Your registration number is: <b>{{myRegistration.registrationNumber}}</b>
@@ -108,18 +119,31 @@
       </p>
 
       <div class="flex-col left-align-content margin-top-10">
-        <span>
-          <input type="radio" v-model="newRegistration.roomPreference" value="insideonly" :disabled="!isEditingRoomPreference" id="roomPreferenceinsideonly"/>
-          <label for="roomPreferenceinsideonly">Inside only</label>
-        </span>
-        <span class="margin-top-4">
-          <input type="radio" v-model="newRegistration.roomPreference" value="insidepreference" :disabled="!isEditingRoomPreference" id="roomPreferenceinsidepreference"/>
-          <label for="roomPreferenceinsidepreference">Inside preference</label>
-        </span>
-        <span class="margin-top-4">
-          <input type="radio" v-model="newRegistration.roomPreference" value="outsideonly" :disabled="!isEditingRoomPreference" id="roomPreferenceoutsideonly"/>
-          <label for="roomPreferenceoutsideonly">Outside only</label>
-        </span>
+        <div class="margin-top-4 room-pref-picker" style="text-align: left;">
+          <div class="room-pref-option no-margin-top" 
+               :class="{'selected-option': newRegistration.roomPreference=='insideonly',
+                        'hide-cursor-pointer': !isEditingRoomPreference}"
+               @click="selectApprovedRoomPreference('insideonly')">
+            <label for="roomPreferenceRadioInside">Inside only</label>
+            <p class="room-pref-description">Either I sleep inside or I won't attend</p>
+          </div>
+
+          <div class="room-pref-option" 
+               :class="{'selected-option': newRegistration.roomPreference=='insidepreference',
+                        'hide-cursor-pointer': !isEditingRoomPreference}"
+               @click="selectApprovedRoomPreference('insidepreference')">
+            <label for="roomPreferenceRadioPreference">Inside preference</label> 
+            <p class="room-pref-description">If I don't get a spot inside, I'll take an outside slot if available</p>
+          </div>
+
+          <div class="room-pref-option" 
+               :class="{'selected-option': newRegistration.roomPreference=='outsideonly',
+                        'hide-cursor-pointer': !isEditingRoomPreference}"
+               @click="selectApprovedRoomPreference('outsideonly')">
+            <label for="roomPreferenceRadioOutside">Outside only</label>
+            <p class="room-pref-description">Either I sleep outside, or I won't attend</p>
+          </div>
+        </div>
       </div>
 
       <button @click="isEditingRoomPreference = true" v-show="!isEditingRoomPreference" class="margin-top-10">
@@ -155,42 +179,68 @@
         </button>
       </div>
 
+      <!-- ADDONS -->
       <div v-show="!isEditingRoomPreference" class="flex-col">
         <h3>Add-ons</h3>
         <p class="margin-bottom-10">
-          You can add and remove add-ons without your spot being affected. Once you pay for an add-on, you cannot remove it and it will not be refunded.
+          Adding or removing add-ons will not affect your spot. Paid amounts will not be refunded.
         </p>
-        <p v-if="isAddonsDeadlinePassed">DEADLINE PASSED! Kan ikke legge til eller fjerne.</p>
-        <!-- EARLY OG LATE -->
-        <div class="flex-col left-align-content">
-          <span>
-            <input type="checkbox" v-model="newRegistration.earlyArrival" :disabled="isAddonsDeadlinePassed" id="updateRegearlyArrival"/>
-            <label for="updateRegearlyArrival">Early arrival ({{conInfo.earlyArrivalPriceNok}} kr)</label>
-          </span>
-          <span>
-            <input type="checkbox" v-model="newRegistration.lateDeparture"  :disabled="isAddonsDeadlinePassed" id="updateReglateDeparture"/>
-            <label for="updateReglateDeparture">Late departure ({{conInfo.lateDeparturePriceNok}} kr)</label>
-          </span>
+        <p v-if="!receivedSomeSpot" class="margin-bottom-10">
+          You cannot add add-ons until you receive a spot.
+        </p>
+        <p v-else-if="isPaymentDeadlinePassed" class="margin-bottom-10">
+          Payment deadline passed. You cannot add or remove add-ons.
+        </p>
 
-        </div>
-        <br>
+        <div>
 
-        <!-- HOODIE OG T-SKJORTE -->
-        <div class="flex-col left-align-content">
-          <span v-if="$store.state.conInfo.isSellingHoodies">
-            <input type="checkbox" v-model="newRegistration.buyHoodie" @change="possibleResetHoodieSize" :disabled="isAddonsDeadlinePassed" id="newRegistrationbuyHoodie"/>
-            <label for="newRegistrationbuyHoodie">Buy hoodie ({{conInfo.hoodiePriceNok}} kr)</label>
-            <select v-model="newRegistration.hoodieSize" v-show="newRegistration.buyHoodie" class="margin-left-10">
-              <option v-for="size in sizes" :key="size" :value="size">{{size}}</option>
-            </select>
-          </span>
-          <span v-if="$store.state.conInfo.isSellingTshirts">
-            <input type="checkbox" v-model="newRegistration.buyTshirt" @change="possibleResetTshirtSize" :disabled="isAddonsDeadlinePassed" id="newRegistrationbuyTshirt"/>
-            <label for="newRegistrationbuyTshirt">Buy t-shirt ({{conInfo.tshirtPriceNok}} kr)</label>
-            <select v-model="newRegistration.tshirtSize" v-show="newRegistration.buyTshirt" class="margin-left-10">
-              <option v-for="size in sizes" :key="size" :value="size">{{size}}</option>
-            </select>
-          </span>
+          <!-- EARLY OG LATE -->
+          <div class="flex-col left-align-content">
+            <div class="box-with-label">
+              <input type="checkbox" v-model="newRegistration.earlyArrival" :disabled="!canEditAddons" id="updateRegearlyArrival"/>
+              <label for="updateRegearlyArrival">Early arrival ({{conInfo.earlyArrivalPriceNok}} kr)</label>
+            </div>
+            <div class="box-with-label">
+              <input type="checkbox" v-model="newRegistration.lateDeparture"  :disabled="!canEditAddons" id="updateReglateDeparture"/>
+              <label for="updateReglateDeparture">Late departure ({{conInfo.lateDeparturePriceNok}} kr)</label>
+            </div>
+          </div>
+          <br>
+
+          <!-- HOODIE OG T-SKJORTE -->
+          <div class="flex-col left-align-content">
+            <span v-if="$store.state.conInfo.isSellingHoodies" class="flex-row-center">
+              <div class="box-with-label">
+                <input type="checkbox" v-model="newRegistration.buyHoodie" @change="possibleResetHoodieSize" :disabled="!canEditAddons" id="newRegistrationbuyHoodie"/>
+                <label for="newRegistrationbuyHoodie">Buy hoodie ({{conInfo.hoodiePriceNok}} kr)</label>
+              </div>
+              <select v-model="newRegistration.hoodieSize" v-show="newRegistration.buyHoodie" class="margin-left-10">
+                <option v-for="size in sizes" :key="size" :value="size">{{size}}</option>
+              </select>
+            </span>
+
+            <span v-if="$store.state.conInfo.isSellingTshirts" class="flex-row-center">
+              <div class="box-with-label">
+                <input type="checkbox" v-model="newRegistration.buyTshirt" @change="possibleResetTshirtSize" :disabled="!canEditAddons" id="newRegistrationbuyTshirt"/>
+                <label for="newRegistrationbuyTshirt">Buy t-shirt ({{conInfo.tshirtPriceNok}} kr)</label>
+              </div>
+              <select v-model="newRegistration.tshirtSize" v-show="newRegistration.buyTshirt" class="margin-left-10">
+                <option v-for="size in sizes" :key="size" :value="size">{{size}}</option>
+              </select>
+            </span>
+          <br>
+          </div>
+
+          <div class="flex-col left-align-content">
+            <div class="flex-row">
+              <input type="checkbox" v-model="isDonating" @change="isDonatingChanged" :disabled="!canEditAddons" id="newRegistrationDonation"/>
+              <label for="newRegistrationDonation">I would like to donate to Furway</label>
+            </div>
+            <div v-show="isDonating" class="flex-row-center">
+              <p class="margin-right-4">Amount in NOK: </p>
+              <input type="number" min="1" v-model="newRegistration.donationAmount" style="width: 80px;"/>
+            </div>
+          </div>
         </div>
 
         <div v-show="canSaveAddons" class="margin-top-10">
@@ -198,14 +248,17 @@
             <CancelIcon title=""/>Cancel
           </button>
           <button @click="updateRegistration" class="big-button theme-button double-button margin-left-10">
-            <SaveIcon title=""/>Update add-ons
+            <SaveIcon title=""/>Save
           </button>
         </div>
       </div>
 
       <!-- PAYMENT -->
       <div v-show="!isEditingRoomPreference">
-        <h3>Payments</h3>
+        <h3>Payment</h3>
+        <p v-if="receivedSomeSpot" class="margin-bottom-10">
+          Your payment deadline: <b>{{formatDatetimeWithWeekday(myRegistration.paymentDeadline)}}</b>
+        </p>
         <table>
           <thead>
             <tr>
@@ -247,6 +300,11 @@
             <td>{{conInfo.hoodiePriceNok}}</td>
           </tr>
 
+          <tr v-if="myRegistration.donationAmount > 0">
+            <td>Donation</td>
+            <td>{{myRegistration.donationAmount}}</td>
+          </tr>
+
           <thead>
             <tr>
               <th colspan="3"></th>
@@ -254,21 +312,44 @@
           </thead>
 
           <tr>
-            <td>Total paid amount</td>
-            <td colspan="2">{{myRegistration.paidAmount}}</td>
-          </tr>
-
-          <tr>
             <td>Total amount to be paid</td>
             <td colspan="2">
               {{myRegistration.totalAmount}}
               <span v-if="isWaitingForBothSpots">
                 <br/>
-                {{`(+${conInfo.mainDaysInsidePriceNok - conInfo.mainDaysOutsidePriceNok} for inside)`}}
+                {{`(+${conInfo.mainDaysInsidePriceNok - conInfo.mainDaysOutsidePriceNok} if inside)`}}
               </span>
             </td>
           </tr>
+
+          <tr>
+            <td>Total paid amount</td>
+            <td colspan="2">{{myRegistration.paidAmount}}</td>
+          </tr>
+
+          <tr v-if="receivedSomeSpot">
+            <td><b>Remaining amount</b></td>
+            <td colspan="2">
+              <b>{{myRegistration.unpaidAmount}}</b>
+              <p v-if="myRegistration.unpaidAmount < 5 && myRegistration.unpaidAmount > 0">Amount too low to process, consider it paid</p>
+            </td>
+          </tr>
         </table>
+
+        <!-- CAN PAY -->
+        <Payment v-if="receivedSomeSpot && myRegistration.unpaidAmount >= 5" 
+                 @success="onPaymentSuccess"
+                 :amount="myRegistration.unpaidAmount"
+                 class="margin-top-10"/>
+
+        <p v-else-if="receivedSomeSpot && myRegistration.unpaidAmount < 5" class="margin-top-10">
+          Nothing left to pay!
+        </p>
+
+        <!-- CAN NOT PAY -->
+        <p v-else class="margin-top-10">
+          You cannot make any payments until you have received a spot.
+        </p>
       </div>
 
       <div v-show="!isEditingRoomPreference" class="flex-col">
@@ -323,6 +404,7 @@
 import registrationApi from '../api/registration-api'
 import ResponseMessage from '../components/ResponseMessage.vue'
 import LoadingMessage from '../components/LoadingMessage.vue'
+import Payment from '../components/payment/Payment.vue'
 
 import SaveIcon from 'vue-material-design-icons/ContentSave.vue'
 import CancelIcon from 'vue-material-design-icons/Close.vue'
@@ -335,8 +417,8 @@ export default {
   name: 'myRegistration',
 
   components: {
-    ResponseMessage, LoadingMessage,
-    SaveIcon, CancelIcon, DeleteIcon
+    ResponseMessage, LoadingMessage, Payment,
+    SaveIcon, CancelIcon, DeleteIcon,
   },
 
   data: function () {
@@ -345,16 +427,28 @@ export default {
       isEditingRoomPreference: false,
       isDeletingRegistration: false,
       deleteRegistrationUsername: '',
+      isDonating: false,
       responseMessage: '',
       responseMessageType: 'error',
       newRegistration: null,
-      sizes: ['S','M','L','XL','XXL'],
-      isAddonsDeadlinePassed: false,
+      sizes: ['S','M','L','XL','XXL', '3XL', '4XL'],
     }
   },
 
   computed: {
     ...mapGetters(['myRegistration', 'conInfo']),
+
+    receivedSomeSpot () {
+      return this.myRegistration && (this.myRegistration.receivedInsideSpot || this.myRegistration.receivedOutsideSpot)
+    },
+
+    isPaymentDeadlinePassed () {
+      return this.myRegistration && (new Date() > new Date(this.myRegistration.paymentDeadline))
+    },
+
+    canEditAddons () {
+      return this.receivedSomeSpot && !this.isPaymentDeadlinePassed
+    },
 
     canSaveAddons () {
       return Object.keys(this.newRegistration).some(key => (key !== 'roomPreference') && (this.newRegistration[key] !== this.myRegistration[key]))
@@ -413,6 +507,16 @@ export default {
   },
 
   methods: {
+    selectRoomPreference (pref) {
+      this.newRegistration.roomPreference = pref
+    },
+
+    selectApprovedRoomPreference (pref) {
+      if (this.isEditingRoomPreference) {
+        this.newRegistration.roomPreference = pref
+      }
+    },
+
     possibleResetHoodieSize (changeEvent) {
       if (!changeEvent.target.checked) {
         this.newRegistration.hoodieSize = null
@@ -448,6 +552,12 @@ export default {
       }
 
       this.scrollTop()
+    },
+
+    isDonatingChanged () {
+      if (!this.isDonating) {
+        this.newRegistration.donationAmount = 0
+      }
     },
 
     async updateRegistration () {
@@ -493,6 +603,7 @@ export default {
 
       this.newRegistration = {...this.myRegistration}
       this.isLoadingRegistration = false
+      this.isDonating = this.newRegistration.donationAmount > 0
     },
 
     cancelEditing () {
@@ -500,12 +611,15 @@ export default {
       this.isEditingRoomPreference = false
     },
 
-    closeResponseMessage () {
-      this.responseMessage = ''
+    async onPaymentSuccess () {
+      this.getRegistration()
+      this.responseMessage = 'Payment successful!'
+      this.responseMessageType = 'success'
+      this.scrollTop()
     },
 
-    async calculateDeadlines () {
-      this.isAddonsDeadlinePassed = new Date() > new Date(this.conInfo.addonPaymentDeadline)
+    closeResponseMessage () {
+      this.responseMessage = ''
     },
 
     setupLoginListener () {
@@ -524,9 +638,19 @@ export default {
       })
     },
 
-    formatDatetimeWithoutYear (dateTime) {
+    formatDatetime (dateTime) {
+      dateTime = new Date(dateTime)
+      return dateTime===null ? '' : dateTime.toDateString().substring(4,10) + ', ' + dateTime.toTimeString().substring(0,5)
+    },
+
+    formatDatetimeWithWeekday (dateTime) {
       dateTime = new Date(dateTime)
       return dateTime===null ? '' : dateTime.toDateString().substring(0,10) + ', ' + dateTime.toTimeString().substring(0,5)
+    },
+
+    formatDatetimeWithSeconds (dateTime) {
+      dateTime = new Date(dateTime)
+      return `${dateTime===null ? '' : dateTime.toDateString().substring(0,10)}, ${dateTime.toTimeString().substring(0,8)}`
     },
 
     formatBoolean,
@@ -534,7 +658,6 @@ export default {
 
   async mounted () {
     this.getRegistration()
-    this.calculateDeadlines()
   },
 
   destroyed () {
@@ -555,5 +678,12 @@ h3 {
   margin-bottom: 16px;
   margin-top: 8px;
   box-shadow: 0 8px 16px 0px rgba(10, 14, 29, 0.04), 0px 8px 64px 0px rgba(10, 14, 29, 0.08);
+}
+.stripe-card {
+  width: 300px;
+  border: 1px solid grey;
+}
+.stripe-card.complete {
+  border-color: green;
 }
 </style>

@@ -56,6 +56,10 @@ export default new Vuex.Store({
 
       if ('error' in response) { return }
 
+      let tempDate = new Date(response.registrationOpenDate + 'Z')
+      tempDate.setTime(tempDate.getTime() - 3600000)
+      response.registrationOpenDate = tempDate.toISOString()
+
       context.commit('setConInfo', response)
     },
 
@@ -101,6 +105,7 @@ export default new Vuex.Store({
 
   getters: {
     myRegistration: state => state.myRegistration,
+    hasRegistration: state => state.isLoggedIn && state.userData.registrationId !== null && state.userData.registrationId !== undefined,
     conInfo: state => state.conInfo,
     isLoggedIn: state => state.isLoggedIn,
     userData: state => state.userData,

@@ -1,15 +1,8 @@
 <template>
   <div class="flex-col">
     <h1>Registration</h1>
-
-    <p v-if="!$store.state.isLoggedIn">
-      <!-- You must <router-link :to="'/login'">log in</router-link> or <router-link :to="'/signup'">create a user</router-link> to register for Furway. -->
-      You must log in or create a user to register for Furway.
-      <br>
-      A user system with the possibilities to do this is coming soon!
-    </p>
-
-    <div v-if="!isRegistrationOpen" class="registration-countdown">
+    <p style="font-style: italic; font-size: 12px;">Note: Registration might not work as intended with the Safari browser.<br/>Consider using something else, like Chrome, for the best chance of success.</p>
+    <div v-if="!isRegistrationOpen && !isRegistrationClosed" class="registration-countdown">
       <p v-if="!isRegistrationOpen && $store.getters.conInfo.registrationOpenDate">
         Registration opens in {{timeUntilRegistrationString}}
       </p>
@@ -18,23 +11,28 @@
       </p>
     </div>
 
-    <p v-else-if="isRegistrationOpen && $store.getters.conInfo.registrationOpenDate" class="registration-countdown">
-      Registration is open! Apply below.
-    </p>
+    <div v-else-if="isRegistrationClosed">
+      Registration is closed.
+    </div>
 
+    <div v-else-if="isRegistrationOpen">
+      <p v-if="isRegistrationOpen" class="registration-countdown">
+        Registration is open! Apply below.
+      </p>
 
-    <!-- CREATING REGISTRATION -->
-    <p v-if="!$store.state.isLoggedIn">
-      You must <router-link :to="'/login'">log in</router-link> or <router-link :to="'/signup'">create a user</router-link> in order to create your registration.
-    </p>
+      <p v-if="!$store.state.isLoggedIn">
+        You must <router-link :to="'/login'">log in</router-link> or <router-link :to="'/signup'">create a user</router-link> to register for Furway.
+      </p>
 
-    <p v-if="$store.state.isLoggedIn && $store.state.userData.registrationId != null">
-      You already have a registration, see <router-link :to="'/my-registration'">my registration</router-link>.
-    </p>
-    
-    <button v-else-if="$store.state.isLoggedIn && !isCreatingRegistration" @click="isCreatingRegistration = true" class="big-button">
-      Create registration
-    </button>
+      <!-- CREATING REGISTRATION -->
+      <p v-if="$store.state.isLoggedIn && $store.getters.hasRegistration">
+        You already have a registration, see <router-link :to="'/my-registration'">my registration</router-link>.
+      </p>
+      
+      <button v-else-if="$store.state.isLoggedIn && !isCreatingRegistration" @click="isCreatingRegistration = true" class="big-button">
+        Create registration
+      </button>
+    </div>
 
     <div class="margin-bottom-20">
       <h2 v-if="isCreatingRegistration" class="no-margin-top">
@@ -42,19 +40,29 @@
       </h2>
       
       <div v-if="isCreatingRegistration" id="createRegistrationWrapper">
-        <div class="margin-top-4" style="text-align: left;">
-          <p class="margin-bottom-10">Desired ticket type:</p>
+        <div class="margin-top-4 room-pref-picker" style="text-align: left;">
+          <p class="margin-bottom-10">Choose your desired ticket type:</p>
 
-          <input type="radio" v-model="roomPreference" value="insideonly" id="roomPreferenceRadioInside" style="margin-bottom: 10px"/>
-          <label for="roomPreferenceRadioInside">Inside only</label>
-          <br>
+          <div class="room-pref-option no-margin-top" 
+               :class="{'selected-option': roomPreference=='insideonly'}"
+               @click="selectRoomPreference('insideonly')">
+            <label for="roomPreferenceRadioInside">Inside only</label>
+            <p class="room-pref-description">Either I sleep inside or I won't attend</p>
+          </div>
 
-          <input type="radio" v-model="roomPreference" value="insidepreference" id="roomPreferenceRadioPreference" style="margin-bottom: 10px"/>
-          <label for="roomPreferenceRadioPreference">Inside preference</label> 
-          <br>
+          <div class="room-pref-option" 
+               :class="{'selected-option': roomPreference=='insidepreference'}"
+               @click="selectRoomPreference('insidepreference')">
+            <label for="roomPreferenceRadioPreference">Inside preference</label> 
+            <p class="room-pref-description">If I don't get a spot inside, I'll take an outside slot if available</p>
+          </div>
 
-          <input type="radio" v-model="roomPreference" value="outsideonly" id="roomPreferenceRadioOutside" style="margin-bottom: 10px"/>
-          <label for="roomPreferenceRadioOutside">Outside only</label>
+          <div class="room-pref-option" 
+               :class="{'selected-option': roomPreference=='outsideonly'}"
+               @click="selectRoomPreference('outsideonly')">
+            <label for="roomPreferenceRadioOutside">Outside only</label>
+            <p class="room-pref-description">Either I sleep outside, or I won't attend</p>
+          </div>
         </div>
 
         <button @click="submitRegistration" :class="{'disabled-button': !roomPreference, 'big-button': true, 'theme-button': true}" style="margin-top: 10px;">
@@ -145,9 +153,7 @@
         Should you decide to change your ticket type <i>after</i> it has been approved, you will be put at the back of any waiting lists, if they exist. This rule does not apply for changing from <b>inside preference</b> to either of the other types - in that case, you will keep your spot or waiting list number for the ticket type you change to.
       </p>
       <p style="margin-top: 26px;">
-        Attendee lists are public, with only username and country being displayed.
-        <br>
-        Payments will not be refunded.
+        Payments will not be refunded, more info in the <router-link :to="'/legal'">terms and conditions</router-link>.
       </p>
     </div>
   </div>
@@ -169,11 +175,29 @@ export default {
 
   computed: {
     isRegistrationOpen () {
-      return  new Date() > new Date(this.$store.getters.conInfo.registrationOpenDate)
+      let now = new Date()
+
+      if (!this.$store.getters.isLoggedIn === true) {
+        return now > new Date(this.$store.getters.conInfo.registrationOpenDate)
+      }
+      else {
+        if (this.$store.getters.userData.isVolunteer === true) {
+          return now > new Date(this.$store.getters.conInfo.volunteerRegistrationOpenDate)
+        }
+        else {
+          return now > new Date(this.$store.getters.conInfo.registrationOpenDate)
+        }
+      }
+    },
+
+    isRegistrationClosed () {
+      let now = new Date()
+      return now > new Date(this.$store.getters.conInfo.registrationCloseDate)
     },
 
     timeUntilRegistrationString () {
       if (this.isRegistrationOpen) { return 0 }
+
       let remainingSeconds = (new Date(this.$store.getters.conInfo.registrationOpenDate) - new Date ())/1000
       let remainingDays = Math.floor(remainingSeconds/(86400))
       let remainingHours = Math.floor((remainingSeconds-remainingDays*86400)/3600)
@@ -183,6 +207,10 @@ export default {
   },
 
   methods: {
+    selectRoomPreference (pref) {
+      this.roomPreference = pref
+    },
+    
     async submitRegistration () {
       let result = await registrationApi.submitRegistration(this.$store.state.userData.id, {roomPreference: this.roomPreference})
 
@@ -205,6 +233,44 @@ export default {
 </script>
 
 <style lang="scss">
+.room-pref-picker {
+  max-width: 90vw;
+
+  p:not(:first-child) {
+    font-size: 13px;
+    font-style: italic;
+    margin-top: 0px;
+  }
+
+  label {
+    font-weight: 600;
+  }
+
+  .room-pref-option {
+    border: 3px solid #ddd;
+    margin-top: 10px;
+    padding: 8px 12px;
+    box-sizing: border-box;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &.hide-cursor-pointer {
+      &:hover {
+        cursor: default;
+      }
+    }
+
+    &.selected-option {
+      background-color: #dafff1;
+      // color: white;
+      border-color: #35b886;
+      border-width: 3px;
+    }
+  }
+}
+
 .registration-countdown {
   p:first-child {
     font-size: 20px;
@@ -212,6 +278,7 @@ export default {
   }
   margin: 20px;
 }
+
 #createRegistrationWrapper {
   display: flex;
   flex-direction: column;

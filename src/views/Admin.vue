@@ -7,7 +7,7 @@
       </p>
 
       <!-- Jukseknapper-div -->
-      <div v-if="isAdmin" class="admin-component-container">
+      <!-- <div v-if="isAdmin" class="admin-component-container">
         <div style="text-align: left;" id="temp-op-div">
           <button class="danger-button" @click="createRegs('insideonly', 1)">Lag 1 bruker og inside-only regs</button>
           <button class="danger-button" @click="createRegs('insideonly', 2)">Lag 2 brukere og inside-only regs</button>
@@ -20,16 +20,23 @@
           <button class="danger-button" @click="createRegs('outsideonly', 1)">Lag 1 bruker og outside-only regs</button>
           <button class="danger-button" @click="createRegs('outsideonly', 2)">Lag 2 brukere og outside-only regs</button>
           <button class="danger-button" @click="createRegs('outsideonly', 10)">Lag 10 brukere og outside-only regs</button>
-        </div>
+        </div> -->
 
-        <p style="text-align: left;"><b>Ting som gjenstår</b></p>
+        <!-- <p style="text-align: left;"><b>Ting som gjenstår</b></p>
         <ul style="text-align: left; margin-top: 0px;">
-          <li>Donation, men det kommer når jeg implementerer betaling</li>
           <li>Legge til mulighet for egendefinerte add-ons (som f.eks. charms), med pris og max antall</li>
-          <li>Lage en liten tabell med oversikt over deadlines</li>
+          <li>Payment med vipps</li>
         </ul>
         <p style="text-align: left;"><b>Ferdig</b></p>
         <ul style="text-align: left; margin-top: 0px;">
+          <li>Footer med stuff</li>
+          <li>Donation</li>
+          <li>Fikse funksjonell override av paid amount i /admin reg-liste</li>
+          <li>Payment med stripe!</li>
+          <li>Lage egen "Legal"-side</li>
+          <li>Lage en liten tabell med oversikt over deadlines</li>
+          <li>Fjerne felter fra con info som ikke trengs lenger (merch payment deadline, f.eks.)</li>
+          <li>Forbedre My registration: vise payment deadline hvis den finnes, og ikke tillate endring hvis brukeren ikke har fått spot.</li>
           <li>Få på plass terms & conditions!</li>
           <li>Country code på tlf</li>
           <li>Lage deadlines til dato <u>med klokkeslett</u></li>
@@ -49,7 +56,7 @@
           <li>Hente-info i brukerprofil</li>
           <li>Driving list, egen brukerrolle isDriver, egen admin-panel-visning for ikke-admins som er drivers</li>
         </ul>
-      </div>
+      </div> -->
       
       <!-- Numbers -->
       <div v-if="isAdmin" class="admin-component-container">

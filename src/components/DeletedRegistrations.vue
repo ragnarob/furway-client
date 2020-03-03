@@ -16,6 +16,7 @@
         <th title="Payment deadline">Pay deadl.</th>
         <th title="Received inside spot">Rec. ins.</th>
         <th title="Received outside spot">Rec. outs.</th>
+        <th>Paid</th>
       </tr>
       <tr v-for="reg in registrations" :key="reg.id">
         <td>
@@ -100,6 +101,12 @@
           <p>
             <YesIcon v-if="reg.receivedOutsideSpot" title="Yes"/>
             <NoIcon v-else-if="reg.receivedOutsideSpot === false" title="No"/>
+          </p>
+        </td>
+
+        <td>
+          <p>
+            {{reg.paidAmount}}
           </p>
         </td>
       </tr>

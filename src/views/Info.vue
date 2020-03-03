@@ -98,6 +98,9 @@
     <p class="first-p">
       We have capacity for 30 people sleeping outside in tents. (You may sleep in your car, but an Outside ticket is still required due to usage of the various facilities, electricity, etc.)  <b>You need to bring your own tent.</b>
     </p>
+    <p class="no-margin-top">
+      If you're bringing a van, please contact us in advance to make sure there's room. Power for your van costs 50 NOK per day.
+    </p>
 
     <h4>Facilities</h4>
     <p class="first-p">
@@ -164,6 +167,14 @@
     </p>
 
     <p>We recommend that you do all personal shopping beforehand, as there aren’t any stores within walking distance from the venue. Our drivers will do some trips to stores to buy essentials, but we can’t guarantee that you get a slot on one of these rides.</p>
+
+    <h3>Deadlines & dates</h3>
+    <div id="deadlines">
+      <p class="first-p"><b>{{formatDateTimeWithoutYear(conInfo.volunteerRegistrationOpenDate)}}</b>: Registration opening for volunteers</p>
+      <p><b>{{formatDateTimeWithoutYear(conInfo.registrationOpenDate)}}</b>: Registration opening</p>
+      <p><b>{{formatDateTimeWithoutYear(conInfo.registrationCloseDate)}}</b>: Registration closing</p>
+      <p><b>{{formatDateTimeWithoutYear(conInfo.originalPaymentDeadline)}}</b>: Payment deadline. Adding merch won't be possible after this. Any merch not paid by this time will be removed from your registration. If you haven't paid the main ticket price by this time, you will lose your spot. <i>If you receive a spot just after this deadline - because someone else didn't pay and lost theirs - you will be given an extended payment deadline.</i></p>
+    </div>
   </div>  
 </template>
 
@@ -178,7 +189,12 @@ export default {
   methods: {
     scrollTo (elementId) {
       document.getElementById(elementId).scrollIntoView()
-    }
+    },
+
+    formatDateTimeWithoutYear (dateTime) {
+      dateTime = new Date(dateTime)
+      return dateTime===null ? '' : dateTime.toDateString().substring(4,10) + ', ' + dateTime.toTimeString().substring(0,5)
+    },
   }
 }
 </script>
@@ -195,5 +211,10 @@ h3 {
 }
 .first-p {
   margin-top: 0px;
+}
+#deadlines {
+  p:not(.first-p){
+    margin-top: 10px;
+  }
 }
 </style>

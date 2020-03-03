@@ -144,8 +144,10 @@
                 <NoIcon v-else-if="userData.isFursuiter === false" title="No"/>
               </p>
               <p v-else>
-                <input type="radio" v-model="editedUser.isFursuiter" :value="true"/>Yes
-                <input type="radio" v-model="editedUser.isFursuiter" :value="false"/>No
+                <input type="radio" v-model="editedUser.isFursuiter" :value="true" id="fursuiterYes"/>
+                <label for="fursuiterYes">Yes</label>
+                <input type="radio" v-model="editedUser.isFursuiter" :value="false" id="fursuiterNo" class="margin-left-10"/>
+                <label for="fursuiterNo">No</label>
               </p>
             </td>
           </tr>
@@ -158,8 +160,10 @@
                 <NoIcon v-else-if="userData.isVegan === false" title="No"/>
               </p>
               <p v-else>
-                <input type="radio" v-model="editedUser.isVegan" :value="true"/>Yes
-                <input type="radio" v-model="editedUser.isVegan" :value="false"/>No
+                <input type="radio" v-model="editedUser.isVegan" :value="true" id="veganYes"/>
+                <label for="veganYes">Yes</label>
+                <input type="radio" v-model="editedUser.isVegan" :value="false" id="veganNo" class="margin-left-10"/>
+                <label for="veganNo">No</label>
               </p>
             </td>
           </tr>

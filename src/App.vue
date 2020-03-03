@@ -2,17 +2,19 @@
   <div id="app">
     <Navigation/>
     <NavigationHamburger/>
-    <router-view/>
+    <router-view id="pageContent"/>
+    <FurwayFooter v-if="['home', 'admin'].indexOf($route.name) < 0"/>
   </div>
 </template>
 
 <script>
 import Navigation from './components/Navigation.vue'
 import NavigationHamburger from './components/NavigationHamburger.vue'
+import FurwayFooter from './components/FurwayFooter.vue'
 
 export default {
   components: {
-    Navigation, NavigationHamburger,
+    Navigation, NavigationHamburger, FurwayFooter,
   },
 
   data: function () {
@@ -56,8 +58,15 @@ th {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  padding-bottom: 20px;
+  // padding-bottom: 20px;
   padding-top: 44px;
+  position: relative;
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+
+#pageContent {
+  padding-bottom: 54px;
 }
 
 a {
@@ -135,12 +144,24 @@ h3 {
 .margin-left-10 {
   margin-left: 10px !important;
 }
+.margin-left-4 {
+  margin-left: 4px !important;
+}
 .flex-col {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .flex-row {
+  display: flex;
+  flex-direction: row;
+}
+.flex-row-center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.box-with-label {
   display: flex;
   flex-direction: row;
 }

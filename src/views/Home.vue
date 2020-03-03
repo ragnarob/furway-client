@@ -2,7 +2,7 @@
   <div>
     <div id="mainPictureBackground">
       <div id="mainPictureInner">
-        <div :class="{'floating-message': true, 'expanded-floating': isFloatingBoxExpanded}">
+        <!-- <div :class="{'floating-message': true, 'expanded-floating': isFloatingBoxExpanded}">
           <p @click="isFloatingBoxExpanded = !isFloatingBoxExpanded" class="floating-box-clickable no-margin">
             <DownIcon v-if="!isFloatingBoxExpanded"/><UpIcon v-if="isFloatingBoxExpanded"/>
             We need volunteers!
@@ -13,7 +13,7 @@
             <p>Want to host an event? If you have an idea, big or small, contact <a href="https://t.me/NeraSuncloud">@NeraSuncloud</a> on Telegram.</p>
             <p class="no-margin">In return for volunteering you'll get to <b>pre-register</b>, guaranteeing you any kind of ticket you want!</p>
           </div>
-        </div>
+        </div> -->
 
         <div id="mainPageInfoText">
           <h1>Furway 2020</h1>

@@ -48,6 +48,7 @@
 
 <script>
 import miscApi from '../api/misc-api'
+
 export default {
   name: 'drivingList',
 
