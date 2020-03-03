@@ -272,7 +272,7 @@ export default {
     return {
       registrationBeingEdited: null,
       userIdBeingDeleted: null,
-      sizes: [null, 'S','M','L','XL','XXL'],
+      sizes: [null, 'S','M','L','XL','XXL', '3XL', '4XL'],
       shouldFilterList: false,
       isOverridingPayment: false,
 

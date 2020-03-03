@@ -431,7 +431,7 @@ export default {
       responseMessage: '',
       responseMessageType: 'error',
       newRegistration: null,
-      sizes: ['S','M','L','XL','XXL'],
+      sizes: ['S','M','L','XL','XXL', '3XL', '4XL'],
     }
   },
 
