@@ -28,7 +28,7 @@
     </p>
 
     <p>
-      <b>In order to register for Furway, you have to create an account on the website. You can do this as soon as the user account system is up and running, which will be before the registration itself opens!</b>
+      <b>In order to register for Furway, you have to create an account on the website. You can do this at any time.</b>
     </p>
 
     <h3>Tickets and prices</h3>
