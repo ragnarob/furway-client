@@ -98,6 +98,9 @@
     <p class="first-p">
       We have capacity for 30 people sleeping outside in tents. (You may sleep in your car, but an Outside ticket is still required due to usage of the various facilities, electricity, etc.)  <b>You need to bring your own tent.</b>
     </p>
+    <p class="no-margin-top">
+      If you're bringing a van, please contact us in advance to make sure there's room. Power for your van costs 50 NOK per day.
+    </p>
 
     <h4>Facilities</h4>
     <p class="first-p">

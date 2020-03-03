@@ -1,6 +1,7 @@
 <template>
   <div class="flex-col">
     <h1>Registration</h1>
+    <p style="font-style: italic; font-size: 12px;">Note: Registration might not work as intended with the Safari browser.<br/>Consider using something else, like Chrome, for the best chance of success.</p>
     <div v-if="!isRegistrationOpen && !isRegistrationClosed" class="registration-countdown">
       <p v-if="!isRegistrationOpen && $store.getters.conInfo.registrationOpenDate">
         Registration opens in {{timeUntilRegistrationString}}
