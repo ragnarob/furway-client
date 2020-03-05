@@ -72,6 +72,7 @@
       <!-- Pending registrations -->
       <div v-if="isAdmin" class="admin-component-container">
         <h2>Pending registrations</h2>
+
         <PendingRegistrations/>
       </div>
 
@@ -82,6 +83,7 @@
           <ShowIcon v-if="!isRegistrationsWithSpotsOpen" @click="isRegistrationsWithSpotsOpen = true" class="show-hide-icon"/>
           <HideIcon v-if="isRegistrationsWithSpotsOpen" @click="isRegistrationsWithSpotsOpen = false" class="show-hide-icon"/>
         </h2>
+
         <RegistrationsWithSpots :isOpen="isRegistrationsWithSpotsOpen"/>
       </div>
 
@@ -103,6 +105,7 @@
           <ShowIcon v-if="!isAllRegistrationsOpen" @click="toggleIsAllRegistrationsOpen" class="show-hide-icon"/>
           <HideIcon v-if="isAllRegistrationsOpen" @click="toggleIsAllRegistrationsOpen" class="show-hide-icon"/>
         </h2>
+
         <RegistrationList/>
       </div>
 
@@ -113,6 +116,7 @@
           <ShowIcon v-if="!isDeletedRegistrationsOpen" @click="toggleIsDeletedRegistrationsOpen" class="show-hide-icon"/>
           <HideIcon v-if="isDeletedRegistrationsOpen" @click="toggleIsDeletedRegistrationsOpen" class="show-hide-icon"/>
         </h2>
+
         <DeletedRegistrations :isOpen="isDeletedRegistrationsOpen"/>
       </div>
 
@@ -133,6 +137,7 @@
           <ShowIcon v-if="!isConInfoManagerOpen" @click="isConInfoManagerOpen = true" class="show-hide-icon"/>
           <HideIcon v-if="isConInfoManagerOpen" @click="isConInfoManagerOpen = false" class="show-hide-icon"/>
         </h2>
+
         <ConInfoManager :isOpen="isConInfoManagerOpen"/>
       </div>
 
@@ -145,6 +150,7 @@
         <h2 v-else>
           Driving list
         </h2>
+        
         <DrivingList :isOpen="isDrivingListOpen"/>
     </div>
 

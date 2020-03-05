@@ -1,103 +1,101 @@
 <template>
   <div v-show="isOpen" id="twoColumnTable">
-    <div>
-      <table>
-        <tr>
-          <td>Users</td>
-          <td>{{allUsers.length}}</td>
-        </tr>
-        <tr>
-          <td>Registrations</td>
-          <td>{{allRegistrations.length}}</td>
-        </tr>
-        <tr>
-          <td>Approved registrations</td>
-          <td>{{numberOfApprovedRegistrations}}</td>
-        </tr>
-        <tr>
-          <td>Registrations with spot</td>
-          <td>{{numberOfRegistrationsGiven}}</td>
-        </tr>
-        <tr>
-          <td>Inside spots</td>
-          <td>{{numberOfInsideRegistrationsGiven}}/{{conInfo.numberOfInsideSpots}} spots<br>{{waitingLists.inside.length}} waiting</td>
-        </tr>
-        <tr>
-          <td>Outside spots</td>
-          <td>{{numberOfOutsideRegistrationsGiven}}/{{conInfo.numberOfOutsideSpots}} spots<br>{{waitingLists.outside.length}} waiting</td>
-        </tr>
+    <table class="very-wide-table">
+      <tr>
+        <td>Users</td>
+        <td>{{allUsers.length}}</td>
+      </tr>
+      <tr>
+        <td>Registrations</td>
+        <td>{{allRegistrations.length}}</td>
+      </tr>
+      <tr>
+        <td>Approved registrations</td>
+        <td>{{numberOfApprovedRegistrations}}</td>
+      </tr>
+      <tr>
+        <td>Registrations with spot</td>
+        <td>{{numberOfRegistrationsGiven}}</td>
+      </tr>
+      <tr>
+        <td>Inside spots</td>
+        <td>{{numberOfInsideRegistrationsGiven}}/{{conInfo.numberOfInsideSpots}} spots<br>{{waitingLists.inside.length}} waiting</td>
+      </tr>
+      <tr>
+        <td>Outside spots</td>
+        <td>{{numberOfOutsideRegistrationsGiven}}/{{conInfo.numberOfOutsideSpots}} spots<br>{{waitingLists.outside.length}} waiting</td>
+      </tr>
 
-        <!-- </table><table> -->
+      <!-- </table><table> -->
 
-        <tr>
-          <td>Fully paid registrations</td>
-          <td>{{numberOfFullyPaidRegistrations}} / {{numberOfRegistrationsGiven}}</td>
-        </tr>
-        <tr>
-          <td>Partially paid regs</td>
-          <td>{{numberOfPartiallyPaidRegistrations}} / {{numberOfRegistrationsGiven}}</td>
-        </tr>
-        <tr>
-          <td>Fully unpaid registrations</td>
-          <td>{{numberOfRegistrationsGiven - numberOfPartiallyPaidRegistrations - numberOfFullyPaidRegistrations}} / {{numberOfRegistrationsGiven}}</td>
-        </tr>
+      <tr>
+        <td>Fully paid registrations</td>
+        <td>{{numberOfFullyPaidRegistrations}} / {{numberOfRegistrationsGiven}}</td>
+      </tr>
+      <tr>
+        <td>Partially paid regs</td>
+        <td>{{numberOfPartiallyPaidRegistrations}} / {{numberOfRegistrationsGiven}}</td>
+      </tr>
+      <tr>
+        <td>Fully unpaid registrations</td>
+        <td>{{numberOfRegistrationsGiven - numberOfPartiallyPaidRegistrations - numberOfFullyPaidRegistrations}} / {{numberOfRegistrationsGiven}}</td>
+      </tr>
 
-        <!-- </table><table> -->
+      <!-- </table><table> -->
 
-        <tr>
-          <td>Vegans with received spots</td>
-          <td>{{numberOfVegans}}</td>
-        </tr>
-        <tr>
-          <td>Fursuiters with received spots</td>
-          <td>{{numberOfFursuiters}}</td>
-        </tr>
+      <tr>
+        <td>Vegans with received spots</td>
+        <td>{{numberOfVegans}}</td>
+      </tr>
+      <tr>
+        <td>Fursuiters with received spots</td>
+        <td>{{numberOfFursuiters}}</td>
+      </tr>
 
-        <tr v-if="conInfo.isSellingHoodies">
-          <td>Hoodies, total</td>
-          <td>
-            <span v-for="(count, size) in numberOfMerch.hoodies.total" :key="size" style="margin-right: 6px;">
-              {{size}}: {{count}}
-            </span>
+      <tr v-if="conInfo.isSellingHoodies">
+        <td>Hoodies, total</td>
+        <td>
+          <span v-for="(count, size) in numberOfMerch.hoodies.total" :key="size" style="margin-right: 6px;">
+            {{size}}: {{count}}
+          </span>
 
-            <p v-if="isEmpty(numberOfMerch.hoodies.total)">-</p>
-          </td>
-        </tr>
+          <p v-if="isEmpty(numberOfMerch.hoodies.total)">-</p>
+        </td>
+      </tr>
 
-        <tr v-if="conInfo.isSellingHoodies">
-          <td>Hoodies, paid</td>
-          <td>
-            <span v-for="(count, size) in numberOfMerch.hoodies.paid" :key="size" style="margin-right: 6px;">
-              {{size}}: {{count}}
-            </span> 
-            
-            <p v-if="isEmpty(numberOfMerch.hoodies.paid)">-</p>
-          </td>
-        </tr>
+      <tr v-if="conInfo.isSellingHoodies">
+        <td>Hoodies, paid</td>
+        <td>
+          <span v-for="(count, size) in numberOfMerch.hoodies.paid" :key="size" style="margin-right: 6px;">
+            {{size}}: {{count}}
+          </span> 
+          
+          <p v-if="isEmpty(numberOfMerch.hoodies.paid)">-</p>
+        </td>
+      </tr>
 
-        <tr v-if="conInfo.isSellingTshirts">
-          <td>T-shirts, total</td>
-          <td>
-            <span v-for="(count, size) in numberOfMerch.tshirts.total" :key="size" style="margin-right: 6px;">
-              {{size}}: {{count}}
-            </span> 
-            
-            <p v-if="isEmpty(numberOfMerch.tshirts.total)">-</p>
-          </td>
-        </tr>
+      <tr v-if="conInfo.isSellingTshirts">
+        <td>T-shirts, total</td>
+        <td>
+          <span v-for="(count, size) in numberOfMerch.tshirts.total" :key="size" style="margin-right: 6px;">
+            {{size}}: {{count}}
+          </span> 
+          
+          <p v-if="isEmpty(numberOfMerch.tshirts.total)">-</p>
+        </td>
+      </tr>
 
-        <tr v-if="conInfo.isSellingTshirts">
-          <td>T-shirts, paid</td>
-          <td>
-            <span v-for="(count, size) in numberOfMerch.tshirts.paid" :key="size" style="margin-right: 6px;">
-              {{size}}: {{count}}
-            </span> 
-            
-            <p v-if="isEmpty(numberOfMerch.tshirts.paid)">-</p>
-          </td>
-        </tr>
-      </table>
-    </div>
+      <tr v-if="conInfo.isSellingTshirts">
+        <td>T-shirts, paid</td>
+        <td>
+          <span v-for="(count, size) in numberOfMerch.tshirts.paid" :key="size" style="margin-right: 6px;">
+            {{size}}: {{count}}
+          </span> 
+          
+          <p v-if="isEmpty(numberOfMerch.tshirts.paid)">-</p>
+        </td>
+      </tr>
+    </table>
   </div>
 </template>
 

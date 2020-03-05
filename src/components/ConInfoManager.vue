@@ -4,7 +4,7 @@
 
     <RepsonseMessage :message="responseMessage" :messageType="responseMessageType" @closeMessage="closeResponseMessage"/>
 
-    <table>
+    <table class="very-wide-table">
       <tr>
         <td>
           Con start date

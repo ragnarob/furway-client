@@ -639,7 +639,7 @@ export default {
     },
 
     formatDatetime (dateTime) {
-      dateTime = new Date(dateTime)
+      dateTime = new Date(dateTime.substring(0,19))
       return dateTime===null ? '' : dateTime.toDateString().substring(4,10) + ', ' + dateTime.toTimeString().substring(0,5)
     },
 
