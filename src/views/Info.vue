@@ -81,7 +81,11 @@
 
     <h4>Single day ticket</h4>
     <p class="first-p">
-      Includes single-day participation in convention activities, as well as transport to and from the train/bus station by the Furway transporters. Single-day tickets do not include any food, but you’re free to bring your own.
+      Available only on the main days, this ticket includes single-day participation in convention activities, as well as transport to and from the train/bus station by the Furway transporters. Single-day tickets do not include any food, but you’re free to bring your own. Attendees with single day tickets must leave the convention area before 20:00 all days.
+    </p>
+
+    <p>
+      Single day tickets will be available for purchase {{formatDateTimeWithoutYear(conInfo.singleDayTicketSaleOpenDate)}} - at this point, the waiting lists are not expected to change much, so people with spots in one of the lists can choose to give up their spot and secure themselves single day tickets instead. Note that if you're in a waiting list, and want to purchase single day tickets, you must delete your registration first. The number of single day tickets per day is limited to 19. 
     </p>
 
     <h3 id="facilities">Sleeping arrangements</h3>
@@ -174,6 +178,7 @@
       <p><b>{{formatDateTimeWithoutYear(conInfo.registrationOpenDate)}}</b>: Registration opening</p>
       <p><b>{{formatDateTimeWithoutYear(conInfo.registrationCloseDate)}}</b>: Registration closing</p>
       <p><b>{{formatDateTimeWithoutYear(conInfo.originalPaymentDeadline)}}</b>: Payment deadline. Adding merch won't be possible after this. Any merch not paid by this time will be removed from your registration. If you haven't paid the main ticket price by this time, you will lose your spot. <i>If you receive a spot just after this deadline - because someone else didn't pay and lost theirs - you will be given an extended payment deadline.</i></p>
+      <p><b>{{formatDateTimeWithoutYear(conInfo.singleDayTicketSaleOpenDate)}}</b>: Single day ticket sale opens</p>
     </div>
   </div>  
 </template>

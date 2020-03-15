@@ -4,7 +4,7 @@
 
     <RepsonseMessage :message="responseMessage" :messageType="responseMessageType" @closeMessage="closeResponseMessage"/>
 
-    <table class="very-wide-table">
+    <table style="max-width: 100%;">
       <tr>
         <td>
           Con start date
