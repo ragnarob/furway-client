@@ -2,18 +2,24 @@
   <div>
     <div id="mainPictureBackground">
       <div id="mainPictureInner">
-        <!-- <div :class="{'floating-message': true, 'expanded-floating': isFloatingBoxExpanded}">
+        <div :class="{'floating-message': true, 'expanded-floating': isFloatingBoxExpanded}">
           <p @click="isFloatingBoxExpanded = !isFloatingBoxExpanded" class="floating-box-clickable no-margin">
             <DownIcon v-if="!isFloatingBoxExpanded"/><UpIcon v-if="isFloatingBoxExpanded"/>
-            We need volunteers!
+            Coronavirus information
             <DownIcon v-if="!isFloatingBoxExpanded"/><UpIcon v-if="isFloatingBoxExpanded"/>
           </p>
           <div v-if="isFloatingBoxExpanded">
-            <p style="margin-top: 6px;">We are in need of kitchen volunteers! Volunteering means you'll help cook specific meals (lunches, breakfasts or dinners) for up to few hours. Contact <a href="https://t.me/NeraSuncloud">@Leophan</a> on Telegram for more info.</p>
-            <p>Want to host an event? If you have an idea, big or small, contact <a href="https://t.me/NeraSuncloud">@NeraSuncloud</a> on Telegram.</p>
-            <p class="no-margin">In return for volunteering you'll get to <b>pre-register</b>, guaranteeing you any kind of ticket you want!</p>
+            <p style="margin-top: 6px;">
+              The Furway board is continually evaluating the corona outbreak situation, and acknowledges all recommendations and legislative changes from government health authorities.
+            </p>
+            <p>
+              Furway 2020 is not cancelled, although there is a definitive possibility of this happening. A more updated decision process will be held in early-mid May, after which the convention will make another public statement regarding this (well before the payment deadline).
+            </p>
+            <p class="no-margin">
+              Should Furway 2020 be cancelled, all payments will be fully refunded, as per our sales terms.
+            </p>
           </div>
-        </div> -->
+        </div>
 
         <div id="mainPageInfoText">
           <h1>Furway 2020</h1>
@@ -154,19 +160,19 @@ export default {
   position: fixed;
   top: 20%;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.8);
   border-radius: 20px;
   padding: 6px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   max-width: 500px;
   p {
     color: #222;
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 10px;
     font-weight: 400;
   }
   &.expanded-floating {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.95);
     padding: 6px 10px 6px 10px;
   }
   @media screen and (max-width: 850px) {
@@ -183,7 +189,7 @@ export default {
   }
 }
 .floating-box-clickable {
-  color: #35b886 !important;
+  color: #b83535 !important;
   font-weight: 600 !important;
   &:hover {
     cursor: pointer;

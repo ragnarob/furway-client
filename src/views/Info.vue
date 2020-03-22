@@ -2,7 +2,20 @@
   <div class="full-width-text-container">
     <h1>Information about Furway</h1>
 
-    <p class="first-p">
+    <div class="shadow-box" style="background-color: rgba(255, 230, 230)">
+      <h3 class="no-margin">Coronavirus</h3>
+      <p class="first-p">
+        The Furway board is continually evaluating the corona outbreak situation, and acknowledges all recommendations and legislative changes from government health authorities.
+      </p>
+      <p>
+        Furway 2020 is not cancelled, although there is a definitive possibility of this happening. A more updated decision process will be held in early-mid May, after which the convention will make another public statement regarding this (well before the payment deadline).
+      </p>
+      <p>
+        Should Furway 2020 be cancelled, all payments will be fully refunded, as per our sales terms.
+      </p>
+    </div>
+
+    <p class="first-p" style="margin-top: 20px;">
       Furway is a Norwegian furry convention held outdoors. Some would say it’s a camping con, but with indoor sleeping capacity and modern toilets and showers, it’s more of a hybrid type of experience.
     </p>
     <p>
