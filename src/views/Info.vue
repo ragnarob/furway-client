@@ -179,6 +179,7 @@
       <p><b>{{formatDateTimeWithoutYear(conInfo.registrationCloseDate)}}</b>: Registration closing</p>
       <p><b>{{formatDateTimeWithoutYear(conInfo.originalPaymentDeadline)}}</b>: Payment deadline. Adding merch won't be possible after this. Any merch not paid by this time will be removed from your registration. If you haven't paid the main ticket price by this time, you will lose your spot. <i>If you receive a spot just after this deadline - because someone else didn't pay and lost theirs - you will be given an extended payment deadline.</i></p>
       <p><b>{{formatDateTimeWithoutYear(conInfo.singleDayTicketSaleOpenDate)}}</b>: Single day ticket sale opens</p>
+      <p><b>{{formatDateTimeWithoutYear(conInfo.singleDayTicketSaleCloseDate)}}</b>: Single day ticket sale closes</p>
     </div>
   </div>  
 </template>

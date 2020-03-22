@@ -1,84 +1,150 @@
 <template>
   <div class="flex-col">
-    <h1>Registration</h1>
-    <p style="font-style: italic; font-size: 12px;">Note: Registration might not work as intended with the Safari browser.<br/>Consider using something else, like Chrome, for the best chance of success.</p>
-    <div v-if="!isRegistrationOpen && !isRegistrationClosed" class="registration-countdown">
-      <p v-if="!isRegistrationOpen && $store.getters.conInfo.registrationOpenDate">
-        Registration opens in {{timeUntilRegistrationString}}
-      </p>
-      <p v-if="!isRegistrationOpen">
-        March 1st, 20:00 CET
-      </p>
+    <h1 class="margin-bottom-10">Registration</h1>
+    <!-- <p style="font-style: italic; font-size: 12px;">Note: Registration might not work as intended with the Safari browser.<br/>Consider using something else, like Chrome, for the best chance of success.</p> -->
+
+    <ResponseMessage :message="responseMessage" :messageType="messageType" @closeMessage="closeResponseMessage" v-if="responseMessage"/>
+
+    <div v-if="!isOrderingSingleDayTicket && !isCreatingRegistration">
+      <div v-if="!isRegistrationOpen && !isRegistrationClosed" class="registration-countdown">
+        <p v-if="!isRegistrationOpen && $store.getters.conInfo.registrationOpenDate">
+          Registration opens in {{timeUntilRegistrationString}}
+        </p>
+        <p v-if="!isRegistrationOpen">
+          March 1st, 20:00 CET
+        </p>
+      </div>
+
+      <div v-else-if="isRegistrationClosed" class="margin-top-20">
+        Registration is closed.
+      </div>
+
+      <div v-else-if="isRegistrationOpen">
+        <p v-if="!$store.state.isLoggedIn">
+          Registration is open! You must <router-link :to="'/login'">log in</router-link> or <router-link :to="'/signup'">create a user</router-link> to register for Furway.
+        </p>
+
+        <!-- CREATING REGISTRATION -->
+        <p v-if="$store.state.isLoggedIn && $store.getters.hasRegistration">
+          You already have a registration, see <router-link :to="'/my-registration'">my registration</router-link>.
+        </p>
+        
+        <div v-else-if="$store.state.isLoggedIn && !isCreatingRegistration">
+          <p>Registration is open!</p>
+
+          <button @click="isCreatingRegistration = true" class="big-button margin-top-10">
+            Create registration
+          </button>
+        </div>
+      </div>
     </div>
 
-    <div v-else-if="isRegistrationClosed">
-      Registration is closed.
+    <!-- SINGLE DAY TICKETS -->
+    <div class="margin-top-20" v-if="!isCreatingRegistration && !isOrderingSingleDayTicket">
+      <div v-if="!isSingleDayTicketSaleOpen">
+        Single day ticket sale is not open. See <router-link :to="'/info'">info</router-link> for info.
+      </div>
+      <div v-else-if="$store.getters.hasRegistration">
+        You cannot buy single day tickets as long as you have a registration.
+      </div>
+      <div v-else-if="isSingleDayTicketSaleOpen && !$store.state.isLoggedIn">
+        <p>Single day ticket sale is open! You must <router-link :to="'/login'">log in</router-link> or <router-link :to="'/signup'">create a user</router-link> to purchase.</p>
+      </div>
+      <div v-else-if="isSingleDayTicketSaleOpen">
+        <p>Single day ticket sale is open!</p>
+        <button @click="isOrderingSingleDayTicket = true" class="big-button margin-top-10">
+          Buy single day tickets
+        </button>
+      </div>
     </div>
 
-    <div v-else-if="isRegistrationOpen">
-      <p v-if="isRegistrationOpen" class="registration-countdown">
-        Registration is open! Apply below.
-      </p>
-
-      <p v-if="!$store.state.isLoggedIn">
-        You must <router-link :to="'/login'">log in</router-link> or <router-link :to="'/signup'">create a user</router-link> to register for Furway.
-      </p>
-
-      <!-- CREATING REGISTRATION -->
-      <p v-if="$store.state.isLoggedIn && $store.getters.hasRegistration">
-        You already have a registration, see <router-link :to="'/my-registration'">my registration</router-link>.
-      </p>
-      
-      <button v-else-if="$store.state.isLoggedIn && !isCreatingRegistration" @click="isCreatingRegistration = true" class="big-button">
-        Create registration
-      </button>
-    </div>
-
-    <div class="margin-bottom-20">
-      <h2 v-if="isCreatingRegistration" class="no-margin-top">
+    <!-- CREATING REGISTRATION -->
+    <div v-if="isCreatingRegistration && !isOrderingSingleDayTicket" class="margin-bottom-20">
+      <h2 class="no-margin-top">
         Create registration
       </h2>
-      
       <div v-if="isCreatingRegistration" id="createRegistrationWrapper">
         <div class="margin-top-4 room-pref-picker" style="text-align: left;">
           <p class="margin-bottom-10">Choose your desired ticket type:</p>
 
           <div class="room-pref-option no-margin-top" 
-               :class="{'selected-option': roomPreference=='insideonly'}"
-               @click="selectRoomPreference('insideonly')">
+              :class="{'selected-option': roomPreference=='insideonly'}"
+              @click="selectRoomPreference('insideonly')">
             <label for="roomPreferenceRadioInside">Inside only</label>
             <p class="room-pref-description">Either I sleep inside or I won't attend</p>
           </div>
 
           <div class="room-pref-option" 
-               :class="{'selected-option': roomPreference=='insidepreference'}"
-               @click="selectRoomPreference('insidepreference')">
+              :class="{'selected-option': roomPreference=='insidepreference'}"
+              @click="selectRoomPreference('insidepreference')">
             <label for="roomPreferenceRadioPreference">Inside preference</label> 
             <p class="room-pref-description">If I don't get a spot inside, I'll take an outside slot if available</p>
           </div>
 
           <div class="room-pref-option" 
-               :class="{'selected-option': roomPreference=='outsideonly'}"
-               @click="selectRoomPreference('outsideonly')">
+              :class="{'selected-option': roomPreference=='outsideonly'}"
+              @click="selectRoomPreference('outsideonly')">
             <label for="roomPreferenceRadioOutside">Outside only</label>
             <p class="room-pref-description">Either I sleep outside, or I won't attend</p>
           </div>
         </div>
 
-        <button @click="submitRegistration" :class="{'disabled-button': !roomPreference, 'big-button': true, 'theme-button': true}" style="margin-top: 10px;">
-          Submit registration
-        </button>
-        <button @click="cancelRegistration" class="big-button" style="margin-top: 4px;">
+        <div class="margin-top-10">
+          <button @click="cancelRegistration" class="big-button" style="margin-right: 4px;">
+            Cancel
+          </button>
+          <button @click="submitRegistration" :class="{'disabled-button': !roomPreference}" class="big-button theme-button" style="margin-left: 4px;">
+            Submit registration
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUYING SINGLE DAY TICKET -->
+    <div v-if="isOrderingSingleDayTicket && !isCreatingRegistration" class="margin-bottom-20">
+      <h2 class="no-margin-top">
+        Buy single day tickets
+      </h2>
+
+        <div class="margin-top-4 room-pref-picker" style="text-align: left; width: fit-content; margin-left: auto; margin-right: auto;">
+          <p class="margin-bottom-10">Choose all your desired tickets:</p>
+
+          <div class="room-pref-option no-margin-top" 
+              :class="{'selected-option': singleDayTickets.friday===true}"
+              @click="toggleTicket('friday')">
+            <label for="roomPreferenceRadioInside">Friday</label>
+            <p class="room-pref-description">{{singleDayTicketSpotsLeft.friday}} left</p>
+          </div>
+
+          <div class="room-pref-option" 
+              :class="{'selected-option': singleDayTickets.saturday===true}"
+              @click="toggleTicket('saturday')">
+            <label for="roomPreferenceRadioPreference">Saturday</label> 
+            <p class="room-pref-description">{{singleDayTicketSpotsLeft.saturday}} left</p>
+          </div>
+
+          <div class="room-pref-option" 
+              :class="{'selected-option': singleDayTickets.sunday===true}"
+              @click="toggleTicket('sunday')">
+            <label for="roomPreferenceRadioOutside">Sunday</label>
+            <p class="room-pref-description">{{singleDayTicketSpotsLeft.sunday}} left</p>
+          </div>
+        </div>
+
+      <div class="margin-top-10" v-if="!isLoading && !responseMessage">
+        <button @click="cancelSingleDayTickets" class="big-button" style="margin-right: 4px;">
           Cancel
         </button>
-
-        <p style="color: red" v-show="errorMessage">Error: {{errorMessage}}</p>
+        <button @click="submitSingleDayTickets" :class="{'disabled-button': !isAnyDaySelected}" class="big-button theme-button" style="margin-left: 4px;">
+          Submit
+        </button>
       </div>
+      <LoadingMessage :message="'Registering tickets...'" v-if="isLoading"/>
     </div>
 
 
     <!-- IMAGE AND INFO -->
-    <img src="../assets/capri1.png" class="in-text-image-smaller"/>
+    <img src="../assets/capri1.png" class="in-text-image-smaller margin-top-20"/>
     <label class="artwork-credit">
       Artwork by <a href="https://orbz41.wixsite.com/catbean">Jadepusen</a>
     </label>
@@ -161,15 +227,35 @@
 
 <script>
 import registrationApi from '@/api/registration-api'
+import singleDayTicketRegistrationApi from '@/api/single-day-ticket-registration-api'
+
+import ResponseMessage from '../components/ResponseMessage.vue'
+import LoadingMessage from '../components/LoadingMessage.vue'
 
 export default {
   name: 'register',
+
+  components: { ResponseMessage, LoadingMessage, },
 
   data: function () {
     return {
       roomPreference: undefined,
       errorMessage: '',
       isCreatingRegistration: false,
+      isOrderingSingleDayTicket: false,
+      singleDayTickets: {
+        'friday': false,
+        'saturday': false,
+        'sunday': false,
+      },
+      singleDayTicketSpotsLeft: {
+        'friday': 0,
+        'saturday': 0,
+        'sunday': 0,
+      },
+      responseMessage: '',
+      messageType: 'error',
+      isLoading: false,
     }
   },
 
@@ -195,6 +281,12 @@ export default {
       return now > new Date(this.$store.getters.conInfo.registrationCloseDate)
     },
 
+    isSingleDayTicketSaleOpen () {
+      let now = new Date()
+      return now > new Date(this.$store.getters.conInfo.singleDayTicketSaleOpenDate)
+        && now < new Date(this.$store.getters.conInfo.singleDayTicketSaleCloseDate)
+    },
+
     timeUntilRegistrationString () {
       if (this.isRegistrationOpen) { return 0 }
 
@@ -204,6 +296,10 @@ export default {
       let remainingMinutes = Math.ceil((remainingSeconds-remainingDays*86400-remainingHours*3600)/60)
       return `${remainingDays} days, ${remainingHours} hours, ${remainingMinutes} minutes`
     },
+
+    isAnyDaySelected () {
+      return Object.keys(this.singleDayTickets).filter(day => this.singleDayTickets[day] === true).length > 0
+    }
   },
 
   methods: {
@@ -212,22 +308,69 @@ export default {
     },
     
     async submitRegistration () {
+      this.isLoading = true
       let result = await registrationApi.submitRegistration(this.$store.state.userData.id, {roomPreference: this.roomPreference})
+      this.isLoading = false
 
-      if (result.success) {
-        this.$store.dispatch('refreshUserData')
-        this.errorMessage = 'Registration successful'
-        this.$router.push('my-registration')
+      if ('error' in result) {
+        this.responseMessage = result.error
+        this.messageType = 'error'
+        this.isLoading = false
       }
       else {
-        this.errorMessage = result.error
+        this.$store.dispatch('refreshUserData')
+        this.$router.push('my-registration')
       }
     },
 
     cancelRegistration () {
       this.isCreatingRegistration = false
       this.roomPreference = undefined
+      this.responseMessage = ''
+    },
+
+    async submitSingleDayTickets () {
+      if (!this.isAnyDaySelected) { return }
+
+      this.isLoading = true
+      let result = await singleDayTicketRegistrationApi.submitSingleDayTicketRegistration(this.$store.state.userData.id, {days: this.singleDayTickets})
+      this.isLoading = false
+
+      if ('error' in result) {
+        this.responseMessage = result.error
+        this.messageType = 'error'
+        this.isLoading = false
+      }
+      else {
+        if ('message' in result) {
+          this.responseMessage = result.message
+          this.messageType = 'info'
+          this.$store.dispatch('refreshUserData')
+        }
+        else {
+          this.$store.dispatch('refreshUserData')
+          this.$router.push('my-registration')
+        }
+      }
+    },
+
+    cancelSingleDayTickets () {
+      this.isOrderingSingleDayTicket = false
+    },
+
+    toggleTicket (day) {
+      if (this.singleDayTicketSpotsLeft[day] > 0) {
+        this.singleDayTickets[day] = !this.singleDayTickets[day]
+      }
+    },
+
+    closeResponseMessage () {
+      this.responseMessage = ''
     }
+  },
+
+  async mounted () {
+    this.singleDayTicketSpotsLeft = await singleDayTicketRegistrationApi.getRegistrationSpotsLeft()
   }
 }
 </script>

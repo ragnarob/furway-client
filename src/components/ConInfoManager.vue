@@ -78,6 +78,29 @@
       </tr>
 
       <tr>
+        <td>Single day ticket spots</td>
+        <td>
+          <span v-if="!isEditing.singleDayTicketSpots">
+            {{conInfo.singleDayTicketSpots}}
+            <button @click="editField('singleDayTicketSpots')" class="icon-button icon-button-small">
+              <EditIcon title="Edit"/>
+            </button>
+          </span>
+          <span v-else>
+            <div class="flex-col">
+              <input type="number" v-model="editedConInfo.singleDayTicketSpots">
+            </div>
+            <button @click="cancelEditing" class="icon-button icon-button-small">
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button icon-button-small" style="margin-left: 10px;">
+              <SaveIcon title="Save"/>
+            </button>
+          </span>
+        </td>
+      </tr>
+
+      <tr>
         <td>Registration opening date</td>
         <td>
           <span v-if="!isEditing.registrationOpenDate">
@@ -182,6 +205,52 @@
           </span>
           <span v-else>
             <input type="datetime-local" v-model="editedConInfo.finalPaymentDeadline"/>
+            <button @click="cancelEditing" class="icon-button icon-button-small">
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button icon-button-small theme-button">
+              <SaveIcon title="Save"/>
+            </button>
+          </span>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          Single day ticket sale opening
+        </td>
+        <td>
+          <span v-if="!isEditing.singleDayTicketSaleOpenDate">
+            {{formatLongTimestamp(conInfo.singleDayTicketSaleOpenDate)}}
+            <button @click="editField('singleDayTicketSaleOpenDate')" class="icon-button icon-button-small">
+              <EditIcon title="Edit"/>
+            </button>
+          </span>
+          <span v-else>
+            <input type="datetime-local" v-model="editedConInfo.singleDayTicketSaleOpenDate"/>
+            <button @click="cancelEditing" class="icon-button icon-button-small">
+              <CancelIcon title="Cancel"/>
+            </button>
+            <button @click="saveField" class="icon-button icon-button-small theme-button">
+              <SaveIcon title="Save"/>
+            </button>
+          </span>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          Single day ticket sale closing
+        </td>
+        <td>
+          <span v-if="!isEditing.singleDayTicketSaleCloseDate">
+            {{formatLongTimestamp(conInfo.singleDayTicketSaleCloseDate)}}
+            <button @click="editField('singleDayTicketSaleCloseDate')" class="icon-button icon-button-small">
+              <EditIcon title="Edit"/>
+            </button>
+          </span>
+          <span v-else>
+            <input type="datetime-local" v-model="editedConInfo.singleDayTicketSaleCloseDate"/>
             <button @click="cancelEditing" class="icon-button icon-button-small">
               <CancelIcon title="Cancel"/>
             </button>
