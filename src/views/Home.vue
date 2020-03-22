@@ -2,6 +2,7 @@
   <div>
     <div id="mainPictureBackground">
       <div id="mainPictureInner">
+<<<<<<< HEAD
         <div class="floating-container">
           <div :class="{'floating-message': true, 'expanded-floating': isFloatingBoxExpanded}">
             <p @click="isFloatingBoxExpanded = !isFloatingBoxExpanded" class="floating-box-clickable no-margin">
@@ -20,6 +21,24 @@
                 Should Furway 2020 be cancelled, all payments will be fully refunded, as per our sales terms.
               </p>
             </div>
+=======
+        <div :class="{'floating-message': true, 'expanded-floating': isFloatingBoxExpanded}">
+          <p @click="isFloatingBoxExpanded = !isFloatingBoxExpanded" class="floating-box-clickable no-margin">
+            <DownIcon v-if="!isFloatingBoxExpanded"/><UpIcon v-if="isFloatingBoxExpanded"/>
+            Coronavirus information
+            <DownIcon v-if="!isFloatingBoxExpanded"/><UpIcon v-if="isFloatingBoxExpanded"/>
+          </p>
+          <div v-if="isFloatingBoxExpanded">
+            <p style="margin-top: 6px;">
+              The Furway board is continually evaluating the corona outbreak situation, and acknowledges all recommendations and legislative changes from government health authorities.
+            </p>
+            <p>
+              Furway 2020 is not cancelled, although there is a definitive possibility of this happening. A more updated decision process will be held in early-mid May, after which the convention will make another public statement regarding this (well before the payment deadline).
+            </p>
+            <p class="no-margin">
+              Should Furway 2020 be cancelled, all payments will be fully refunded, as per our sales terms.
+            </p>
+>>>>>>> 7f52fe6b123b6d7405a49b22c1ff94db779b0e07
           </div>
         </div>
 
@@ -162,11 +181,14 @@ export default {
   position: fixed;
   top: 20%;
   margin: 0 auto;
+<<<<<<< HEAD
   width: 100%;
 }
 
 .floating-message {
   width: 240px;
+=======
+>>>>>>> 7f52fe6b123b6d7405a49b22c1ff94db779b0e07
   background: rgba(255, 255, 255, 0.8);
   border-radius: 20px;
   padding: 6px;
@@ -181,7 +203,10 @@ export default {
     font-weight: 400;
   }
   &.expanded-floating {
+<<<<<<< HEAD
     width: 500px;
+=======
+>>>>>>> 7f52fe6b123b6d7405a49b22c1ff94db779b0e07
     background: rgba(255, 255, 255, 0.95);
     padding: 6px 10px 6px 10px;
   }
