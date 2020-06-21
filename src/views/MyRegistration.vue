@@ -6,6 +6,54 @@
 
     <LoadingMessage :message="'Loading registration...'" v-if="isLoadingRegistration"/>
 
+
+    <!-- REFUND -->
+    <div v-else-if="registrationStatus == 'approved' && !myRegistration.refundChoice && myRegistration.paidAmount > 0" class="shadow-box flex-col">
+      <h3 class="no-margin-top">REFUND</h3>
+      <p style="text-align: left; align-self: flex-start;">
+        You have partially or fully paid your registration. You have three options regarding what we do with your money. The amount in question is <b>{{myRegistration.paidAmount}} NOK</b>.
+      </p>
+      <p style="text-align: left; align-self: flex-start; margin-top: 10px;">
+        If you do not make a choice by August 10th, your money will automatically be donated to Furway.
+      </p>
+      
+      <div class="flex-col left-align-content margin-top-10">
+        <div class="margin-top-4 room-pref-picker" style="text-align: left;">
+
+          <div class="room-pref-option no-margin-top" 
+               :class="{'selected-option': refundChoice=='refund'}"
+               @click="selectRefundChoice('refund')">
+            <label>Refund</label>
+            <p class="room-pref-description">Your money will be refunded to the account you paid with</p>
+          </div>
+
+          <div class="room-pref-option" 
+               :class="{'selected-option': refundChoice=='donateFW'}"
+               @click="selectRefundChoice('donateFW')">
+            <label>Donate to Furway</label> 
+            <p class="room-pref-description">Help Furway get even better next year!</p>
+          </div>
+
+          <div class="room-pref-option" 
+               :class="{'selected-option': refundChoice=='donateBLM'}"
+               @click="selectRefundChoice('donateBLM')">
+            <label>Donate to xxx xxxxx xxxxxx</label>
+            <p class="room-pref-description">A Black Lives Matter charity ogranization chosen by the Furway board</p>
+          </div>
+        </div>
+      </div>
+
+      <button v-if="refundChoice" @click="submitRefundChoice" class="big-button theme-button margin-top-20">
+        Submit choice
+      </button>
+    </div>
+
+    <!-- HAS REFUNDED -->
+    <div v-else-if="registrationStatus == 'approved' && myRegistration.refundChoice" class="shadow-box">
+      <h3 class="no-margin-top">Refund</h3>
+      <p>You paid <b>{{myRegistration.paidAmount}} NOK</b>, and you have chosen the refund method: {{refundChoiceToText(myRegistration.refundChoice)}}.</p>
+    </div>
+
     <!-- NOT APPROVED REGISTRATION -->
     <div v-else-if="registrationStatus == 'unapproved'" class="flex-col">
       <div class="shadow-box">
@@ -432,6 +480,7 @@ export default {
       responseMessageType: 'error',
       newRegistration: null,
       sizes: ['S','M','L','XL','XXL', '3XL', '4XL'],
+      refundChoice: undefined,
     }
   },
 
@@ -616,6 +665,28 @@ export default {
       this.responseMessage = 'Payment successful!'
       this.responseMessageType = 'success'
       this.scrollTop()
+    },
+
+    selectRefundChoice (choice) {
+      this.refundChoice = choice
+    },
+
+    async submitRefundChoice () {
+      let result = await registrationApi.submitRefundChoice(this.$store.state.userData.id, this.refundChoice)
+
+      if ('error' in result) {
+        this.responseMessage = result.error
+        this.responseMessageType = 'error'
+      }
+      else {
+        this.$store.dispatch('refreshUserData')
+      }
+    },
+
+    refundChoiceToText (choice) {
+      if (choice === 'refund') { return 'Full refund' }
+      if (choice === 'donateFW') { return 'Donate to Furway' }
+      if (choice === 'donateBLM') { return 'Donate to XX XX XXXXX'}
     },
 
     closeResponseMessage () {

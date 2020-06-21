@@ -5,13 +5,23 @@
     <div class="shadow-box" style="background-color: rgba(255, 230, 230)">
       <h3 class="no-margin">Coronavirus</h3>
       <p class="first-p">
-        The Furway board is continually evaluating the corona outbreak situation, and acknowledges all recommendations and legislative changes from government health authorities.
+        The covid-19 situation is constantly changing, but there is now basis for asserting that this change will not be sufficiently favorable.
       </p>
       <p>
-        Furway 2020 is not cancelled, although there is a definitive possibility of this happening. A more updated decision process will be held in early-mid May, after which the convention will make another public statement regarding this (well before the payment deadline).
+        <b>It is with great sadness that the Furway board has decided to cancel Furway 2020.</b>
       </p>
       <p>
-        Should Furway 2020 be cancelled, all payments will be fully refunded, as per our sales terms.
+        Due to recent epidemiological risk assessments by the Norwegian health directorate, there is a high likelihood of the estimated infection prevalence peak being in late July-October. 
+        Moreover, disregarding government statements, holding the convention in a way that minimizes contagion will neither be very effective nor realistic.  Due to the financial situation a lot of people find themselves in these days, as well as to alleviate any uncertainty about people's plans for the summer, the board decided that there were sufficient grounds for both making this decision pre-emptively (i.e. before mid-May) and for making the decision itself.
+      </p>
+      <p>
+        Registration and payments via the website will be properly closed within a few days. More information regarding reimbursements of paid registrations will come later.
+      </p>
+      <p>
+        We hope that you all are safe, and that you may both give and receive respite and solace in the comfort of others
+      </p>
+      <p>
+        Sincerely, the Furway board
       </p>
     </div>
 

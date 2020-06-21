@@ -84,5 +84,11 @@ export default {
     let response = await Axios.get(`${apiBase}/registrations/deleted`)
 
     return response.data
-  }
+  },
+
+  async submitRefundChoice (userId, refundChoice) {
+    let response = await Axios.post(`${apiBase}/registrations/user/${userId}/refundChoice`, {refundChoice})
+
+    return response.data
+  },
 }

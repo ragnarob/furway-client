@@ -6,18 +6,15 @@
           <div :class="{'floating-message': true, 'expanded-floating': isFloatingBoxExpanded}">
             <p @click="isFloatingBoxExpanded = !isFloatingBoxExpanded" class="floating-box-clickable no-margin">
               <DownIcon v-if="!isFloatingBoxExpanded"/><UpIcon v-if="isFloatingBoxExpanded"/>
-              Coronavirus information
+                Furway 2020 cancellation
               <DownIcon v-if="!isFloatingBoxExpanded"/><UpIcon v-if="isFloatingBoxExpanded"/>
             </p>
             <div v-if="isFloatingBoxExpanded">
               <p style="margin-top: 6px;">
-                The Furway board is continually evaluating the corona outbreak situation, and acknowledges all recommendations and legislative changes from government health authorities.
-              </p>
-              <p>
-                Furway 2020 is not cancelled, although there is a definitive possibility of this happening. A more updated decision process will be held in early-mid May, after which the convention will make another public statement regarding this (well before the payment deadline).
+		            It is with great sadness that the Furway board has decided to cancel Furway 2020.
               </p>
               <p class="no-margin">
-                Should Furway 2020 be cancelled, all payments will be fully refunded, as per our sales terms.
+		P           Please see <router-link :to="'/info'">Information</router-link> for more information.
               </p>
             </div>
           </div>

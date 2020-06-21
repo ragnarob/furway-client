@@ -27,6 +27,7 @@
         <th title="Received outside spot">Rec. outs.</th>
         <th>Money</th>
         <th>Donation</th>
+        <th>Refund</th>
       </tr>
 
       <tr v-for="reg in filteredRegistrations" :key="reg.id" :class="{'highlighted-row-blue': reg.id === highlightedRegistrationId}" style="height: 38px;">
@@ -236,6 +237,9 @@
             {{reg.donationAmount}}
           </p>
         </td>
+        <td>
+          {{refundChoiceToText(reg.refundChoice)}}
+        </td>
       </tr>
     </table>
   </div>
@@ -393,6 +397,13 @@ export default {
 
     clearPaymentDeadlineDate () {
       this.registrationBeingEdited.paymentDeadline = null
+    },
+
+    refundChoiceToText (choice) {
+      if (choice === 'refund') { return 'Full refund' }
+      if (choice === 'donateFW') { return 'Donate to Furway' }
+      if (choice === 'donateBLM') { return 'Donate to XX XX XXXXX'}
+      return ''
     },
 
     closeResponseMessage () {

@@ -28,7 +28,7 @@ export default {
 
     console.log(`Hi there - hope you find the website satisfactory.`)
     console.log(`New features are still being developed.`)
-    console.log(`If you find any errors, @Malann_kitty (Twitter) love to hear about them!`)
+    console.log(`If you find any errors, @Malann_kitty (Twitter) would love to hear about them!`)
   }
 }
 </script>
