@@ -37,7 +37,7 @@
           <div class="room-pref-option" 
                :class="{'selected-option': refundChoice=='donateBLM'}"
                @click="selectRefundChoice('donateBLM')">
-            <label>Donate to xxx xxxxx xxxxxx</label>
+            <label>Donate to The NAACP Legal Defense and Educational Fund</label>
             <p class="room-pref-description">A Black Lives Matter charity ogranization chosen by the Furway board</p>
           </div>
         </div>
@@ -686,7 +686,7 @@ export default {
     refundChoiceToText (choice) {
       if (choice === 'refund') { return 'Full refund' }
       if (choice === 'donateFW') { return 'Donate to Furway' }
-      if (choice === 'donateBLM') { return 'Donate to XX XX XXXXX'}
+      if (choice === 'donateBLM') { return 'Donate to NAACP Legal Defense and Educational Fund'}
     },
 
     closeResponseMessage () {

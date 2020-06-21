@@ -7,6 +7,10 @@
       <input type="checkbox" v-model="shouldFilterList" id="onlyShowWithGivenSpotsCheckbox">
       <label for="onlyShowWithGivenSpotsCheckbox">Only show registrations with given spots</label>
     </div>
+    <div style="margin-bottom: 2px;">
+      <input type="checkbox" v-model="shouldFilterListPaid" id="onlyShowPaidCheckbox">
+      <label for="onlyShowPaidCheckbox">Only show paid registrations</label>
+    </div>
 
     <table class="very-wide-table">
       <tr>
@@ -278,6 +282,7 @@ export default {
       userIdBeingDeleted: null,
       sizes: [null, 'S','M','L','XL','XXL', '3XL', '4XL'],
       shouldFilterList: false,
+      shouldFilterListPaid: false,
       isOverridingPayment: false,
 
       responseMessage: '',
@@ -292,6 +297,9 @@ export default {
     filteredRegistrations () {
       if (this.shouldFilterList) {
         return this.allRegistrations.filter(reg => reg.receivedInsideSpot === true || reg.receivedOutsideSpot === true)
+      }
+      else if (this.shouldFilterListPaid) {
+        return this.allRegistrations.filter(reg => reg.paidAmount > 0)
       }
       else {
         return this.allRegistrations
@@ -402,7 +410,7 @@ export default {
     refundChoiceToText (choice) {
       if (choice === 'refund') { return 'Full refund' }
       if (choice === 'donateFW') { return 'Donate to Furway' }
-      if (choice === 'donateBLM') { return 'Donate to XX XX XXXXX'}
+      if (choice === 'donateBLM') { return 'Donate to BLM'}
       return ''
     },
 
