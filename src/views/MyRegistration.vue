@@ -14,7 +14,7 @@
         You have partially or fully paid your registration. You have three options regarding what we do with your money. The amount in question is <b>{{myRegistration.paidAmount}} NOK</b>.
       </p>
       <p style="text-align: left; align-self: flex-start; margin-top: 10px;">
-        If you do not make a choice by August 10th, your money will automatically be donated to Furway.
+        If you do not make a choice by August 10th, your money will automatically be refunded.
       </p>
       
       <div class="flex-col left-align-content margin-top-10">
