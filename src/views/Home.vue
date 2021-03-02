@@ -6,24 +6,25 @@
           <div :class="{'floating-message': true, 'expanded-floating': isFloatingBoxExpanded}">
             <p @click="isFloatingBoxExpanded = !isFloatingBoxExpanded" class="floating-box-clickable no-margin">
               <DownIcon v-if="!isFloatingBoxExpanded"/><UpIcon v-if="isFloatingBoxExpanded"/>
-                Furway 2020 cancellation
+                Furway 2021 statement
               <DownIcon v-if="!isFloatingBoxExpanded"/><UpIcon v-if="isFloatingBoxExpanded"/>
             </p>
             <div v-if="isFloatingBoxExpanded">
-              <p style="margin-top: 6px;">
+              <!-- <p style="margin-top: 6px;">
 		            It is with great sadness that the Furway board has decided to cancel Furway 2020.
               </p>
-              <p class="no-margin">
-		P           Please see <router-link :to="'/info'">Information</router-link> for more information.
+              <p class="no-margin"> -->
+              <p style="margin-top: 6px;">
+		            We are monitoring the covid situation, but are currently not too optimistic. Our goal is to provide a great weekend experience for you all at Åstjern from July 15 to July 19, but we have to be sure it's safe to do so.
               </p>
             </div>
           </div>
         </div>
 
         <div id="mainPageInfoText">
-          <h1>Furway 2020</h1>
-          <p>17. - 19. July</p>
-          <p>(16. - 20. July with Early & Late)</p>
+          <h1>Furway 2021?</h1>
+          <p>16. - 18. July</p>
+          <p>(15. - 19. July with Early & Late)</p>
           <p v-if="!isRegistrationOpen" class="registration-countdown">
             Registration opens in {{timeUntilRegistrationString}}
           </p>
@@ -196,7 +197,7 @@ export default {
   }
 }
 .floating-box-clickable {
-  color: #b83535 !important;
+  color: #109f50 !important;
   font-weight: 600 !important;
   &:hover {
     cursor: pointer;

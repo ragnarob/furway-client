@@ -5,20 +5,7 @@
     <div class="shadow-box" style="background-color: rgba(255, 230, 230)">
       <h3 class="no-margin">Coronavirus</h3>
       <p class="first-p">
-        The covid-19 situation is constantly changing, but there is now basis for asserting that this change will not be sufficiently favorable.
-      </p>
-      <p>
-        <b>It is with great sadness that the Furway board has decided to cancel Furway 2020.</b>
-      </p>
-      <p>
-        Due to recent epidemiological risk assessments by the Norwegian health directorate, there is a high likelihood of the estimated infection prevalence peak being in late July-October. 
-        Moreover, disregarding government statements, holding the convention in a way that minimizes contagion will neither be very effective nor realistic.  Due to the financial situation a lot of people find themselves in these days, as well as to alleviate any uncertainty about people's plans for the summer, the board decided that there were sufficient grounds for both making this decision pre-emptively (i.e. before mid-May) and for making the decision itself.
-      </p>
-      <p>
-        Registration and payments via the website will be properly closed within a few days. More information regarding reimbursements of paid registrations will come later.
-      </p>
-      <p>
-        We hope that you all are safe, and that you may both give and receive respite and solace in the comfort of others
+        We are monitoring the covid situation, but are currently not too optimistic. Our goal is to provide a great weekend experience for you all at Åstjern from July 15 to July 19, but we have to be sure it's safe to do so.
       </p>
       <p>
         Sincerely, the Furway board
@@ -33,7 +20,7 @@
 
     </p>
     <p>
-      The date for Furway 2020 is July 17th to July 19th. (16th to 20th with Early and Late tickets)
+      The date for Furway 2020 is July 16th to July 18th. (15th to 19th with Early and Late tickets)
     </p>
 
     <img src="../assets/capri2.png" class="in-text-image"/>
@@ -47,7 +34,7 @@
       Åstjern consists of one main cabin, an annex and three smaller cabins. There’s also a bonfire place, of course! The lake Åstjernet is less than a 5-minute walk from the cabins.
     </p>
     <p>
-      Registration opens March 1st 20:00 CET, and pre-registration for volunteers opens Feb 16th 20:00 CET. For more information regarding the registration process, see the <router-link :to="'/register'">Registration</router-link> page. Information about tickets and prices can be found below.
+      Registration will open after we potentially have decided to go through with this year's convention, and pre-registration for volunteers opens a little bit before that. For more information regarding the registration process, see the <router-link :to="'/register'">Registration</router-link> page. Information about tickets and prices can be found below.
     </p>
 
     <p>
@@ -197,11 +184,15 @@
 
     <h3>Deadlines & dates</h3>
     <div id="deadlines">
-      <p class="first-p"><b>{{formatDateTimeWithoutYear(conInfo.volunteerRegistrationOpenDate)}}</b>: Registration opening for volunteers</p>
+      <p class="first-p">
+        More information to come later should the convention actually take place this year.
+      </p>
+
+      <!-- <p class="first-p"><b>{{formatDateTimeWithoutYear(conInfo.volunteerRegistrationOpenDate)}}</b>: Registration opening for volunteers</p>
       <p><b>{{formatDateTimeWithoutYear(conInfo.registrationOpenDate)}}</b>: Registration opening</p>
       <p><b>{{formatDateTimeWithoutYear(conInfo.registrationCloseDate)}}</b>: Registration closing</p>
       <p><b>{{formatDateTimeWithoutYear(conInfo.originalPaymentDeadline)}}</b>: Payment deadline. Adding merch won't be possible after this. Any merch not paid by this time will be removed from your registration. If you haven't paid the main ticket price by this time, you will lose your spot. <i>If you receive a spot just after this deadline - because someone else didn't pay and lost theirs - you will be given an extended payment deadline.</i></p>
-      <p><b>{{formatDateTimeWithoutYear(conInfo.singleDayTicketSaleOpenDate)}}</b>: Single day ticket sale opens</p>
+      <p><b>{{formatDateTimeWithoutYear(conInfo.singleDayTicketSaleOpenDate)}}</b>: Single day ticket sale opens</p> -->
     </div>
   </div>  
 </template>
