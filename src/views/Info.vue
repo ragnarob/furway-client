@@ -3,9 +3,18 @@
     <h1>Information about Furway</h1>
 
     <div class="shadow-box" style="background-color: rgba(255, 230, 230)">
-      <h3 class="no-margin">Coronavirus</h3>
+      <h3 class="no-margin">Coronavirus and 2021 Cancellation</h3>
       <p class="first-p">
-        We are monitoring the covid situation, but are currently not too optimistic. Our goal is to provide a great weekend experience for you all at Åstjern from July 15 to July 19, but we have to be sure it's safe to do so.
+        Despite the relative improvements in the overall pandemic situation, the Furway board has decided to cancel the 2021 convention. After having monitored the gradual declines and surges in infection rates, as well as evaluated the impact of restrictions on events like Furway, the board eventually landed on the decision not to hold the convention this year.
+      </p>
+      <p>
+        This was a hard decision to make, as holding the convention would have been possible in terms of adapting to and heeding the national regulations and guidelines. Nonetheless, the practical demands on both organizers and attendees would have been significantly larger, and the convention's atmosphere would itself suffer as a result of adhering to these guidelines.
+      </p>
+      <p>
+        Lastly, holding the convention would be in severe opposition to the national recommendations of today, and most likely those applicable during summer as well, meaning that holding the convention is itself inadvisable.
+      </p>
+      <p>
+        Being a non-profit organization allows us to keep our hearts with us in decisions such as these, and with the danger of infection outbreak and general safety in mind, the decision landed on cancelling the convention.
       </p>
       <p>
         Sincerely, the Furway board
@@ -20,7 +29,7 @@
 
     </p>
     <p>
-      The date for Furway 2020 is July 16th to July 18th. (15th to 19th with Early and Late tickets)
+      The date for Furway 2021 is July 16th to July 18th. (15th to 19th with Early and Late tickets)
     </p>
 
     <img src="../assets/capri2.png" class="in-text-image"/>
