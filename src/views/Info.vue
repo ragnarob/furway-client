@@ -29,7 +29,7 @@
 
     </p>
     <p>
-      The date for Furway 2021 is July 15th to July 17th. (14th to 18th with Early and Late tickets)
+      The date for Furway 2022 is July 15th to July 17th. (14th to 18th with Early and Late tickets)
     </p>
 
     <img src="../assets/capri2.png" class="in-text-image"/>
@@ -90,12 +90,12 @@
 
     <h4>Early ticket</h4>
     <p class="first-p">
-      Arrival on Thursday the 16th (one day before the main days) and a place to sleep for that night, as well as one additional breakfast, lunch and dinner.
+      Arrival on Thursday the 14th (one day before the main days) and a place to sleep for that night, as well as one additional breakfast, lunch and dinner.
     </p>
 
     <h4>Late ticket</h4>
     <p class="first-p">
-      Departure on Monday 20th (one day after the main days) and a place to sleep, as well as one additional breakfast and dinner. (Again, see the section on food and serving if this sounds confusing.)
+      Departure on Monday 28th (one day after the main days) and a place to sleep, as well as one additional breakfast and dinner. (Again, see the section on food and serving if this sounds confusing.)
     </p>
 
     <h4>Single day ticket</h4>
@@ -140,7 +140,7 @@
     </p>
 
     <p>
-      If you arrive at the 16th, we have available drivers from 14:00 to 20:00. If you arrive at the 17th, we have available drivers from 12:00 to 20:00. For your departure our drivers are available from 12:00 – 20:00 on the 19th, and from 12:00 – 16:00 on the 20th. Please contact @Qupva on telegram <u>at least</u> 30 minutes before your arrival to arrange transportation.
+      If you arrive at the 14th, we have available drivers from 14:00 to 20:00. If you arrive at the 15th, we have available drivers from 12:00 to 20:00. For your departure our drivers are available from 12:00 – 20:00 on the 17th, and from 12:00 – 16:00 on the 18th. Please contact @Qupva on telegram <u>at least</u> 30 minutes before your arrival to arrange transportation.
     </p>
 
     <p>
