@@ -2,11 +2,9 @@
   <div class="flex-col">
     <h1>Sign up</h1>
 
-    <p>Fields with a thick left border are mandatory.</p>
-    <!-- <button @click="fillFieldsWithStuff">
-      Fill fields with stuff
-    </button> -->
+    <p style="margin-top: 2rem;">Signing up will be available later.</p>
 
+    <!-- <p>Fields with a thick left border are mandatory.</p>
     <ResponseMessage :message="responseMessage" :messageType="responseMessageType" @closeMessage="closeResponseMessage"/>
 
     <div class="signup-row">
@@ -203,7 +201,7 @@
 
     <button @click="signup" :class="{'big-button': true, 'theme-button': isValidInput, 'disabled-button': !isValidInput, 'double-button': true}">
       <ConfirmIcon/>Sign up
-    </button>
+    </button> -->
   </div>
 </template>
 
