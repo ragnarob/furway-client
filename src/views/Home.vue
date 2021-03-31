@@ -21,11 +21,11 @@
         </div>
 
         <div id="mainPageInfoText">
-          <h1>Furway 2021</h1>
-          <p>16. - 18. July</p>
-          <p>(15. - 19. July with Early & Late)</p>
+          <h1>Furway 2022</h1>
+          <p>July 15-17</p>
+          <p>(July 14-19 with Early & Late)</p>
           <p v-if="!isRegistrationOpen" class="registration-countdown">
-            Registration opens in {{timeUntilRegistrationString}}
+            Registration opens spring 2022
           </p>
         </div>
 

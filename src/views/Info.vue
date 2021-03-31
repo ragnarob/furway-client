@@ -29,7 +29,7 @@
 
     </p>
     <p>
-      The date for Furway 2021 is July 16th to July 18th. (15th to 19th with Early and Late tickets)
+      The date for Furway 2021 is July 15th to July 17th. (14th to 18th with Early and Late tickets)
     </p>
 
     <img src="../assets/capri2.png" class="in-text-image"/>
